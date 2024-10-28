@@ -11,7 +11,6 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor
-@Entity
 @MappedSuperclass
 public abstract class Person {
 
