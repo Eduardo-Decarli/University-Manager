@@ -1,5 +1,6 @@
 package com.compass.Desafio_02.entities;
 
+import com.compass.Desafio_02.entities.enumeration.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,6 +30,13 @@ public abstract class Person {
 
     @Column(nullable = false)
     private LocalDate dateOfBirth;
+
+    @Column(nullable = false, length = 200)
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false, length = 20)
+    private Role role;
 
     @Override
     public boolean equals(Object o) {
