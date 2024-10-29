@@ -25,7 +25,8 @@ public class Course {
     @Column(nullable = false, length = 255)
     private String description;
 
-    @OneToOne(mappedBy = "course")
+    @OneToOne
+    @JoinColumn(name = "coordinator_id")
     private Coordinator coordinator;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
