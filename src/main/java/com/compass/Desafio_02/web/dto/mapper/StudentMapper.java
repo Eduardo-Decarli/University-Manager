@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class StudentMapper {
 
-    public static Student toUsuario(StudentCreateDto createDto){
+    public static Student toStudent(StudentCreateDto createDto){
         return new ModelMapper().map(createDto, Student.class);
     }
 
