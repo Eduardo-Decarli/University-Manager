@@ -28,11 +28,11 @@ public class Discipline {
 
     @ManyToOne
     @JoinColumn(name = "full_professor_id", nullable = false)
-    private Teacher fullProfessor;
+    private Person fullProfessor;
 
     @ManyToOne
     @JoinColumn(name = "substitute_teacher_id")
-    private Teacher substituteTeacher;
+    private Person substituteTeacher;
 
     @ManyToMany
     @JoinTable(
