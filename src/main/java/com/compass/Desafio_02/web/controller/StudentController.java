@@ -2,8 +2,10 @@ package com.compass.Desafio_02.web.controller;
 
 import com.compass.Desafio_02.entities.Student;
 import com.compass.Desafio_02.services.StudentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,12 +13,13 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("api/v1/students")
+@Validated
 public class StudentController {
 
     private final StudentService studentService;
 
     @PostMapping
-    public ResponseEntity<Student> create(@RequestBody Student student) {
+    public ResponseEntity<Student> create(@Valid @RequestBody Student student) {
         Student response = studentService.create(student);
         return ResponseEntity.status(201).body(response);
     }

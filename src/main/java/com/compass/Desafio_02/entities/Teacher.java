@@ -15,7 +15,7 @@ import java.util.List;
 @Entity
 public class Teacher extends Person {
 
-    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "fullProfessor", cascade = CascadeType.ALL)
     private List<Discipline> disciplines;
 
     @OneToMany
