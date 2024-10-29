@@ -18,7 +18,7 @@ public class StudentController {
     @PostMapping
     public ResponseEntity<Student> create(@RequestBody Student student) {
         Student response = studentService.create(student);
-        return ResponseEntity.status(201).body(student);
+        return ResponseEntity.status(201).body(response);
     }
 
     @GetMapping("/{id}")
