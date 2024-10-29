@@ -21,7 +21,13 @@ public class CoordinatorServices {
         );
     }
 
-    public Coordinator createCoordinator(Coordinator coordinator){
+    public Coordinator createCoordinator(Coordinator coordinator) throws Exception {
+        if(coordinator.getCourse().getCoordinator() != null){
+            throw new Exception("Error: This coordinator already has a course in progress");
+        } else if(coordinator.getCourse() == null){
+            throw new Exception("Error: The course can't be null");
+        }
+
         return repository.save(coordinator);
     }
 

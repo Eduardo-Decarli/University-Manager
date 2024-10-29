@@ -23,7 +23,10 @@ public class CourseServices {
         );
     }
 
-    public Course createCourse(Course course){
+    public Course createCourse(Course course) throws Exception {
+        if(course.getCoordinator().getCourse() != null){
+            throw new Exception("Error: This coordinator already has a course in progress");
+        }
         return repository.save(course);
     }
 
