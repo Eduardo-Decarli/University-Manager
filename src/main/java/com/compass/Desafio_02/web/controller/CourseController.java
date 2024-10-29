@@ -1,4 +1,4 @@
-package com.compass.Desafio_02.controller;
+package com.compass.Desafio_02.web.controller;
 
 import com.compass.Desafio_02.entities.Course;
 import com.compass.Desafio_02.services.CourseServices;
