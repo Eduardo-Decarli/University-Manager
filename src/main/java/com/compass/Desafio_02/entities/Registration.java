@@ -24,8 +24,4 @@ public class Registration {
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
-
-    @Column(nullable = false)
-    private String status;
-
 }
