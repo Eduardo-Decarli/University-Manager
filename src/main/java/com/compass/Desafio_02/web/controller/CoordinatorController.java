@@ -1,6 +1,7 @@
 package com.compass.Desafio_02.web.controller;
 
 import com.compass.Desafio_02.entities.Coordinator;
+import com.compass.Desafio_02.entities.Teacher;
 import com.compass.Desafio_02.services.CoordinatorServices;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,13 @@ public class CoordinatorController {
         this.services = services;
     }
 
-    @GetMapping("/course")
+    @PostMapping
+    public ResponseEntity<Coordinator> create(@RequestBody Coordinator coordinator) throws Exception {
+        Coordinator response = services.createCoordinator(coordinator);
+        return ResponseEntity.status(201).body(response);
+    }
+
+    @GetMapping
     public ResponseEntity<List<Coordinator>> getAllCoordinator() {
         List<Coordinator> Coordinators = services.getAllCoordinators();
         return ResponseEntity.ok().body(Coordinators);
