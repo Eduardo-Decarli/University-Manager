@@ -2,6 +2,7 @@ package com.compass.Desafio_02.web.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,5 +22,6 @@ public class CourseCreateDto {
     private Long coordinatorId;
 
     @NotNull(message = "Discipline IDs are required")
+    @Size(min = 1, message = "At least one discipline ID is required")
     private List<Long> disciplineIds;
 }
