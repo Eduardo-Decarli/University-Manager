@@ -6,30 +6,29 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-@NoArgsConstructor @AllArgsConstructor
-@Getter @Setter
-
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-public class Course {
+public class Course implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, length = 40)
     private String name;
 
-    @Column(nullable = false, length = 255)
     private String description;
 
     @OneToOne
-    @JoinColumn(name = "coordinator_id")
-    private Coordinator coordinator;
+    private Course coordinator;
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    @OneToMany
     private List<Discipline> disciplines;
 
     @Override
