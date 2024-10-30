@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,37 +15,22 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Discipline {
+public class Discipline implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, length = 100)
     private String name;
 
-    @Column(length = 255)
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "full_professor_id", nullable = false)
-    private Teacher fullProfessor;
+    private String mainTeacherEmail;
 
-    @ManyToOne
-    @JoinColumn(name = "substitute_teacher_id")
-    private Teacher substituteTeacher;
+    private String subsTeacherEmail;
 
-    @ManyToMany
-    @JoinTable(
-            name = "discipline_student",
-            joinColumns = @JoinColumn(name = "discipline_id"),
-            inverseJoinColumns = @JoinColumn(name = "student_id")
-    )
+    @OneToMany
     private List<Student> students;
-
-    @ManyToOne
-    @JoinColumn(name = "course_id", nullable = false)
-    private Course course;
 
     @Override
     public boolean equals(Object o) {
@@ -56,6 +42,6 @@ public class Discipline {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hashCode(id);
     }
 }

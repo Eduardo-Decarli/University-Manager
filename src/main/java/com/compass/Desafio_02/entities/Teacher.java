@@ -1,24 +1,32 @@
 package com.compass.Desafio_02.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
+import java.io.Serializable;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Teacher extends Person {
+public class Teacher extends Person implements Serializable {
 
-    @OneToMany(mappedBy = "fullProfessor", cascade = CascadeType.ALL)
-    private List<Discipline> disciplines;
+    @OneToOne
+    private Course course;
 
-    @OneToMany
-    @JoinColumn(name = "teacher_id")
-    private List<Course> courses;
+    @OneToOne
+    private Discipline mainTeacher;
+
+    @OneToOne
+    private Discipline subsTeacher;
+
+    @OneToOne
+    private Discipline subsTeacherOffCourse;
+
+
 }
