@@ -1,5 +1,6 @@
 package com.compass.Desafio_02.web.controller;
 
+import com.compass.Desafio_02.entities.Coordinator;
 import com.compass.Desafio_02.entities.Course;
 import com.compass.Desafio_02.services.CourseServices;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,13 @@ public class CourseController {
         this.services = services;
     }
 
-    @GetMapping("/course")
+    @PostMapping
+    public ResponseEntity<Course> create(@RequestBody Course course) throws Exception {
+        Course response = services.createCourse(course);
+        return ResponseEntity.status(201).body(response);
+    }
+
+    @GetMapping
     public ResponseEntity<List<Course>> getAllCourses(){
         List<Course> courses = services.getAllCourses();
         return ResponseEntity.ok().body(courses);
