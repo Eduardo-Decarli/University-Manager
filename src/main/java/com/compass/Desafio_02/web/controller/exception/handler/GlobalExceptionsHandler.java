@@ -1,5 +1,6 @@
 package com.compass.Desafio_02.web.controller.exception.handler;
 
+import com.compass.Desafio_02.web.controller.exception.EmptyListException;
 import com.compass.Desafio_02.web.controller.exception.EntityUniqueViolationException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -37,5 +38,13 @@ public class GlobalExceptionsHandler {
 
     }
 
+    @ExceptionHandler(EmptyListException.class)
+    public ResponseEntity<ErrorMessage> EmptyListException(EmptyListException ex,
+                                                           HttpServletRequest request){
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(request, HttpStatus.NOT_FOUND, ex.getMessage()));
 
+    }
 }

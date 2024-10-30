@@ -2,6 +2,7 @@ package com.compass.Desafio_02.services;
 
 import com.compass.Desafio_02.entities.Student;
 import com.compass.Desafio_02.repositories.StudentRepository;
+import com.compass.Desafio_02.web.controller.exception.EmptyListException;
 import com.compass.Desafio_02.web.controller.exception.EntityUniqueViolationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -32,7 +33,12 @@ public class StudentService {
     }
 
     public List<Student> list() {
-        return studentRepository.findAll();
+
+        List students = studentRepository.findAll();
+        if(students.isEmpty()){
+            throw new EmptyListException("");
+        }
+        return students;
     }
 
     public void update(Student update) {
