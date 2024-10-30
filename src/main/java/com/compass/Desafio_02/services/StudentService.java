@@ -2,7 +2,9 @@ package com.compass.Desafio_02.services;
 
 import com.compass.Desafio_02.entities.Student;
 import com.compass.Desafio_02.repositories.StudentRepository;
+import com.compass.Desafio_02.web.controller.exception.EntityUniqueViolationException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,11 +16,19 @@ public class StudentService {
     private final StudentRepository studentRepository;
 
     public Student getById(Long id) {
-        return studentRepository.findById(id).orElseThrow(() -> new RuntimeException("student not found."));
+        return studentRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("student not found.")
+        );
     }
 
     public Student create(Student student) {
-        return studentRepository.save(student);
+        try {
+            return studentRepository.save(student);
+        } catch(DataIntegrityViolationException ex){
+            throw new EntityUniqueViolationException(
+                    String.format("student with email: %s already registered", student.getEmail())
+            );
+        }
     }
 
     public List<Student> list() {
