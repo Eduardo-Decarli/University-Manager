@@ -3,9 +3,11 @@ package com.compass.Desafio_02.services;
 import com.compass.Desafio_02.entities.Coordinator;
 import com.compass.Desafio_02.repositories.CoordinatorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class CoordinatorServices {
 
     @Autowired

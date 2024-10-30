@@ -35,7 +35,7 @@ public class CourseController {
         return ResponseEntity.ok().body(updatedCourse);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCourseById(@PathVariable long id) throws Exception {
         services.deleteCourse(id);
         return ResponseEntity.noContent().build();
