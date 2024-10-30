@@ -31,7 +31,7 @@ public class StudentService {
         student.setFirstName(update.getFirstName());
         student.setLastName(update.getLastName());
         student.setEmail(update.getEmail());
-        student.setDateOfBirth(update.getDateOfBirth());
+        student.setBirthDate(update.getBirthDate());
         student.setPassword(update.getPassword());
         student.setRole(update.getRole());
         student.setAddress(update.getAddress());
