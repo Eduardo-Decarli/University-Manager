@@ -1,15 +1,18 @@
 package com.compass.Desafio_02.web.controller;
 
 import com.compass.Desafio_02.entities.Coordinator;
-import com.compass.Desafio_02.entities.Teacher;
+import com.compass.Desafio_02.entities.Course;
 import com.compass.Desafio_02.services.CoordinatorServices;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/coordinator")
+@Validated
 public class CoordinatorController {
 
     private final CoordinatorServices services;
@@ -19,12 +22,12 @@ public class CoordinatorController {
     }
 
     @PostMapping
-    public ResponseEntity<Coordinator> create(@RequestBody Coordinator coordinator) throws Exception {
+    public ResponseEntity<Coordinator> create(@Valid @RequestBody Coordinator coordinator) {
         Coordinator response = services.createCoordinator(coordinator);
         return ResponseEntity.status(201).body(response);
     }
 
-    @GetMapping
+    @GetMapping("/course")
     public ResponseEntity<List<Coordinator>> getAllCoordinator() {
         List<Coordinator> Coordinators = services.getAllCoordinators();
         return ResponseEntity.ok().body(Coordinators);
@@ -37,8 +40,8 @@ public class CoordinatorController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Coordinator> updateCoordinator(@PathVariable long id, @RequestBody Coordinator coordinator) throws Exception {
-        Coordinator updatedCoordinator = services.updateCoordinator(id, coordinator);
+    public ResponseEntity<Coordinator> updateCoordinator(@Valid @RequestBody Coordinator coordinator) throws Exception {
+        Coordinator updatedCoordinator = services.updateCoordinator(coordinator);
         return ResponseEntity.ok().body(updatedCoordinator);
     }
 
