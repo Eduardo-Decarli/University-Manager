@@ -1,21 +1,23 @@
 package com.compass.Desafio_02.entities;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
-@Entity
-public class Student extends Person {
+import java.io.Serializable;
 
-    @ManyToOne
-    @JoinColumn(name = "course_id")
-    private Course course;
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+public class Student extends Person implements Serializable {
 
     private String address;
 
+    @OneToOne
+    private Course course;
 }

@@ -2,10 +2,6 @@ package com.compass.Desafio_02.entities;
 
 import com.compass.Desafio_02.entities.enumeration.Role;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +10,10 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.util.Objects;
 
-@Getter @Setter @AllArgsConstructor @NoArgsConstructor
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @MappedSuperclass
 public abstract class Person {
 
@@ -22,27 +21,15 @@ public abstract class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "The first name can't be empty")
-    @Column(nullable = false)
     private String firstName;
 
-    @NotBlank(message = "The last name can't be empty")
-    @Column(nullable = false)
     private String lastName;
 
-    @Column(unique = true, nullable = false)
-    @NotBlank(message = "The email can't be empty")
-    @Email(message = "The email must have a valid format")
     private String email;
 
-    @NotNull(message = "The date of birth cannot be empty")
-    @Column(nullable = false)
-    private LocalDate dateOfBirth;
-
-    @NotBlank(message = "Password cannot be empty")
-    @Size(min = 8, message = "The password must be at least 8 characters long")
-    @Column(nullable = false, length = 200)
     private String password;
+
+    private LocalDate birthDate;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false, length = 20)
@@ -61,3 +48,4 @@ public abstract class Person {
         return Objects.hashCode(id);
     }
 }
+

@@ -37,7 +37,7 @@ public class CoordinatorServices {
         coordinator.setFirstName(newCoordinator.getFirstName());
         coordinator.setLastName(newCoordinator.getLastName());
         coordinator.setEmail(newCoordinator.getEmail());
-        coordinator.setDateOfBirth(newCoordinator.getDateOfBirth());
+        coordinator.setBirthDate(newCoordinator.getBirthDate());
         coordinator.setPassword(newCoordinator.getPassword());
         coordinator.setRole(newCoordinator.getRole());
         coordinator.setCourse(newCoordinator.getCourse());

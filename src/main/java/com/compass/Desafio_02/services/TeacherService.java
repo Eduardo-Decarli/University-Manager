@@ -33,7 +33,7 @@ public class TeacherService {
         teacher.setFirstName(update.getFirstName());
         teacher.setLastName(update.getLastName());
         teacher.setEmail(update.getEmail());
-        teacher.setDateOfBirth(update.getDateOfBirth());
+        teacher.setBirthDate(update.getBirthDate());
         teacher.setPassword(update.getPassword());
         teacher.setRole(update.getRole());
 
