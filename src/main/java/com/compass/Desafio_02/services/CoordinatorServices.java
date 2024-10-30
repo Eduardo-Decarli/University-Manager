@@ -2,50 +2,61 @@ package com.compass.Desafio_02.services;
 
 import com.compass.Desafio_02.entities.Coordinator;
 import com.compass.Desafio_02.repositories.CoordinatorRepository;
+import com.compass.Desafio_02.web.exception.CoordinatorInCourseUniqueViolationException;
+import com.compass.Desafio_02.web.exception.CourseNotNullException;
+import com.compass.Desafio_02.web.exception.EmptyListException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class CoordinatorServices {
 
     @Autowired
     private CoordinatorRepository repository;
 
-    public List<Coordinator> getAllCoordinators() {
-        return repository.findAll();
-    }
-
-    public Coordinator getCoordinatorById(Long id) throws Exception {
+    public Coordinator getCoordinatorById(Long id) {
         return repository.findById(id).orElseThrow(
-                () -> new Exception("Coordinator not found")
+                () -> new EntityNotFoundException("Error: Coordinator not found")
         );
     }
 
-    public Coordinator createCoordinator(Coordinator coordinator) throws Exception {
+    public Coordinator createCoordinator(Coordinator coordinator) {
         if(coordinator.getCourse().getCoordinator() != null){
-            throw new Exception("Error: This coordinator already has a course in progress");
+            throw new CoordinatorInCourseUniqueViolationException("Error: This coordinator already has a course in progress");
         } else if(coordinator.getCourse() == null){
-            throw new Exception("Error: The course can't be null");
+            throw new CourseNotNullException("Error: The course can't be null");
         }
 
         return repository.save(coordinator);
     }
 
-    public Coordinator updateCoordinator(long id, Coordinator newCoordinator) throws Exception {
-        Coordinator coordinator = getCoordinatorById(id);
+    public List<Coordinator> getAllCoordinators() {
+        List<Coordinator> coordinators = repository.findAll();
+        if(coordinators.isEmpty()){
+            throw new EmptyListException("Error: There are no registered coordinators");
+        }
+        return coordinators;
+    }
 
-        coordinator.setFirstName(newCoordinator.getFirstName());
-        coordinator.setLastName(newCoordinator.getLastName());
-        coordinator.setEmail(newCoordinator.getEmail());
-        coordinator.setBirthDate(newCoordinator.getBirthDate());
-        coordinator.setPassword(newCoordinator.getPassword());
-        coordinator.setRole(newCoordinator.getRole());
-        coordinator.setCourse(newCoordinator.getCourse());
+    public Coordinator updateCoordinator(Coordinator update) {
+        Coordinator coordinator = getCoordinatorById(update.getId());
+
+        coordinator.setFirstName(update.getFirstName());
+        coordinator.setLastName(update.getLastName());
+        coordinator.setEmail(update.getEmail());
+        coordinator.setBirthDate(update.getBirthDate());
+        coordinator.setPassword(update.getPassword());
+        coordinator.setRole(update.getRole());
+        coordinator.setCourse(update.getCourse());
 
         return repository.save(coordinator);
     }
 
-    public void deleteCoordinator(long id) throws Exception {
+    public void deleteCoordinator(long id) {
+        getCoordinatorById(id);
         repository.deleteById(id);
     }
 }

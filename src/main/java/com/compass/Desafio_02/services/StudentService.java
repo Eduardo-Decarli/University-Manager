@@ -2,8 +2,9 @@ package com.compass.Desafio_02.services;
 
 import com.compass.Desafio_02.entities.Student;
 import com.compass.Desafio_02.repositories.StudentRepository;
-import com.compass.Desafio_02.web.controller.exception.EmptyListException;
-import com.compass.Desafio_02.web.controller.exception.EntityUniqueViolationException;
+import com.compass.Desafio_02.web.exception.EmptyListException;
+import com.compass.Desafio_02.web.exception.EntityUniqueViolationException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class StudentService {
 
     public Student getById(Long id) {
         return studentRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("student not found.")
+                () -> new EntityNotFoundException("Error: student not found")
         );
     }
 
@@ -27,16 +28,15 @@ public class StudentService {
             return studentRepository.save(student);
         } catch(DataIntegrityViolationException ex){
             throw new EntityUniqueViolationException(
-                    String.format("student with email: %s already registered", student.getEmail())
+                    String.format("Error: There is a student with email: %s already registered", student.getEmail())
             );
         }
     }
 
     public List<Student> list() {
-
-        List students = studentRepository.findAll();
+        List<Student> students = studentRepository.findAll();
         if(students.isEmpty()){
-            throw new EmptyListException("");
+            throw new EmptyListException("Error: There are no registered students");
         }
         return students;
     }
@@ -56,6 +56,7 @@ public class StudentService {
     }
 
     public void remove(Long id) {
+        getById(id);
         studentRepository.deleteById(id);
     }
 }

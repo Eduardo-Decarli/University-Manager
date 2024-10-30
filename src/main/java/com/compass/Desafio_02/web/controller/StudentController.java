@@ -37,7 +37,7 @@ public class StudentController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> update(@RequestBody Student update) {
+    public ResponseEntity<Void> update(@Valid @RequestBody Student update) {
         studentService.update(update);
         return ResponseEntity.status(204).build();
     }

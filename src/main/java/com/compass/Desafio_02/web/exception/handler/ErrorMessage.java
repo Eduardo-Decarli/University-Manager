@@ -1,4 +1,4 @@
-package com.compass.Desafio_02.web.controller.exception.handler;
+package com.compass.Desafio_02.web.exception.handler;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
