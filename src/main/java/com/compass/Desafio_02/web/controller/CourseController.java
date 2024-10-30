@@ -1,5 +1,6 @@
 package com.compass.Desafio_02.web.controller;
 
+import com.compass.Desafio_02.entities.Coordinator;
 import com.compass.Desafio_02.entities.Course;
 import com.compass.Desafio_02.entities.Student;
 import com.compass.Desafio_02.services.CourseServices;
@@ -45,7 +46,7 @@ public class CourseController {
         return ResponseEntity.ok().body(updatedCourse);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCourseById(@PathVariable long id) throws Exception {
         services.deleteCourse(id);
         return ResponseEntity.noContent().build();

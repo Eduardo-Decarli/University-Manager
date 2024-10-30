@@ -45,7 +45,7 @@ public class CoordinatorController {
         return ResponseEntity.ok().body(updatedCoordinator);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCoordinatorById(@PathVariable long id) throws Exception {
         services.deleteCoordinator(id);
         return ResponseEntity.noContent().build();
