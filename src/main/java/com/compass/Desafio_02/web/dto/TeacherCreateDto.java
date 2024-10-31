@@ -1,6 +1,7 @@
 package com.compass.Desafio_02.web.dto;
 
 import com.compass.Desafio_02.entities.enumeration.Role;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -26,7 +27,8 @@ public class TeacherCreateDto {
     private String email;
 
     @NotNull(message = "The date of birth cannot be empty")
-    private LocalDate dateOfBirth;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    private LocalDate birthDate;
 
     @NotBlank(message = "Password cannot be empty")
     @Size(min = 8, message = "The password must be at least 8 characters long")

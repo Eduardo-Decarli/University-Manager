@@ -1,10 +1,12 @@
 package com.compass.Desafio_02.services;
 
+import com.compass.Desafio_02.entities.Course;
 import com.compass.Desafio_02.entities.Registration;
 import com.compass.Desafio_02.repositories.RegistrationRepository;
+import com.compass.Desafio_02.web.dto.RegistrationResponseDto;
+import com.compass.Desafio_02.web.dto.mapper.RegistrationMapper;
 import com.compass.Desafio_02.web.exception.EmptyListException;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,8 +14,11 @@ import java.util.List;
 @Service
 public class RegistrationServices {
 
-    @Autowired
     private RegistrationRepository repository;
+
+    public RegistrationServices(RegistrationRepository repository) {
+        this.repository = repository;
+    }
 
     public Registration getRegistrationById(Long id) {
         return repository.findById(id).orElseThrow(
@@ -45,5 +50,10 @@ public class RegistrationServices {
     public void deleteRegistration(long id) {
         getRegistrationById(id);
         repository.deleteById(id);
+    }
+
+    public List<RegistrationResponseDto> getRegistrationsByCourse(Course course) {
+        List<Registration> responses = repository.findByCourse(course);
+        return RegistrationMapper.toListDto(responses);
     }
 }

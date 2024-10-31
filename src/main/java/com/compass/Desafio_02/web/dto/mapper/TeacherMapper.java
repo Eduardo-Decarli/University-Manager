@@ -18,6 +18,10 @@ public class TeacherMapper {
         return new ModelMapper().map(createDto, Teacher.class);
     }
 
+    public static Teacher toTeacher(TeacherResponseDto responseDto){
+        return new ModelMapper().map(responseDto, Teacher.class);
+    }
+
     public static TeacherResponseDto toDto(Teacher teacher) {
         return new ModelMapper().map(teacher, TeacherResponseDto.class);
     }

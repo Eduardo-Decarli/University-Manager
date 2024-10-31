@@ -1,6 +1,7 @@
 package com.compass.Desafio_02.entities;
 
 import com.compass.Desafio_02.entities.enumeration.Role;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
