@@ -27,6 +27,4 @@ public class Teacher extends Person implements Serializable {
 
     @OneToOne
     private Discipline subsTeacherOffCourse;
-
-
 }

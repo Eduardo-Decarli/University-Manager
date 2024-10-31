@@ -1,7 +1,11 @@
 package com.compass.Desafio_02.services;
 
 import com.compass.Desafio_02.entities.Teacher;
+import com.compass.Desafio_02.entities.enumeration.Role;
 import com.compass.Desafio_02.repositories.TeacherRepository;
+import com.compass.Desafio_02.web.dto.TeacherCreateDto;
+import com.compass.Desafio_02.web.dto.TeacherResponseDto;
+import com.compass.Desafio_02.web.dto.mapper.TeacherMapper;
 import com.compass.Desafio_02.web.exception.EmptyListException;
 import com.compass.Desafio_02.web.exception.EntityUniqueViolationException;
 import jakarta.persistence.EntityNotFoundException;
@@ -17,20 +21,22 @@ public class TeacherService {
 
     private final TeacherRepository repository;
 
+    public TeacherResponseDto create(TeacherCreateDto teacherDto) {
+        try {
+            Teacher teacher = TeacherMapper.toTeacher(teacherDto);
+            Teacher teacherSaved = repository.save(teacher);
+            return TeacherMapper.toDto(teacherSaved);
+        } catch(DataIntegrityViolationException ex){
+            throw new EntityUniqueViolationException(
+                    String.format("Error: There is a professor with email: %s already registered", teacherDto.getEmail())
+            );
+        }
+    }
+
     public Teacher getById(Long id) {
         return repository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Error: teacher not found")
         );
-    }
-
-    public Teacher create(Teacher teacher) {
-        try {
-            return repository.save(teacher);
-        } catch(DataIntegrityViolationException ex){
-            throw new EntityUniqueViolationException(
-                    String.format("Error: There is a professor with email: %s already registered", teacher.getEmail())
-            );
-        }
     }
 
     public List<Teacher> list() {

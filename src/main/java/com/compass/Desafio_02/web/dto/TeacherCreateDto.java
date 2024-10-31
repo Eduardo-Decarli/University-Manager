@@ -33,11 +33,5 @@ public class TeacherCreateDto {
     private String password;
 
     @NotNull(message = "Role is required")
-    private Role role;
-
-    @NotNull(message = "Discipline IDs are required")
-    private List<Long> disciplineIds;
-
-    @NotNull(message = "Course IDs are required")
-    private List<Long> courseIds;
+    private Role role = Role.ROLE_TEACHER;
 }
