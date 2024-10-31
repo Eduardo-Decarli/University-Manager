@@ -20,6 +20,7 @@ public class RegistrationController {
         this.services = services;
     }
 
+    // ROLE_COORDINATOR
     @PostMapping
     public ResponseEntity<Registration> create(@Valid @RequestBody Registration registration) {
         Registration response = services.createRegistration(registration);

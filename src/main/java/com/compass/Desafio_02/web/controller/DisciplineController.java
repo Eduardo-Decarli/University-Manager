@@ -20,6 +20,7 @@ public class DisciplineController {
         this.services = services;
     }
 
+    // ROLE_COORDINATOR
     @PostMapping
     public ResponseEntity<Discipline> create(@Valid @RequestBody Discipline discipline) {
         Discipline response = services.createDiscipline(discipline);
@@ -38,6 +39,7 @@ public class DisciplineController {
         return ResponseEntity.ok().body(discipline);
     }
 
+    // ROLE_TEACHER
     @PutMapping("/{id}")
     public ResponseEntity<Discipline> updateDiscipline(@Valid @RequestBody Discipline discipline) {
         Discipline update = services.updateDiscipline(discipline);
@@ -48,5 +50,41 @@ public class DisciplineController {
     public ResponseEntity<Void> deleteDisciplineById(@PathVariable long id) {
         services.deleteDiscipline(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/add/student/{id}")
+    public ResponseEntity<Discipline> addStudentDiscipline(@Valid @RequestBody Discipline discipline) {
+        Discipline update = services.updateDiscipline(discipline);
+        return ResponseEntity.ok().body(update);
+    }
+
+    @PatchMapping("/remove/student/{id}")
+    public ResponseEntity<Discipline> removeStudentDiscipline(@Valid @RequestBody Discipline discipline) {
+        Discipline update = services.updateDiscipline(discipline);
+        return ResponseEntity.ok().body(update);
+    }
+
+    @PatchMapping("/add/teacher/titular/{email}")
+    public ResponseEntity<Discipline> addTitularTeacherDiscipline(@Valid @RequestBody Discipline discipline) {
+        Discipline update = services.updateDiscipline(discipline);
+        return ResponseEntity.ok().body(update);
+    }
+
+    @PatchMapping("/remove/teacher/titular/{email}")
+    public ResponseEntity<Discipline> removeTitularTeacherDiscipline(@Valid @RequestBody Discipline discipline) {
+        Discipline update = services.updateDiscipline(discipline);
+        return ResponseEntity.ok().body(update);
+    }
+
+    @PatchMapping("/add/teacher/substitute/{email}")
+    public ResponseEntity<Discipline> addSubstituteTeacherDiscipline(@Valid @RequestBody Discipline discipline) {
+        Discipline update = services.updateDiscipline(discipline);
+        return ResponseEntity.ok().body(update);
+    }
+
+    @PatchMapping("/remove/teacher/substitute/{email}")
+    public ResponseEntity<Discipline> removeSubstituteTeacherDiscipline(@Valid @RequestBody Discipline discipline) {
+        Discipline update = services.updateDiscipline(discipline);
+        return ResponseEntity.ok().body(update);
     }
 }

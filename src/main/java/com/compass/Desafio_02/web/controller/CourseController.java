@@ -1,9 +1,9 @@
 package com.compass.Desafio_02.web.controller;
 
-import com.compass.Desafio_02.entities.Coordinator;
 import com.compass.Desafio_02.entities.Course;
-import com.compass.Desafio_02.entities.Student;
+import com.compass.Desafio_02.entities.Discipline;
 import com.compass.Desafio_02.services.CourseServices;
+import com.compass.Desafio_02.web.dto.CourseResponseDto;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -22,12 +22,14 @@ public class CourseController {
         this.services = services;
     }
 
+    // ROLE_COORDINATOR
     @PostMapping
     public ResponseEntity<Course> create(@Valid @RequestBody Course course) {
         Course response = services.createCourse(course);
         return ResponseEntity.status(201).body(response);
     }
 
+    // hasAnyRole()
     @GetMapping("/courses")
     public ResponseEntity<List<Course>> getAllCourses(){
         List<Course> courses = services.getAllCourses();
@@ -50,5 +52,23 @@ public class CourseController {
     public ResponseEntity<Void> deleteCourseById(@PathVariable long id) throws Exception {
         services.deleteCourse(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/add/discipline/{name}")
+    public ResponseEntity<Discipline> addDiscipline(@Valid @RequestBody Discipline discipline) {
+        Discipline update = services.updateDiscipline(discipline);
+        return ResponseEntity.ok().body(update);
+    }
+
+    @PatchMapping("/remove/discipline/{name}")
+    public ResponseEntity<Discipline> removeDiscipline(@Valid @RequestBody Discipline discipline) {
+        Discipline update = services.updateDiscipline(discipline);
+        return ResponseEntity.ok().body(update);
+    }
+
+    @PatchMapping("/change/coordinator/{id}")
+    public ResponseEntity<Discipline> removeDiscipline(@Valid @RequestBody Discipline discipline) {
+        Discipline update = services.updateDiscipline(discipline);
+        return ResponseEntity.ok().body(update);
     }
 }
