@@ -17,6 +17,10 @@ public class StudentMapper {
         return new ModelMapper().map(createDto, Student.class);
     }
 
+    public static Student toStudent(StudentResponseDto responseDto){
+        return new ModelMapper().map(responseDto, Student.class);
+    }
+
     public static StudentResponseDto toDto(Student student){
         return new ModelMapper().map(student, StudentResponseDto.class);
 
