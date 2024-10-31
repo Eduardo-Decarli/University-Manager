@@ -5,9 +5,11 @@ import com.compass.Desafio_02.repositories.DisciplineRepository;
 import com.compass.Desafio_02.web.exception.EmptyListException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class DisciplineServices {
 
 
@@ -25,11 +27,11 @@ public class DisciplineServices {
     }
 
     public List<Discipline> getAllDisciplines() {
-        List<Discipline> disciplines = repository.findAll();
-        if(disciplines.isEmpty()){
+        List<Discipline> response = repository.findAll();
+        if(response.isEmpty()){
             throw new EmptyListException("Error: There are no registered disciplines");
         }
-        return disciplines;
+        return response;
     }
 
     public Discipline updateDiscipline(Discipline update) {

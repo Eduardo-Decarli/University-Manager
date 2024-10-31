@@ -34,11 +34,11 @@ public class CourseServices {
     }
 
     public List<Course> getAllCourses() {
-        List<Course> courses = repository.findAll();
-        if(courses.isEmpty()){
+        List<Course> response = repository.findAll();
+        if(response.isEmpty()){
             throw new EmptyListException("Error: There are no registered course");
         }
-        return courses;
+        return response;
     }
 
     public Course updateCourse(Course update) {

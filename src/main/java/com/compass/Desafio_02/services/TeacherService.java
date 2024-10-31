@@ -15,17 +15,17 @@ import java.util.List;
 @Service
 public class TeacherService {
 
-    private final TeacherRepository teacherRepository;
+    private final TeacherRepository repository;
 
     public Teacher getById(Long id) {
-        return teacherRepository.findById(id).orElseThrow(
+        return repository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Error: teacher not found")
         );
     }
 
     public Teacher create(Teacher teacher) {
         try {
-            return teacherRepository.save(teacher);
+            return repository.save(teacher);
         } catch(DataIntegrityViolationException ex){
             throw new EntityUniqueViolationException(
                     String.format("Error: There is a professor with email: %s already registered", teacher.getEmail())
@@ -34,11 +34,11 @@ public class TeacherService {
     }
 
     public List<Teacher> list() {
-        List<Teacher> teachers = teacherRepository.findAll();
-        if(teachers.isEmpty()){
+        List<Teacher> response = repository.findAll();
+        if(response.isEmpty()){
             throw new EmptyListException("Error: There are no registered professors");
         }
-        return teachers;
+        return response;
     }
 
     public void update(Teacher update) {
@@ -51,11 +51,11 @@ public class TeacherService {
         teacher.setPassword(update.getPassword());
         teacher.setRole(update.getRole());
 
-        teacherRepository.save(teacher);
+        repository.save(teacher);
     }
 
     public void remove(Long id) {
         getById(id);
-        teacherRepository.deleteById(id);
+        repository.deleteById(id);
     }
 }

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/registration")
+@RequestMapping("/api/v1/discipline")
 @Validated
 public class DisciplineController {
 
@@ -26,7 +26,7 @@ public class DisciplineController {
         return ResponseEntity.status(201).body(response);
     }
 
-    @GetMapping("/Disciplines")
+    @GetMapping("/disciplines")
     public ResponseEntity<List<Discipline>> getAllRDisciplines(){
         List<Discipline> disciplines = services.getAllDisciplines();
         return ResponseEntity.ok().body(disciplines);

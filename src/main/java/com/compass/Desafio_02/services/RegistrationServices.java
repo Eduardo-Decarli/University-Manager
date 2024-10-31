@@ -5,9 +5,11 @@ import com.compass.Desafio_02.repositories.RegistrationRepository;
 import com.compass.Desafio_02.web.exception.EmptyListException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class RegistrationServices {
 
     @Autowired
@@ -24,11 +26,11 @@ public class RegistrationServices {
     }
 
     public List<Registration> getAllRegistrations() {
-        List<Registration> registrations = repository.findAll();
-        if(registrations.isEmpty()){
+        List<Registration> response = repository.findAll();
+        if(response.isEmpty()){
             throw new EmptyListException("Error: There are no registered registrations");
         }
-        return registrations;
+        return response;
     }
 
     public Registration updateRegistration(Registration update) {
