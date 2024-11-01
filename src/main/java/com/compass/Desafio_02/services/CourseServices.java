@@ -5,8 +5,8 @@ import com.compass.Desafio_02.entities.Course;
 import com.compass.Desafio_02.entities.Discipline;
 import com.compass.Desafio_02.repositories.CoordinatorRepository;
 import com.compass.Desafio_02.repositories.CourseRepository;
+import com.compass.Desafio_02.web.dto.CourseCreateDto;
 import com.compass.Desafio_02.web.dto.CourseResponseDto;
-import com.compass.Desafio_02.web.dto.DisciplineResponseDto;
 import com.compass.Desafio_02.web.dto.mapper.CourseMapper;
 import com.compass.Desafio_02.web.exception.CoordinatorInCourseUniqueViolationException;
 import com.compass.Desafio_02.web.exception.EmptyListException;
@@ -27,43 +27,49 @@ public class CourseServices {
     private CoordinatorRepository coordinatorRepository;
     private DisciplineServices disciplineServices;
 
-    public Course createCourse(Course course) {
+    public CourseResponseDto createCourse(CourseCreateDto courseDto) {
         try {
-            return repository.save(course);
+            Course course = CourseMapper.toCourse(courseDto);
+            repository.save(course);
+            return CourseMapper.toDto(course);
         } catch(DataIntegrityViolationException ex){
             throw new EntityUniqueViolationException(
-                    String.format("Error: There is a course with this name: %s already registered", course.getName())
+                    String.format("Error: There is a course with this name: %s already registered", courseDto.getName())
             );
         }
     }
 
-    public List<Course> getAllCourses() {
+    public List<CourseResponseDto> getAllCourses() {
         List<Course> response = repository.findAll();
         if(response.isEmpty()){
             throw new EmptyListException("Error: There are no registered course");
         }
-        return response;
+        return CourseMapper.toListDto(response);
     }
 
-    public Course getCourseById(Long id) {
-        return repository.findById(id).orElseThrow(
+    public CourseResponseDto getCourseById(Long id) {
+        Course course = repository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Error: Course not found")
         );
+        return CourseMapper.toDto(course);
     }
 
     public Course getCourseByName(String name) {
         return repository.findCourseByName(name);
     }
 
-    public Course updateCourse(Course update) {
-        Course course = getCourseById(update.getId());
+    public CourseResponseDto updateCourse(Long id, CourseCreateDto update) {
+        Course course = repository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Error: Course not found")
+        );
 
         course.setName(update.getName());
         course.setDescription(update.getDescription());
         course.setCoordinator(update.getCoordinator());
         course.setDisciplines(update.getDisciplines());
 
-        return repository.save(course);
+        repository.save(course);
+        return CourseMapper.toDto(course);
     }
 
     public void deleteCourse(long id) {
@@ -83,7 +89,7 @@ public class CourseServices {
 
         disciplinesInCourse.add(discipline);
         course.setDisciplines(disciplinesInCourse);
-        updateCourse(course);
+        repository.save(course);
         return CourseMapper.toDto(course);
     }
 
@@ -94,7 +100,7 @@ public class CourseServices {
 
         disciplinesInCourse.removeIf((x) -> x.getName().equals(discipline.getName()));
         course.setDisciplines(disciplinesInCourse);
-        updateCourse(course);
+        repository.save(course);
         return CourseMapper.toDto(course);
     }
 

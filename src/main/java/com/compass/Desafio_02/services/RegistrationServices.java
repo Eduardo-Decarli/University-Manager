@@ -58,4 +58,9 @@ public class RegistrationServices {
         getRegistrationById(id);
         repository.deleteById(id);
     }
+
+    public List<RegistrationResponseDto> getRegistrationsByCourse(Course course) {
+        List<Registration> responses = repository.findByCourse(course);
+        return RegistrationMapper.toListDto(responses);
+    }
 }
