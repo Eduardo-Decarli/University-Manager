@@ -12,10 +12,8 @@ import java.util.stream.Collectors;
 
 public class RegistrationMapper {
 
-    public static Registration toRegistration(RegistrationCreateDto createDto, Student student, Course course) {
+    public static Registration toRegistration(RegistrationCreateDto createDto) {
         Registration registration = new ModelMapper().map(createDto, Registration.class);
-        registration.setStudent(student);
-        registration.setCourse(course);
         return registration;
     }
 

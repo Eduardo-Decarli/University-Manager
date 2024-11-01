@@ -14,7 +14,4 @@ public class RegistrationCreateDto {
 
     @NotNull(message = "Course ID is required")
     private Long courseId;
-
-    @NotBlank(message = "Status can't be empty")
-    private String status;
 }
