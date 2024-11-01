@@ -1,5 +1,6 @@
 package com.compass.Desafio_02.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,7 @@ import java.io.Serializable;
 @Entity
 public class Student extends Person implements Serializable {
 
+    @Column(nullable = false)
     private String address;
 
     @OneToOne

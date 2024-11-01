@@ -22,19 +22,19 @@ public abstract class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(nullable = false)
+    @Column(nullable = false)
     private String firstName;
 
-    @JoinColumn(nullable = false)
+    @Column(nullable = false)
     private String lastName;
 
-    @JoinColumn(unique = true, nullable = false)
+    @Column(unique = true, nullable = false)
     private String email;
 
-    @JoinColumn(nullable = false)
+    @Column(nullable = false)
     private String password;
 
-    @JoinColumn(nullable = false)
+    @Column(nullable = false)
     private LocalDate birthDate;
 
     @Enumerated(EnumType.STRING)
