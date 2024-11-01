@@ -50,7 +50,7 @@ public class StudentService {
         return StudentMapper.toListDto(response);
     }
 
-    public void update(Long id, StudentCreateDto studentDto) {
+    public StudentResponseDto update(Long id, StudentCreateDto studentDto) {
         Student student = StudentMapper.toStudent(getById(id));
 
         student.setFirstName(studentDto.getFirstName());
@@ -62,6 +62,7 @@ public class StudentService {
         student.setAddress(studentDto.getAddress());
 
         repository.save(student);
+        return StudentMapper.toDto(student);
     }
 
 

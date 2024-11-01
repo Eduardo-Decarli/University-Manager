@@ -60,7 +60,7 @@ public class StudentController {
         // porem caso queira implementar usando um parametro id temporariamente pode ser
 
         StudentResponseDto response = studentService.getById(id);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok().body(response);
     }
 
     @PutMapping("/me/{id}")
@@ -69,8 +69,8 @@ public class StudentController {
         // TO-DO -> Acessar os proprios dados
         // Esse endpoint irá retornar as informações do usuario logado, depende da implementação da autenticação JWT
         // porem caso queira implementar usando um parametro id temporariamente pode ser
-        studentService.update(id, studentDto);
-        return ResponseEntity.status(204).build();
+        StudentResponseDto response = studentService.update(id, studentDto);
+        return ResponseEntity.status(204).body(response);
     }
 
     @GetMapping("/me/{id}/course")
@@ -81,7 +81,7 @@ public class StudentController {
         // porem caso queira implementar usando um parametro id temporariamente pode ser
 
         CourseResponseDto courseDto = studentService.getMyCourse(id);
-        return ResponseEntity.ok(courseDto);
+        return ResponseEntity.ok().body(courseDto);
     }
 
     @GetMapping("/me/{id}/course/disciplines")
@@ -92,7 +92,7 @@ public class StudentController {
         // porem caso queira implementar usando um parametro id temporariamente pode ser
 
         List<DisciplineResponseDto> responses = studentService.getStudentDisciplines(id);
-        return ResponseEntity.ok(responses);
+        return ResponseEntity.ok().body(responses);
     }
 
     @GetMapping("/me/{id}/registration")
@@ -103,6 +103,6 @@ public class StudentController {
         // porem caso queira implementar usando um parametro id temporariamente pode ser
 
         RegistrationResponseDto responseDto = studentService.getRegistration(id);
-        return ResponseEntity.ok(responseDto);
+        return ResponseEntity.ok().body(responseDto);
     }
 }

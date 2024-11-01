@@ -30,7 +30,7 @@ public class TeacherController {
     @GetMapping("/{id}")
     public ResponseEntity<TeacherResponseDto> getById(@PathVariable Long id) {
         TeacherResponseDto response = teacherService.getById(id);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok().body(response);
     }
 
     @GetMapping
@@ -69,8 +69,8 @@ public class TeacherController {
         // Esse endpoint irá retornar as informações do usuario logado, depende da implementação da autenticação JWT
         // porem caso queira implementar usando um parametro id temporariamente pode ser
 
-        teacherService.update(id, update);
-        return ResponseEntity.status(204).build();
+        TeacherResponseDto response = teacherService.update(id, update);
+        return ResponseEntity.status(204).body(response);
     }
 
     @GetMapping("/me/disciplines/{id}")
@@ -81,7 +81,7 @@ public class TeacherController {
         // porem caso queira implementar usando um parametro id temporariamente pode ser
 
         List<DisciplineResponseDto> response = teacherService.getDisciplines(id);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok().body(response);
     }
 
     @GetMapping("/me/{id}/{nameDiscipline}/students")
@@ -93,7 +93,7 @@ public class TeacherController {
 
         List<StudentResponseDto> responses = teacherService.getStudentsByDiscipline(id, nameDiscipline);
 
-        return ResponseEntity.ok(responses);
+        return ResponseEntity.ok().body(responses);
     }
 
     @GetMapping("/me/{id}/course")
@@ -105,7 +105,7 @@ public class TeacherController {
 
         CourseResponseDto response = teacherService.getMyCourse(id);
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok().body(response);
     }
 
     @GetMapping("/me/{id}/course/registrations")
@@ -117,7 +117,7 @@ public class TeacherController {
         TeacherResponseDto teacherResponseDto = teacherService.getById(id);
         List<RegistrationResponseDto> responses = registrationServices.getRegistrationsByCourse(teacherResponseDto.getCourse());
 
-        return ResponseEntity.ok(responses);
+        return ResponseEntity.ok().body(responses);
     }
 
     @GetMapping("/me/{id}/{nameDiscipline}/registration")
@@ -128,6 +128,6 @@ public class TeacherController {
         // porem caso queira implementar usando um parametro id temporariamente pode ser
 
         List<RegistrationResponseDto> responses = teacherService.getAllRegistrationsByDiscipline(id, nameDiscipline);
-        return ResponseEntity.ok(responses);
+        return ResponseEntity.ok().body(responses);
     }
 }

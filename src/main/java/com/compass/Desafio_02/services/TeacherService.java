@@ -51,7 +51,7 @@ public class TeacherService {
         return TeacherMapper.toListDto(response);
     }
 
-    public void update(Long id, TeacherCreateDto teacherDto) {
+    public TeacherResponseDto update(Long id, TeacherCreateDto teacherDto) {
         Teacher teacher = repository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Error: teacher not found")
         );
@@ -63,6 +63,7 @@ public class TeacherService {
         teacher.setPassword(teacherDto.getPassword());
 
         repository.save(teacher);
+        return TeacherMapper.toDto(teacher);
     }
 
     public void remove(Long id) {
