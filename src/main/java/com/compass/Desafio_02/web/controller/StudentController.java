@@ -2,9 +2,7 @@ package com.compass.Desafio_02.web.controller;
 
 import com.compass.Desafio_02.entities.Student;
 import com.compass.Desafio_02.services.StudentService;
-import com.compass.Desafio_02.web.dto.StudentCreateDto;
-import com.compass.Desafio_02.web.dto.StudentResponseDto;
-import com.compass.Desafio_02.web.dto.TeacherResponseDto;
+import com.compass.Desafio_02.web.dto.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -51,5 +49,60 @@ public class StudentController {
     public ResponseEntity<Void> removeById(@PathVariable Long id) {
         studentService.remove(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    // ROLE_STUDENT
+    @GetMapping("/me/{id}")
+    public ResponseEntity<StudentResponseDto> myData(@PathVariable Long id) {
+
+        // TO-DO -> Acessar os proprios dados
+        // Esse endpoint irá retornar as informações do usuario logado, depende da implementação da autenticação JWT
+        // porem caso queira implementar usando um parametro id temporariamente pode ser
+
+        StudentResponseDto response = studentService.getById(id);
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/me/{id}")
+    public ResponseEntity<StudentResponseDto> myUpdate(@Valid @PathVariable Long id, @RequestBody StudentCreateDto studentDto) {
+
+        // TO-DO -> Acessar os proprios dados
+        // Esse endpoint irá retornar as informações do usuario logado, depende da implementação da autenticação JWT
+        // porem caso queira implementar usando um parametro id temporariamente pode ser
+        studentService.update(id, studentDto);
+        return ResponseEntity.status(204).build();
+    }
+
+    @GetMapping("/me/{id}/course")
+    public ResponseEntity<CourseResponseDto> myCourse(@PathVariable Long id) {
+
+        // TO-DO -> Acessar os proprios dados
+        // Esse endpoint irá retornar as informações do usuario logado, depende da implementação da autenticação JWT
+        // porem caso queira implementar usando um parametro id temporariamente pode ser
+
+        CourseResponseDto courseDto = studentService.getMyCourse(id);
+        return ResponseEntity.ok(courseDto);
+    }
+
+    @GetMapping("/me/{id}/course/disciplines")
+    public ResponseEntity<List<DisciplineResponseDto>> myDisciplines(@PathVariable Long id) {
+
+        // TO-DO -> Acessar as proprias disciplinas
+        // Esse endpoint irá retornar as informações do usuario logado, depende da implementação da autenticação JWT
+        // porem caso queira implementar usando um parametro id temporariamente pode ser
+
+        List<DisciplineResponseDto> responses = studentService.getStudentDisciplines(id);
+        return ResponseEntity.ok(responses);
+    }
+
+    @GetMapping("/me/{id}/registration")
+    public ResponseEntity<RegistrationResponseDto> myRegistration(@PathVariable Long id) {
+
+        // TO-DO -> Acessar as proprias disciplinas
+        // Esse endpoint irá retornar as informações do usuario logado, depende da implementação da autenticação JWT
+        // porem caso queira implementar usando um parametro id temporariamente pode ser
+
+        RegistrationResponseDto responseDto = studentService.getRegistration(id);
+        return ResponseEntity.ok(responseDto);
     }
 }

@@ -5,10 +5,7 @@ import com.compass.Desafio_02.entities.Student;
 import com.compass.Desafio_02.entities.Teacher;
 import com.compass.Desafio_02.repositories.StudentRepository;
 import com.compass.Desafio_02.web.dto.*;
-import com.compass.Desafio_02.web.dto.mapper.CourseMapper;
-import com.compass.Desafio_02.web.dto.mapper.DisciplineMapper;
-import com.compass.Desafio_02.web.dto.mapper.StudentMapper;
-import com.compass.Desafio_02.web.dto.mapper.TeacherMapper;
+import com.compass.Desafio_02.web.dto.mapper.*;
 import com.compass.Desafio_02.web.exception.EmptyListException;
 import com.compass.Desafio_02.web.exception.EntityUniqueViolationException;
 import jakarta.persistence.EntityNotFoundException;
@@ -88,5 +85,10 @@ public class StudentService {
     public CourseResponseDto getMyCourse(Long id){
         StudentResponseDto studentDto = getById(id);
         return CourseMapper.toDto(studentDto.getCourse());
+    }
+
+    public RegistrationResponseDto getRegistration(Long id) {
+        StudentResponseDto studentDto = getById(id);
+        return RegistrationMapper.toDto(studentDto.getRegistration());
     }
 }
