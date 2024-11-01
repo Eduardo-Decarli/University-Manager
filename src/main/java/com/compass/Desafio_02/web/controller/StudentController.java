@@ -41,7 +41,6 @@ public class StudentController {
         return ResponseEntity.ok().body(responses);
     }
 
-
     @PutMapping("/modification/{id}")
     public ResponseEntity<Void> update(@Valid @PathVariable Long id, @RequestBody StudentCreateDto studentDto) {
         studentService.update(id, studentDto);
