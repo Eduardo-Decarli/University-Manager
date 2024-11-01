@@ -1,5 +1,6 @@
 package com.compass.Desafio_02.web.dto;
 
+import com.compass.Desafio_02.entities.Course;
 import com.compass.Desafio_02.entities.enumeration.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -34,6 +35,6 @@ public class CoordinatorCreateDto {
     @NotNull(message = "Role is required")
     private Role role;
 
-    @NotNull(message = "Course ID is required")
-    private Long courseId;
+    @NotNull(message = "Course is required")
+    private Course course;
 }
