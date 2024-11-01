@@ -15,6 +15,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -96,11 +97,25 @@ public class CoordinatorServices {
         return course;
     }
 
-    public List<DisciplineResponseDto> getMyDisciplinesInCourse(Long id) {
+    public List<DisciplineResponseDto> getDisciplinesInCourse(Long id) {
         Coordinator coordinator = repository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Error: Coordinator not found")
         );
         List<Discipline> disciplines = coordinator.getCourse().getDisciplines();
+        return DisciplineMapper.toListDto(disciplines);
+    }
+
+    public List<DisciplineResponseDto> getMyDisciplines(Long id) {
+        Coordinator coordinator = repository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Error: Coordinator not found")
+        );
+        List<Discipline> disciplines = new ArrayList<>();
+        if(coordinator.getMainTeacher() != null){
+          disciplines.add(coordinator.getMainTeacher());
+        }
+        if(coordinator.getSubsTeacher() != null){
+            disciplines.add(coordinator.getSubsTeacher());
+        }
         return DisciplineMapper.toListDto(disciplines);
     }
 }

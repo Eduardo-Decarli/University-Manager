@@ -90,10 +90,21 @@ public class CoordinatorController {
         // Esse endpoint irá retornar as informações do usuario logado, depende da implementação da autenticação JWT
         // porem caso queira implementar usando um parametro id temporariamente pode ser
 
-        List<DisciplineResponseDto> response = services.getMyDisciplinesInCourse(id);
+        List<DisciplineResponseDto> response = services.getDisciplinesInCourse(id);
 
         return ResponseEntity.ok().body(response);
     }
 
-    
+    @GetMapping("/me/{id}/disciplines")
+    public ResponseEntity<List<DisciplineResponseDto>> myDisciplines(@PathVariable Long id) {
+
+        // TO-DO -> Acessar as proprias disciplinas
+        // Esse endpoint irá retornar as informações do usuario logado, depende da implementação da autenticação JWT
+        // porem caso queira implementar usando um parametro id temporariamente pode ser
+
+        List<DisciplineResponseDto> response = services.getMyDisciplines(id);
+
+        return ResponseEntity.ok().body(response);
+    }
+
 }
