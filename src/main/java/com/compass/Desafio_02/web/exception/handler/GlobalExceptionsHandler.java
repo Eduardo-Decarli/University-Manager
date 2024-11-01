@@ -1,9 +1,6 @@
 package com.compass.Desafio_02.web.exception.handler;
 
-import com.compass.Desafio_02.web.exception.CoordinatorInCourseUniqueViolationException;
-import com.compass.Desafio_02.web.exception.CourseNotNullException;
-import com.compass.Desafio_02.web.exception.EmptyListException;
-import com.compass.Desafio_02.web.exception.EntityUniqueViolationException;
+import com.compass.Desafio_02.web.exception.*;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -70,6 +67,15 @@ public class GlobalExceptionsHandler {
     @ExceptionHandler(CoordinatorInCourseUniqueViolationException.class)
     public ResponseEntity<ErrorMessage> coordinatorInCourseUniqueViolationException(CoordinatorInCourseUniqueViolationException ex,
                                                                HttpServletRequest request){
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(request, HttpStatus.CONFLICT, ex.getMessage()));
+    }
+
+    @ExceptionHandler(QuantityDisciplinesViolationException.class)
+    public ResponseEntity<ErrorMessage> quantityDisciplinesViolationException(QuantityDisciplinesViolationException ex,
+                                                                                    HttpServletRequest request){
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
                 .contentType(MediaType.APPLICATION_JSON)
