@@ -1,5 +1,6 @@
 package com.compass.Desafio_02.web.dto;
 
+import com.compass.Desafio_02.entities.Student;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -19,14 +20,14 @@ public class DisciplineCreateDto {
     private String description;
 
     @NotNull(message = "Full Professor ID is required")
-    private Long fullProfessorId;
+    private String mainTeacherEmail;
 
     @NotNull(message = "Substitute Teacher ID is required")
-    private Long substituteTeacherId;
+    private String subsTeacherEmail;
 
     @NotNull(message = "Course ID is required")
     private Long courseId;
 
     @Size(min = 1, message = "At least one student ID is required")
-    private List<Long> studentIds;
+    private List<Student> students;
 }

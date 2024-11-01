@@ -1,7 +1,7 @@
 package com.compass.Desafio_02.web.controller;
 
-import com.compass.Desafio_02.entities.Discipline;
 import com.compass.Desafio_02.services.DisciplineServices;
+import com.compass.Desafio_02.web.dto.DisciplineCreateDto;
 import com.compass.Desafio_02.web.dto.DisciplineResponseDto;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -22,26 +22,26 @@ public class DisciplineController {
     }
 
     @PostMapping
-    public ResponseEntity<Discipline> create(@Valid @RequestBody Discipline discipline) {
-        Discipline response = services.createDiscipline(discipline);
+    public ResponseEntity<DisciplineResponseDto> create(@Valid @RequestBody DisciplineCreateDto discipline) {
+        DisciplineResponseDto response = services.createDiscipline(discipline);
         return ResponseEntity.status(201).body(response);
     }
 
     @GetMapping("/disciplines")
-    public ResponseEntity<List<Discipline>> getAllRDisciplines(){
-        List<Discipline> disciplines = services.getAllDisciplines();
+    public ResponseEntity<List<DisciplineResponseDto>> getAllRDisciplines(){
+        List<DisciplineResponseDto> disciplines = services.getAllDisciplines();
         return ResponseEntity.ok().body(disciplines);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Discipline> getDisciplineById(@PathVariable long id){
-        Discipline discipline = services.getDisciplineById(id);
+    public ResponseEntity<DisciplineResponseDto> getDisciplineById(@PathVariable long id){
+        DisciplineResponseDto discipline = services.getDisciplineById(id);
         return ResponseEntity.ok().body(discipline);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Discipline> updateDiscipline(@Valid @RequestBody Discipline discipline) {
-        Discipline update = services.updateDiscipline(discipline);
+    public ResponseEntity<DisciplineResponseDto> updateDiscipline(@Valid @PathVariable Long id, @RequestBody DisciplineCreateDto discipline) {
+        DisciplineResponseDto update = services.updateDiscipline(id, discipline);
         return ResponseEntity.ok().body(update);
     }
 
@@ -52,7 +52,7 @@ public class DisciplineController {
     }
 
     @PatchMapping("/{disciplineName}/add/student/{id}")
-    public ResponseEntity<DisciplineResponseDto> addStudentDiscipline(@Valid @PathVariable String disciplineName, @PathVariable Long id) {
+    public ResponseEntity<DisciplineResponseDto> addStudentToDiscipline(@Valid @PathVariable String disciplineName, @PathVariable Long id) {
         DisciplineResponseDto discipline = services.addStudentInDisciplineByName(disciplineName, id);
         return ResponseEntity.ok().body(discipline);
     }
@@ -61,5 +61,29 @@ public class DisciplineController {
     public ResponseEntity<DisciplineResponseDto> removeStudentDiscipline(@Valid @RequestBody String disciplineName, @PathVariable Long id) {
         DisciplineResponseDto discipline = services.removeStudentInDisciplineByName(disciplineName, id);
         return ResponseEntity.ok().body(discipline);
+    }
+
+    @PatchMapping("/{disciplineName}/add/teacher/titular/{email}")
+    public ResponseEntity<DisciplineResponseDto> addTitularTeacherDiscipline(@Valid @PathVariable String disciplineName, @PathVariable String emailTeacher) {
+        DisciplineResponseDto update = services.addTitularTeacherByDiscipline(disciplineName, emailTeacher);
+        return ResponseEntity.ok().body(update);
+    }
+
+    @PatchMapping("/{disciplineName}/remove/teacher/titular/{email}")
+    public ResponseEntity<DisciplineResponseDto> removeTitularTeacherDiscipline(@Valid @PathVariable String disciplineName, @PathVariable String emailTeacher) {
+        DisciplineResponseDto update = services.removeTitularTeacherDiscipline(disciplineName, emailTeacher);
+        return ResponseEntity.ok().body(update);
+    }
+
+    @PatchMapping("/{disciplineName}/add/teacher/substitute/{email}")
+    public ResponseEntity<DisciplineResponseDto> addSubstituteTeacherDiscipline(@Valid @PathVariable String disciplineName, @PathVariable String emailTeacher) {
+        DisciplineResponseDto update = services.addSubstituteTeacherDiscipline(disciplineName, emailTeacher);
+        return ResponseEntity.ok().body(update);
+    }
+
+    @PatchMapping("/{disciplineName}/remove/teacher/substitute/{email}")
+    public ResponseEntity<DisciplineResponseDto> removeSubstituteTeacherDiscipline(@Valid @PathVariable String disciplineName, @PathVariable String emailTeacher) {
+        DisciplineResponseDto update = services.removeSubstituteTeacherDiscipline(disciplineName, emailTeacher);
+        return ResponseEntity.ok().body(update);
     }
 }

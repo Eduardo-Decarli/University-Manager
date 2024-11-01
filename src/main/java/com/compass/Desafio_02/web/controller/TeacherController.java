@@ -1,6 +1,5 @@
 package com.compass.Desafio_02.web.controller;
 
-import com.compass.Desafio_02.entities.Registration;
 import com.compass.Desafio_02.services.RegistrationServices;
 import com.compass.Desafio_02.services.TeacherService;
 import com.compass.Desafio_02.web.dto.*;

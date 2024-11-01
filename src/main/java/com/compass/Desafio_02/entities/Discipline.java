@@ -27,10 +27,10 @@ public class Discipline implements Serializable {
     @JoinColumn(nullable = false)
     private String description;
 
-    @JoinColumn(nullable = false)
+    @JoinColumn(nullable = true)
     private String mainTeacherEmail;
 
-    @JoinColumn(nullable = false)
+    @JoinColumn(nullable = true)
     private String subsTeacherEmail;
 
     @OneToMany

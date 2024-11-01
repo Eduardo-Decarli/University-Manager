@@ -13,11 +13,8 @@ import java.util.stream.Collectors;
 
 public class DisciplineMapper {
 
-    public static Discipline toDiscipline(DisciplineCreateDto createDto, String mainTeacherEmail, String subsTeacherEmail, List<Student> students) {
+    public static Discipline toDiscipline(DisciplineCreateDto createDto) {
         Discipline discipline = new ModelMapper().map(createDto, Discipline.class);
-        discipline.setMainTeacherEmail(mainTeacherEmail);
-        discipline.setSubsTeacherEmail(subsTeacherEmail);
-        discipline.setStudents(students);
         return discipline;
     }
 
