@@ -20,4 +20,7 @@ public class Student extends Person implements Serializable {
 
     @OneToOne
     private Course course;
+
+    @OneToOne
+    private Registration registration;
 }

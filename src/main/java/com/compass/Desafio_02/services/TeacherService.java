@@ -1,14 +1,13 @@
 package com.compass.Desafio_02.services;
 
 import com.compass.Desafio_02.entities.Discipline;
+import com.compass.Desafio_02.entities.Registration;
 import com.compass.Desafio_02.entities.Student;
 import com.compass.Desafio_02.entities.Teacher;
 import com.compass.Desafio_02.repositories.TeacherRepository;
 import com.compass.Desafio_02.web.dto.*;
-import com.compass.Desafio_02.web.dto.mapper.CourseMapper;
-import com.compass.Desafio_02.web.dto.mapper.DisciplineMapper;
-import com.compass.Desafio_02.web.dto.mapper.StudentMapper;
-import com.compass.Desafio_02.web.dto.mapper.TeacherMapper;
+import com.compass.Desafio_02.web.dto.mapper.*;
+import com.compass.Desafio_02.web.exception.CourseNotNullException;
 import com.compass.Desafio_02.web.exception.EmptyListException;
 import com.compass.Desafio_02.web.exception.EntityUniqueViolationException;
 import jakarta.persistence.EntityNotFoundException;
@@ -16,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,7 +52,9 @@ public class TeacherService {
     }
 
     public void update(Long id, TeacherCreateDto teacherDto) {
-        Teacher teacher = TeacherMapper.toTeacher(getById(id));
+        Teacher teacher = repository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Error: teacher not found")
+        );
 
         teacher.setFirstName(teacherDto.getFirstName());
         teacher.setLastName(teacherDto.getLastName());
@@ -71,11 +71,21 @@ public class TeacherService {
     }
 
     public List<DisciplineResponseDto> getDisciplines(Long id){
-        Teacher response = TeacherMapper.toTeacher(getById(id));
+        Teacher response = repository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Error: teacher not found")
+        );
+
         List<DisciplineResponseDto> responseListDisciplines = new ArrayList<>();
-        responseListDisciplines.add(DisciplineMapper.toDto(response.getMainTeacher()));
-        responseListDisciplines.add(DisciplineMapper.toDto(response.getSubsTeacher()));
-        responseListDisciplines.add(DisciplineMapper.toDto(response.getSubsTeacherOffCourse()));
+
+        if(response.getMainTeacher() != null) {
+            responseListDisciplines.add(DisciplineMapper.toDto(response.getMainTeacher()));
+        }
+        if(response.getSubsTeacher() != null) {
+            responseListDisciplines.add(DisciplineMapper.toDto(response.getSubsTeacher()));
+        }
+        if(response.getSubsTeacherOffCourse() != null){
+            responseListDisciplines.add(DisciplineMapper.toDto(response.getSubsTeacherOffCourse()));
+        }
         return responseListDisciplines;
     }
 
@@ -114,6 +124,22 @@ public class TeacherService {
 
     public CourseResponseDto getMyCourse(Long id) {
         TeacherResponseDto teacherDto = getById(id);
+        if(teacherDto.getCourse() == null){
+            throw new CourseNotNullException("Error: The specified course is not registered");
+        }
         return CourseMapper.toDto(teacherDto.getCourse());
+    }
+
+    public List<RegistrationResponseDto> getAllRegistrationsByDiscipline(Long id, String nameDiscipline) {
+        Discipline discipline = getDisciplineByName(id, nameDiscipline);
+        List<StudentResponseDto> students = getStudentsByDiscipline(id, discipline.getName());
+        List<Registration> registrations = new ArrayList<>();
+        for(StudentResponseDto student : students) {
+            Registration registration = student.getRegistration();
+            if (registration != null) {
+                registrations.add(registration);
+            }
+        }
+        return RegistrationMapper.toListDto(registrations);
     }
 }

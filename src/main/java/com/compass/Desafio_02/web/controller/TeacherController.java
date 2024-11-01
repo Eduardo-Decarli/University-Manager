@@ -1,5 +1,6 @@
 package com.compass.Desafio_02.web.controller;
 
+import com.compass.Desafio_02.entities.Registration;
 import com.compass.Desafio_02.services.RegistrationServices;
 import com.compass.Desafio_02.services.TeacherService;
 import com.compass.Desafio_02.web.dto.*;
@@ -85,7 +86,7 @@ public class TeacherController {
     }
 
     @GetMapping("/me/{id}/{nameDiscipline}/students")
-    public ResponseEntity<List<StudentResponseDto>> myDisciplinesStudents(@PathVariable Long id, @PathVariable String nameDiscipline) {
+    public ResponseEntity<List<StudentResponseDto>> getStudentsByDiscipline(@PathVariable Long id, @PathVariable String nameDiscipline) {
 
         // TO-DO -> Acessar os proprios dados
         // Esse endpoint irá retornar as informações do usuario logado, depende da implementação da autenticação JWT
@@ -108,8 +109,8 @@ public class TeacherController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/me/{id}/course/registration")
-    public ResponseEntity<List<RegistrationResponseDto>> getRegistrationsByCourse(@PathVariable Long id) {
+    @GetMapping("/me/{id}/course/registrations")
+    public ResponseEntity<List<RegistrationResponseDto>> getAllRegistrationsByCourse(@PathVariable Long id) {
 
         // TO-DO -> Acessar as proprias disciplinas
         // Esse endpoint irá retornar as informações do usuario logado, depende da implementação da autenticação JWT
@@ -117,6 +118,17 @@ public class TeacherController {
         TeacherResponseDto teacherResponseDto = teacherService.getById(id);
         List<RegistrationResponseDto> responses = registrationServices.getRegistrationsByCourse(teacherResponseDto.getCourse());
 
+        return ResponseEntity.ok(responses);
+    }
+
+    @GetMapping("/me/{id}/{nameDiscipline}/registration")
+    public ResponseEntity<List<RegistrationResponseDto>> getAllRegistrationsByDiscipline(@PathVariable Long id, @PathVariable String nameDiscipline) {
+
+        // TO-DO -> Acessar as proprias disciplinas
+        // Esse endpoint irá retornar as informações do usuario logado, depende da implementação da autenticação JWT
+        // porem caso queira implementar usando um parametro id temporariamente pode ser
+
+        List<RegistrationResponseDto> responses = teacherService.getAllRegistrationsByDiscipline(id, nameDiscipline);
         return ResponseEntity.ok(responses);
     }
 }
