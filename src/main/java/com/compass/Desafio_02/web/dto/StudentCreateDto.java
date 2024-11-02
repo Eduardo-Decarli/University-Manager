@@ -33,10 +33,7 @@ public class StudentCreateDto {
     private String password;
 
     @NotNull(message = "Role is required")
-    private Role role;
-
-    @NotNull(message = "Course ID is required")
-    private Long courseId;
+    private Role role = Role.ROLE_STUDENT;
 
     private String address;
 

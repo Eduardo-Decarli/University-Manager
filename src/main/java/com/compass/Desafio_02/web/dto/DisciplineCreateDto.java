@@ -24,7 +24,4 @@ public class DisciplineCreateDto {
 
     private String subsTeacherEmail;
 
-    @NotNull(message = "Course is required")
-    private Long courseId;
-
 }

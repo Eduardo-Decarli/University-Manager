@@ -63,7 +63,7 @@ public class DisciplineController {
         return ResponseEntity.ok().body(discipline);
     }
 
-    @PatchMapping("/{disciplineName}/add/teacher/titular/{email}")
+    @PatchMapping("/{disciplineName}/add/teacher/titular/{emailTeacher}")
     public ResponseEntity<DisciplineResponseDto> addTitularTeacherDiscipline(@Valid @PathVariable String disciplineName, @PathVariable String emailTeacher) {
         DisciplineResponseDto update = services.addTitularTeacherByDiscipline(disciplineName, emailTeacher);
         return ResponseEntity.ok().body(update);

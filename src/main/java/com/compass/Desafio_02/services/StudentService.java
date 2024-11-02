@@ -85,7 +85,7 @@ public class StudentService {
         Student student = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Error: student not found"));
 
-        Course course = student.getCourse();
+        Course course = student.getRegistration().getCourse();
         if (course == null || course.getDisciplines().isEmpty()) {
             throw new EmptyListException("Error: No disciplines found for this student");
         }
