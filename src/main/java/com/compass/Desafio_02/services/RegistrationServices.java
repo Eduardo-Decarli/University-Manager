@@ -44,11 +44,10 @@ public class RegistrationServices {
         Course course = courseRepository.findById(registrationDto.getCourseId()).orElseThrow(
                 () -> new EntityNotFoundException("Error: Course not found")
         );
-
         Registration registration = new Registration();
         registration.setStudent(student);
         registration.setCourse(course);
-
+        studentRepository.save(student);
         registrationRepository.save(registration);
         return RegistrationMapper.toDto(registration);
     }

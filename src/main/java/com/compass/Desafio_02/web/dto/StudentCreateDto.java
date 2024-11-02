@@ -26,17 +26,14 @@ public class StudentCreateDto {
     private String email;
 
     @NotNull(message = "The date of birth cannot be empty")
-    private LocalDate dateOfBirth;
+    private LocalDate birthDate;
 
     @NotBlank(message = "Password cannot be empty")
     @Size(min = 8, message = "The password must be at least 8 characters long")
     private String password;
 
     @NotNull(message = "Role is required")
-    private Role role;
-
-    @NotNull(message = "Course ID is required")
-    private Long courseId;
+    private Role role = Role.ROLE_STUDENT;
 
     private String address;
 

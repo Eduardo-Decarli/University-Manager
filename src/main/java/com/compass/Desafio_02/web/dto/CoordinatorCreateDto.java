@@ -26,7 +26,7 @@ public class CoordinatorCreateDto {
     private String email;
 
     @NotNull(message = "The date of birth cannot be empty")
-    private LocalDate dateOfBirth;
+    private LocalDate birthDate;
 
     @NotBlank(message = "Password cannot be empty")
     @Size(min = 8, message = "The password must be at least 8 characters long")

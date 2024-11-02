@@ -61,7 +61,7 @@ public class StudentService {
         student.setFirstName(studentDto.getFirstName());
         student.setLastName(studentDto.getLastName());
         student.setEmail(studentDto.getEmail());
-        student.setBirthDate(studentDto.getDateOfBirth());
+        student.setBirthDate(studentDto.getBirthDate());
         student.setPassword(studentDto.getPassword());
         student.setRole(studentDto.getRole());
         student.setAddress(studentDto.getAddress());
@@ -85,7 +85,7 @@ public class StudentService {
         Student student = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Error: student not found"));
 
-        Course course = student.getCourse();
+        Course course = student.getRegistration().getCourse();
         if (course == null || course.getDisciplines().isEmpty()) {
             throw new EmptyListException("Error: No disciplines found for this student");
         }
@@ -95,7 +95,7 @@ public class StudentService {
 
     public CourseResponseDto getMyCourse(Long id) {
         StudentResponseDto studentDto = getById(id);
-        return CourseMapper.toDto(studentDto.getCourse());
+        return CourseMapper.toDto(studentDto.getRegistration().getCourse());
     }
 
     public RegistrationResponseDto getRegistration(Long id) {

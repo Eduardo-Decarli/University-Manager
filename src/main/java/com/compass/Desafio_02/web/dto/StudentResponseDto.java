@@ -14,9 +14,8 @@ public class StudentResponseDto {
     private String firstName;
     private String lastName;
     private String email;
-    private LocalDate dateOfBirth;
+    private LocalDate birthDate;
     private String address;
     private Role role;
-    private Course course;
     private Registration registration;
 }

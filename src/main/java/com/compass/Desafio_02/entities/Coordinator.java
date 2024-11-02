@@ -1,5 +1,6 @@
 package com.compass.Desafio_02.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;
@@ -19,6 +20,7 @@ import java.util.Objects;
 public class Coordinator extends Person implements Serializable {
 
     @OneToOne(mappedBy = "coordinator")
+    @JsonIgnore
     private Course course;
 
     @OneToOne

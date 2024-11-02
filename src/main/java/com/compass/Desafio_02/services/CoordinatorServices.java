@@ -54,7 +54,7 @@ public class CoordinatorServices {
         coordinator.setFirstName(update.getFirstName());
         coordinator.setLastName(update.getLastName());
         coordinator.setEmail(update.getEmail());
-        coordinator.setBirthDate(update.getDateOfBirth());
+        coordinator.setBirthDate(update.getBirthDate());
         coordinator.setPassword(update.getPassword());
         coordinator.setRole(update.getRole());
 
@@ -83,7 +83,7 @@ public class CoordinatorServices {
         coordinatorSaved.setFirstName(update.getFirstName());
         coordinatorSaved.setLastName(update.getLastName());
         coordinatorSaved.setEmail(update.getEmail());
-        coordinatorSaved.setBirthDate(update.getDateOfBirth());
+        coordinatorSaved.setBirthDate(update.getBirthDate());
         coordinatorSaved.setPassword(update.getPassword());
         coordinatorSaved.setRole(update.getRole());
 

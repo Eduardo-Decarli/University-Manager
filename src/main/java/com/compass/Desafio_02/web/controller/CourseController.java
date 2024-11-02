@@ -55,7 +55,7 @@ public class CourseController {
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/{courseName}/add/disciplines/{name}")
+    @PatchMapping("/{courseName}/add/disciplines/{discipline}")
     public ResponseEntity<CourseResponseDto> addDiscipline(@PathVariable String courseName, @PathVariable String discipline) {
         CourseResponseDto response = services.addDiscipline(courseName, discipline);
         return ResponseEntity.ok().body(response);

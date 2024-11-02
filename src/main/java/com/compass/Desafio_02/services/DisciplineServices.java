@@ -1,7 +1,9 @@
 package com.compass.Desafio_02.services;
 
+import com.compass.Desafio_02.entities.Coordinator;
 import com.compass.Desafio_02.entities.Discipline;
 import com.compass.Desafio_02.entities.Student;
+import com.compass.Desafio_02.entities.Teacher;
 import com.compass.Desafio_02.repositories.CoordinatorRepository;
 import com.compass.Desafio_02.repositories.DisciplineRepository;
 import com.compass.Desafio_02.repositories.StudentRepository;
@@ -18,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DisciplineServices {
@@ -123,6 +126,21 @@ public class DisciplineServices {
         if(discipline.getMainTeacherEmail() != null) {
             throw new InvalidTeacherEmailException("There is already a professor associated with this discipline");
         }
+
+        Optional<Coordinator> coordinatorOptional = coordinatorRepository.findByEmail(emailTeacher);
+        Teacher teacher;
+        Coordinator coordinator;
+        if (coordinatorOptional.isEmpty()) {
+            teacher = teacherRepository.findByEmail(emailTeacher).orElseThrow(() -> new EntityNotFoundException());
+            teacher.setMainTeacher(discipline);
+            teacherRepository.save(teacher);
+        } else {
+            coordinator = coordinatorOptional.get();
+            coordinator.setMainTeacher(discipline);
+            coordinatorRepository.save(coordinator);
+        }
+
+
         discipline.setMainTeacherEmail(emailTeacher);
         disciplineRepository.save(discipline);
         return DisciplineMapper.toDto(discipline);

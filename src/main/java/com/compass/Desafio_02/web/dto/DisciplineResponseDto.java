@@ -19,5 +19,4 @@ public class DisciplineResponseDto {
     private Teacher fullProfessor;
     private Teacher substituteTeacher;
     private List<Student> students;
-    private Course course;
 }
