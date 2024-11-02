@@ -19,10 +19,15 @@ import java.util.List;
 @Service
 public class CourseServices {
 
-    @Autowired
-    private CourseRepository repository;
-    private CoordinatorRepository coordinatorRepository;
-    private DisciplineServices disciplineServices;
+    private final CourseRepository repository;
+    private final CoordinatorRepository coordinatorRepository;
+    private final DisciplineServices disciplineServices;
+
+    public CourseServices(CourseRepository repository, CoordinatorRepository coordinatorRepository, DisciplineServices disciplineServices) {
+        this.repository = repository;
+        this.coordinatorRepository = coordinatorRepository;
+        this.disciplineServices = disciplineServices;
+    }
 
     public CourseResponseDto createCourse(CourseCreateDto courseDto) {
         try {

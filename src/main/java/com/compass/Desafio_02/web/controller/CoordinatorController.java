@@ -38,8 +38,8 @@ public class CoordinatorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Coordinator> getCoordinatorById(@PathVariable long id){
-        Coordinator coordinator = services.getCoordinatorById(id);
+    public ResponseEntity<CoordinatorResponseDto> getCoordinatorById(@PathVariable long id){
+        CoordinatorResponseDto coordinator = services.getCoordinatorById(id);
         return ResponseEntity.ok().body(coordinator);
     }
 

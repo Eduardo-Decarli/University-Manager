@@ -68,8 +68,8 @@ public class CourseController {
     }
 
     @PatchMapping("/{courseName}/change/coordinators/{id}")
-    public ResponseEntity<CourseResponseDto> changeCoordinator(@PathVariable String courseName, @PathVariable Long idCoordinator) {
-        CourseResponseDto update = services.changeCoordinator(courseName, idCoordinator);
+    public ResponseEntity<CourseResponseDto> changeCoordinator(@PathVariable String courseName, @PathVariable Long id) {
+        CourseResponseDto update = services.changeCoordinator(courseName, id);
         return ResponseEntity.ok().body(update);
     }
 }

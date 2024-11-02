@@ -10,6 +10,7 @@ import com.compass.Desafio_02.web.dto.DisciplineResponseDto;
 import com.compass.Desafio_02.web.dto.mapper.CoordinatorMapper;
 import com.compass.Desafio_02.web.dto.mapper.CourseMapper;
 import com.compass.Desafio_02.web.dto.mapper.DisciplineMapper;
+import com.compass.Desafio_02.web.exception.CourseNotNullException;
 import com.compass.Desafio_02.web.exception.EmptyListException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +25,11 @@ public class CoordinatorServices {
     @Autowired
     private CoordinatorRepository repository;
 
-    public Coordinator getCoordinatorById(Long id) {
-        return repository.findById(id).orElseThrow(
+    public CoordinatorResponseDto getCoordinatorById(Long id) {
+        Coordinator response = repository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Error: Coordinator not found")
         );
+        return CoordinatorMapper.toDto(response);
     }
 
     public CoordinatorResponseDto createCoordinator(CoordinatorCreateDto coordinator) {
@@ -45,7 +47,9 @@ public class CoordinatorServices {
     }
 
     public CoordinatorResponseDto updateCoordinator(Long id, CoordinatorCreateDto update) {
-        Coordinator coordinator = getCoordinatorById(id);
+        Coordinator coordinator = repository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Error: Coordinator not found")
+        );
 
         coordinator.setFirstName(update.getFirstName());
         coordinator.setLastName(update.getLastName());
@@ -99,7 +103,13 @@ public class CoordinatorServices {
         Coordinator coordinator = repository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Error: Coordinator not found")
         );
+        if(coordinator.getCourse() == null) {
+            throw new CourseNotNullException("Error: No courses associated with this coordinator");
+        }
         List<Discipline> disciplines = coordinator.getCourse().getDisciplines();
+        if(disciplines.isEmpty()) {
+            throw new EmptyListException("Error: The course does not have any discipline");
+        }
         return DisciplineMapper.toListDto(disciplines);
     }
 

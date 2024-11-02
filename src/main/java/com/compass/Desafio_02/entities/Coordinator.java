@@ -18,7 +18,7 @@ import java.util.Objects;
 @Entity
 public class Coordinator extends Person implements Serializable {
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "coordinator")
     private Course course;
 
     @OneToOne
