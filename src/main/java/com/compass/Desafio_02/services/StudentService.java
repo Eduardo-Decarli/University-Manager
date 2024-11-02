@@ -16,11 +16,14 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-@RequiredArgsConstructor
 @Service
 public class StudentService {
 
     private final StudentRepository repository;
+
+    public StudentService(StudentRepository repository) {
+        this.repository = repository;
+    }
 
     public StudentResponseDto getById(Long id) {
         Student student = repository.findById(id).orElseThrow(

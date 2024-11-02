@@ -41,7 +41,7 @@ public class RegistrationController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RegistrationResponseDto> updateRegistration(@Valid @PathVariable Long id, @RequestBody Registration registration) {
+    public ResponseEntity<RegistrationResponseDto> updateRegistration(@Valid @PathVariable Long id, @RequestBody RegistrationCreateDto registration) {
         RegistrationResponseDto update = services.updateRegistration(id, registration);
         return ResponseEntity.ok().body(update);
     }

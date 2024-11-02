@@ -2,7 +2,10 @@ package com.compass.Desafio_02.services;
 
 import com.compass.Desafio_02.entities.Course;
 import com.compass.Desafio_02.entities.Registration;
+import com.compass.Desafio_02.entities.Student;
+import com.compass.Desafio_02.repositories.CourseRepository;
 import com.compass.Desafio_02.repositories.RegistrationRepository;
+import com.compass.Desafio_02.repositories.StudentRepository;
 import com.compass.Desafio_02.web.dto.RegistrationCreateDto;
 import com.compass.Desafio_02.web.dto.RegistrationResponseDto;
 import com.compass.Desafio_02.web.dto.mapper.RegistrationMapper;
@@ -15,52 +18,78 @@ import java.util.List;
 @Service
 public class RegistrationServices {
 
-    private RegistrationRepository repository;
+    private final RegistrationRepository registrationRepository;
+    private final StudentRepository studentRepository;
+    private final CourseRepository courseRepository;
 
-    public RegistrationServices(RegistrationRepository repository) {
-        this.repository = repository;
+    public RegistrationServices(RegistrationRepository registrationRepository,
+                                StudentRepository studentRepository,
+                                CourseRepository courseRepository) {
+        this.registrationRepository = registrationRepository;
+        this.studentRepository = studentRepository;
+        this.courseRepository = courseRepository;
     }
 
     public RegistrationResponseDto getRegistrationById(Long id) {
-        Registration registration = repository.findById(id).orElseThrow(
+        Registration registration = registrationRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Error: Registration not found")
         );
         return RegistrationMapper.toDto(registration);
     }
 
     public RegistrationResponseDto createRegistration(RegistrationCreateDto registrationDto) {
-        Registration registration = RegistrationMapper.toRegistration(registrationDto);
-        RegistrationResponseDto response = RegistrationMapper.toDto(repository.save(registration));
-        return response;
+        Student student = studentRepository.findById(registrationDto.getStudent().getId()).orElseThrow(
+                () -> new EntityNotFoundException("Error: Student not found")
+        );
+        Course course = courseRepository.findById(registrationDto.getCourse().getId()).orElseThrow(
+                () -> new EntityNotFoundException("Error: Course not found")
+        );
+
+        Registration registration = new Registration();
+        registration.setStudent(student);
+        registration.setCourse(course);
+
+        registrationRepository.save(registration);
+        return RegistrationMapper.toDto(registration);
     }
 
     public List<RegistrationResponseDto> getAllRegistrations() {
-        List<Registration> response = repository.findAll();
+        List<Registration> response = registrationRepository.findAll();
         if(response.isEmpty()){
             throw new EmptyListException("Error: There are no registered registrations");
         }
         return RegistrationMapper.toListDto(response);
     }
 
-    public RegistrationResponseDto updateRegistration(Long id, Registration update) {
-       Registration registration = repository.findById(id).orElseThrow(
+    public RegistrationResponseDto updateRegistration(Long id, RegistrationCreateDto update) {
+       Registration registration = registrationRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Error: Registration not found")
-        );;
+        );
 
-        registration.setCourse(update.getCourse());
-        registration.setStudent(update.getStudent());
+        Student student = studentRepository.findById(update.getStudent().getId()).orElseThrow(
+                () -> new EntityNotFoundException("Error: Student not found")
+        );
+        Course course = courseRepository.findById(update.getCourse().getId()).orElseThrow(
+                () -> new EntityNotFoundException("Error: Course not found")
+        );
 
-        repository.save(registration);
+        registration.setCourse(course);
+        registration.setStudent(student);
+
+        registrationRepository.save(registration);
         return RegistrationMapper.toDto(registration);
     }
 
     public void deleteRegistration(long id) {
         getRegistrationById(id);
-        repository.deleteById(id);
+        registrationRepository.deleteById(id);
     }
 
     public List<RegistrationResponseDto> getRegistrationsByCourse(Course course) {
-        List<Registration> responses = repository.findByCourse(course);
+        List<Registration> responses = registrationRepository.findByCourse(course);
+        if(responses.isEmpty()) {
+            throw new EmptyListException("Error: Does not have Registrations in this course");
+        }
         return RegistrationMapper.toListDto(responses);
     }
 }
