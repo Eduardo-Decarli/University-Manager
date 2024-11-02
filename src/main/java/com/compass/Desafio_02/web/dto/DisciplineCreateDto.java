@@ -1,5 +1,6 @@
 package com.compass.Desafio_02.web.dto;
 
+import com.compass.Desafio_02.entities.Course;
 import com.compass.Desafio_02.entities.Student;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,15 +20,13 @@ public class DisciplineCreateDto {
     @Size(min = 5, max = 500, message = "The description must be between 5 and 500 characters")
     private String description;
 
-    @NotNull(message = "Full Professor ID is required")
     private String mainTeacherEmail;
 
-    @NotNull(message = "Substitute Teacher ID is required")
     private String subsTeacherEmail;
 
-    @NotNull(message = "Course ID is required")
-    private Long courseId;
+    @NotNull(message = "Course is required")
+    private Course course;
 
-    @Size(min = 1, message = "At least one student ID is required")
+    @Size(min = 1, message = "At least one student is required")
     private List<Student> students;
 }

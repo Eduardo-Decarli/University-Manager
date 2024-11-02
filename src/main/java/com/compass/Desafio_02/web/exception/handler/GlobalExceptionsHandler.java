@@ -81,4 +81,22 @@ public class GlobalExceptionsHandler {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(new ErrorMessage(request, HttpStatus.CONFLICT, ex.getMessage()));
     }
+
+    @ExceptionHandler(InvalidTeacherEmailException.class)
+    public ResponseEntity<ErrorMessage> invalidTeacherEmailException(InvalidTeacherEmailException ex,
+                                                                              HttpServletRequest request){
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(request, HttpStatus.CONFLICT, ex.getMessage()));
+    }
+
+    @ExceptionHandler(InvalidStudentEmailException.class)
+    public ResponseEntity<ErrorMessage> invalidStudentEmailException(InvalidStudentEmailException ex,
+                                                                     HttpServletRequest request){
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(request, HttpStatus.CONFLICT, ex.getMessage()));
+    }
 }

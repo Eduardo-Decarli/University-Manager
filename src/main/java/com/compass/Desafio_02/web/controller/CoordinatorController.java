@@ -31,7 +31,7 @@ public class CoordinatorController {
         return ResponseEntity.status(201).body(response);
     }
 
-    @GetMapping("/course")
+    @GetMapping
     public ResponseEntity<List<CoordinatorResponseDto>> getAllCoordinator() {
         List<CoordinatorResponseDto> Coordinators = services.getAllCoordinators();
         return ResponseEntity.ok().body(Coordinators);

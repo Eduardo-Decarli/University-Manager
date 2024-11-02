@@ -27,7 +27,7 @@ public class Course implements Serializable {
     @Column(nullable = false)
     private String description;
 
-    @OneToOne
+    @OneToOne(mappedBy = "course")
     private Coordinator coordinator;
 
     @OneToMany

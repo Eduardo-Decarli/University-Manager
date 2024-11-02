@@ -28,7 +28,7 @@ public class RegistrationController {
         return ResponseEntity.status(201).body(response);
     }
 
-    @GetMapping("/registrations")
+    @GetMapping
     public ResponseEntity<List<RegistrationResponseDto>> getAllRegistrations(){
         List<RegistrationResponseDto> registrations = services.getAllRegistrations();
         return ResponseEntity.ok().body(registrations);

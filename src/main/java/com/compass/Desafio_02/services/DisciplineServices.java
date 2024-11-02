@@ -2,14 +2,18 @@ package com.compass.Desafio_02.services;
 
 import com.compass.Desafio_02.entities.Discipline;
 import com.compass.Desafio_02.entities.Student;
+import com.compass.Desafio_02.repositories.CoordinatorRepository;
 import com.compass.Desafio_02.repositories.DisciplineRepository;
+import com.compass.Desafio_02.repositories.StudentRepository;
+import com.compass.Desafio_02.repositories.TeacherRepository;
 import com.compass.Desafio_02.web.dto.DisciplineCreateDto;
 import com.compass.Desafio_02.web.dto.DisciplineResponseDto;
 import com.compass.Desafio_02.web.dto.mapper.DisciplineMapper;
 import com.compass.Desafio_02.web.dto.mapper.StudentMapper;
 import com.compass.Desafio_02.web.exception.EmptyListException;
+import com.compass.Desafio_02.web.exception.InvalidStudentEmailException;
+import com.compass.Desafio_02.web.exception.InvalidTeacherEmailException;
 import jakarta.persistence.EntityNotFoundException;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,18 +24,30 @@ public class DisciplineServices {
 
 
     @Autowired
-    private DisciplineRepository repository;
-    private StudentService studentService;
+    private final DisciplineRepository disciplineRepository;
+    private final StudentService studentService;
+    private final CoordinatorRepository coordinatorRepository;
+    private final TeacherRepository teacherRepository;
+    private final StudentRepository studentRepository;
+
+    public DisciplineServices(DisciplineRepository disciplineRepository, StudentService studentService, CoordinatorRepository coordinatorRepository, TeacherRepository teacherRepository,
+                              StudentRepository studentRepository) {
+        this.disciplineRepository = disciplineRepository;
+        this.studentService = studentService;
+        this.coordinatorRepository = coordinatorRepository;
+        this.teacherRepository = teacherRepository;
+        this.studentRepository = studentRepository;
+    }
 
     public DisciplineResponseDto createDiscipline(DisciplineCreateDto disciplineDto) {
         Discipline discipline = DisciplineMapper.toDiscipline(disciplineDto);
-        repository.save(discipline);
+        disciplineRepository.save(discipline);
         DisciplineResponseDto response = DisciplineMapper.toDto(discipline);
         return response;
     }
 
     public List<DisciplineResponseDto> getAllDisciplines() {
-        List<Discipline> response = repository.findAll();
+        List<Discipline> response = disciplineRepository.findAll();
         if(response.isEmpty()){
             throw new EmptyListException("Error: There are no registered disciplines");
         }
@@ -39,18 +55,22 @@ public class DisciplineServices {
     }
 
     public DisciplineResponseDto getDisciplineById(Long id) {
-        Discipline discipline = repository.findById(id).orElseThrow(
+        Discipline discipline = disciplineRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Error: Discipline not found")
         );
         return DisciplineMapper.toDto(discipline);
     }
 
     public Discipline getDisciplineByName(String name){
-        return repository.findDisciplineByName(name);
+        Discipline discipline = disciplineRepository.findDisciplineByName(name);
+        if(discipline == null) {
+            throw new EntityNotFoundException("Error: Discipline not found");
+        }
+        return discipline;
     }
 
     public DisciplineResponseDto updateDiscipline(Long id, DisciplineCreateDto update) {
-        Discipline discipline = repository.findById(id).orElseThrow(
+        Discipline discipline = disciplineRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Error: Discipline not found")
         );
 
@@ -58,54 +78,65 @@ public class DisciplineServices {
         discipline.setDescription(update.getDescription());
         discipline.setMainTeacherEmail(update.getMainTeacherEmail());
         discipline.setSubsTeacherEmail(update.getSubsTeacherEmail());
-        discipline.setStudents(update.getStudents());
 
-        repository.save(discipline);
-        DisciplineResponseDto responseDto = DisciplineMapper.toDto(discipline);
-        return responseDto;
+        disciplineRepository.save(discipline);
+        return DisciplineMapper.toDto(discipline);
     }
 
     public void deleteDiscipline(long id) {
         getDisciplineById(id);
-        repository.deleteById(id);
+        disciplineRepository.deleteById(id);
     }
 
 
     public DisciplineResponseDto addStudentInDisciplineByName(String disciplineName, Long id) {
         Discipline discipline = getDisciplineByName(disciplineName);
         List<Student> students = discipline.getStudents();
-        Student student = StudentMapper.toStudent(studentService.getById(id));
+        Student student = studentRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Error: student not found")
+        );
+        for(Student correntStudent : students){
+            if(correntStudent.getEmail().equalsIgnoreCase(student.getEmail())) {
+                throw new InvalidStudentEmailException("The student is already registered for the discipline");
+            }
+        }
         students.add(student);
         discipline.setStudents(students);
-        repository.save(discipline);
+        disciplineRepository.save(discipline);
         return DisciplineMapper.toDto(discipline);
     }
 
     public DisciplineResponseDto removeStudentInDisciplineByName(String disciplineName, Long id) {
         Discipline discipline = getDisciplineByName(disciplineName);
         List<Student> students = discipline.getStudents();
-        Student student = StudentMapper.toStudent(studentService.getById(id));
+        Student student = studentRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Error: student not found")
+        );
 
         students.removeIf((x) -> x.getId().equals(student.getId()));
 
         discipline.setStudents(students);
-        repository.save(discipline);
+        disciplineRepository.save(discipline);
         return DisciplineMapper.toDto(discipline);
     }
 
     public DisciplineResponseDto addTitularTeacherByDiscipline(String disciplineName, String emailTeacher) {
         Discipline discipline = getDisciplineByName(disciplineName);
+        if(discipline.getMainTeacherEmail() != null) {
+            throw new InvalidTeacherEmailException("There is already a professor associated with this discipline");
+        }
         discipline.setMainTeacherEmail(emailTeacher);
-        repository.save(discipline);
-        DisciplineResponseDto responseDto = DisciplineMapper.toDto(discipline);
-        return responseDto;
+        disciplineRepository.save(discipline);
+        return DisciplineMapper.toDto(discipline);
     }
 
     public DisciplineResponseDto removeTitularTeacherDiscipline(String disciplineName, String emailTeacher) {
         Discipline discipline = getDisciplineByName(disciplineName);
-        if(discipline.getMainTeacherEmail().equals(emailTeacher)){
+        if(discipline.getMainTeacherEmail().equalsIgnoreCase(emailTeacher)) {
             discipline.setMainTeacherEmail(null);
-            repository.save(discipline);
+            disciplineRepository.save(discipline);
+        } else {
+            throw new InvalidTeacherEmailException("Error: Teacher not found by this email");
         }
         DisciplineResponseDto responseDto = DisciplineMapper.toDto(discipline);
         return responseDto;
@@ -113,8 +144,11 @@ public class DisciplineServices {
 
     public DisciplineResponseDto addSubstituteTeacherDiscipline(String disciplineName, String emailTeacher) {
         Discipline discipline = getDisciplineByName(disciplineName);
+        if(discipline.getSubsTeacherEmail() != null) {
+            throw new InvalidTeacherEmailException("There is already a professor associated with this discipline");
+        }
         discipline.setSubsTeacherEmail(emailTeacher);
-        repository.save(discipline);
+        disciplineRepository.save(discipline);
         DisciplineResponseDto responseDto = DisciplineMapper.toDto(discipline);
         return responseDto;
     }
@@ -122,9 +156,11 @@ public class DisciplineServices {
     public DisciplineResponseDto removeSubstituteTeacherDiscipline(String disciplineName, String emailTeacher) {
         Discipline discipline = getDisciplineByName(disciplineName);
 
-        if(discipline.getSubsTeacherEmail().equals(emailTeacher)) {
+        if(discipline.getSubsTeacherEmail().equalsIgnoreCase(emailTeacher)) {
             discipline.setSubsTeacherEmail(null);
-            repository.save(discipline);
+            disciplineRepository.save(discipline);
+        } else {
+            throw new InvalidTeacherEmailException("There is already a professor associated with this discipline");
         }
         DisciplineResponseDto responseDto = DisciplineMapper.toDto(discipline);
         return responseDto;

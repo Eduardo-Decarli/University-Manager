@@ -1,5 +1,6 @@
 package com.compass.Desafio_02.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
@@ -17,7 +18,7 @@ import java.util.Objects;
 @Entity
 public class Coordinator extends Person implements Serializable {
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Course course;
 
     @OneToOne

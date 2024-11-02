@@ -27,7 +27,7 @@ public class DisciplineController {
         return ResponseEntity.status(201).body(response);
     }
 
-    @GetMapping("/disciplines")
+    @GetMapping
     public ResponseEntity<List<DisciplineResponseDto>> getAllRDisciplines(){
         List<DisciplineResponseDto> disciplines = services.getAllDisciplines();
         return ResponseEntity.ok().body(disciplines);
