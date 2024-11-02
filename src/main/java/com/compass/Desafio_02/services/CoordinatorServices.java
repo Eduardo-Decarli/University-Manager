@@ -53,7 +53,6 @@ public class CoordinatorServices {
         coordinator.setBirthDate(update.getDateOfBirth());
         coordinator.setPassword(update.getPassword());
         coordinator.setRole(update.getRole());
-        coordinator.setCourse(update.getCourse());
 
         repository.save(coordinator);
         return CoordinatorMapper.toDto(coordinator);
@@ -83,7 +82,6 @@ public class CoordinatorServices {
         coordinatorSaved.setBirthDate(update.getDateOfBirth());
         coordinatorSaved.setPassword(update.getPassword());
         coordinatorSaved.setRole(update.getRole());
-        coordinatorSaved.setCourse(update.getCourse());
 
         repository.save(coordinatorSaved);
         return CoordinatorMapper.toDto(coordinatorSaved);

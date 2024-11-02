@@ -12,8 +12,8 @@ import lombok.Setter;
 public class RegistrationCreateDto {
 
     @NotNull(message = "Student is required")
-    private Student student;
+    private Long studentId;
 
     @NotNull(message = "Course is required")
-    private Course course;
+    private Long courseId;
 }

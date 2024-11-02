@@ -76,8 +76,6 @@ public class DisciplineServices {
 
         discipline.setName(update.getName());
         discipline.setDescription(update.getDescription());
-        discipline.setMainTeacherEmail(update.getMainTeacherEmail());
-        discipline.setSubsTeacherEmail(update.getSubsTeacherEmail());
 
         disciplineRepository.save(discipline);
         return DisciplineMapper.toDto(discipline);

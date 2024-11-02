@@ -38,10 +38,10 @@ public class RegistrationServices {
     }
 
     public RegistrationResponseDto createRegistration(RegistrationCreateDto registrationDto) {
-        Student student = studentRepository.findById(registrationDto.getStudent().getId()).orElseThrow(
+        Student student = studentRepository.findById(registrationDto.getStudentId()).orElseThrow(
                 () -> new EntityNotFoundException("Error: Student not found")
         );
-        Course course = courseRepository.findById(registrationDto.getCourse().getId()).orElseThrow(
+        Course course = courseRepository.findById(registrationDto.getCourseId()).orElseThrow(
                 () -> new EntityNotFoundException("Error: Course not found")
         );
 
@@ -66,10 +66,10 @@ public class RegistrationServices {
                 () -> new EntityNotFoundException("Error: Registration not found")
         );
 
-        Student student = studentRepository.findById(update.getStudent().getId()).orElseThrow(
+        Student student = studentRepository.findById(update.getStudentId()).orElseThrow(
                 () -> new EntityNotFoundException("Error: Student not found")
         );
-        Course course = courseRepository.findById(update.getCourse().getId()).orElseThrow(
+        Course course = courseRepository.findById(update.getCourseId()).orElseThrow(
                 () -> new EntityNotFoundException("Error: Course not found")
         );
 

@@ -21,9 +21,6 @@ public class CourseCreateDto {
     private String description;
 
     @NotNull(message = "Coordinator is required")
-    private Coordinator coordinator;
+    private Long coordinatorId;
 
-    @NotNull(message = "Discipline IDs are required")
-    @Size(min = 1, message = "At least one discipline ID is required")
-    private List<Discipline> disciplines;
 }

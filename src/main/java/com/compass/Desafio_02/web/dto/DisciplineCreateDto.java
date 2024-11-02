@@ -25,8 +25,6 @@ public class DisciplineCreateDto {
     private String subsTeacherEmail;
 
     @NotNull(message = "Course is required")
-    private Course course;
+    private Long courseId;
 
-    @Size(min = 1, message = "At least one student is required")
-    private List<Student> students;
 }

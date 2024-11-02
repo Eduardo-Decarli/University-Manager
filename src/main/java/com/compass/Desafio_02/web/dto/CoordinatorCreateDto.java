@@ -33,8 +33,7 @@ public class CoordinatorCreateDto {
     private String password;
 
     @NotNull(message = "Role is required")
-    private Role role;
+    private Role role = Role.ROLE_COORDINATOR;
 
-    @NotNull(message = "Course is required")
-    private Course course;
+    private Long courseId;
 }

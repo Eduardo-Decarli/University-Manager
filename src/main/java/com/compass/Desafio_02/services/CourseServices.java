@@ -66,8 +66,6 @@ public class CourseServices {
 
         course.setName(update.getName());
         course.setDescription(update.getDescription());
-        course.setCoordinator(update.getCoordinator());
-        course.setDisciplines(update.getDisciplines());
 
         repository.save(course);
         return CourseMapper.toDto(course);
