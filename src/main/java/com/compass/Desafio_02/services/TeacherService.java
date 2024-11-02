@@ -61,9 +61,14 @@ public class TeacherService {
         teacher.setEmail(teacherDto.getEmail());
         teacher.setBirthDate(teacherDto.getBirthDate());
         teacher.setPassword(teacherDto.getPassword());
-
-        repository.save(teacher);
-        return TeacherMapper.toDto(teacher);
+        try{
+            Teacher teacherSaved = repository.save(teacher);
+            return TeacherMapper.toDto(teacherSaved);
+        } catch(DataIntegrityViolationException ex) {
+            throw new EntityUniqueViolationException(
+                    String.format("Error: There is a professor with email: %s already registered", teacherDto.getEmail())
+            );
+        }
     }
 
     public void remove(Long id) {
@@ -87,6 +92,9 @@ public class TeacherService {
         if(response.getSubsTeacherOffCourse() != null){
             responseListDisciplines.add(DisciplineMapper.toDto(response.getSubsTeacherOffCourse()));
         }
+        if(responseListDisciplines.isEmpty()) {
+            throw new EmptyListException("Error: There is no subject registered for this teacher");
+        }
         return responseListDisciplines;
     }
 
@@ -94,13 +102,13 @@ public class TeacherService {
         Teacher teacher = repository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Error: teacher not found")
         );
-        if(name.equals(teacher.getMainTeacher())) {
+        if(teacher.getMainTeacher() != null && name.equalsIgnoreCase(teacher.getMainTeacher().getName())) {
             List<Student> students = teacher.getMainTeacher().getStudents();
             return StudentMapper.toListDto(students);
-        } else if(name.equals(teacher.getSubsTeacher())) {
+        } else if(teacher.getSubsTeacher() != null && name.equalsIgnoreCase(teacher.getSubsTeacher().getName())) {
             List<Student> students = teacher.getSubsTeacher().getStudents();
             return StudentMapper.toListDto(students);
-        } else if(name.equals(teacher.getSubsTeacherOffCourse())) {
+        } else if(teacher.getSubsTeacherOffCourse() != null && name.equalsIgnoreCase(teacher.getSubsTeacherOffCourse().getName())) {
             List<Student> students = teacher.getSubsTeacherOffCourse().getStudents();
             return StudentMapper.toListDto(students);
         }else{
@@ -112,11 +120,11 @@ public class TeacherService {
         Teacher teacher = repository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Error: teacher not found")
         );
-        if(name.equals(teacher.getMainTeacher())) {
+        if(teacher.getMainTeacher() != null && name.equalsIgnoreCase(teacher.getMainTeacher().getName())) {
             return teacher.getMainTeacher();
-        } else if(name.equals(teacher.getSubsTeacher())) {
+        } else if(teacher.getSubsTeacher() != null && name.equalsIgnoreCase(teacher.getSubsTeacher().getName())) {
             return teacher.getSubsTeacher();
-        } else if(name.equals(teacher.getSubsTeacherOffCourse())) {
+        } else if(teacher.getSubsTeacherOffCourse() != null && name.equalsIgnoreCase(teacher.getSubsTeacherOffCourse().getName())) {
             return teacher.getSubsTeacherOffCourse();
         }else{
             throw new EntityNotFoundException("Error: This discipline is invalid or not available");
@@ -134,6 +142,9 @@ public class TeacherService {
     public List<RegistrationResponseDto> getAllRegistrationsByDiscipline(Long id, String nameDiscipline) {
         Discipline discipline = getDisciplineByName(id, nameDiscipline);
         List<StudentResponseDto> students = getStudentsByDiscipline(id, discipline.getName());
+        if(students.isEmpty()){
+            throw new EmptyListException("Error: There are no students for this discipline");
+        }
         List<Registration> registrations = new ArrayList<>();
         for(StudentResponseDto student : students) {
             Registration registration = student.getRegistration();
