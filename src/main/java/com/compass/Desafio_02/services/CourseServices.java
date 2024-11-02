@@ -8,10 +8,7 @@ import com.compass.Desafio_02.repositories.CourseRepository;
 import com.compass.Desafio_02.web.dto.CourseCreateDto;
 import com.compass.Desafio_02.web.dto.CourseResponseDto;
 import com.compass.Desafio_02.web.dto.mapper.CourseMapper;
-import com.compass.Desafio_02.web.exception.CoordinatorInCourseUniqueViolationException;
-import com.compass.Desafio_02.web.exception.EmptyListException;
-import com.compass.Desafio_02.web.exception.EntityUniqueViolationException;
-import com.compass.Desafio_02.web.exception.QuantityDisciplinesViolationException;
+import com.compass.Desafio_02.web.exception.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -55,7 +52,11 @@ public class CourseServices {
     }
 
     public Course getCourseByName(String name) {
-        return repository.findCourseByName(name);
+        Course course = repository.findCourseByName(name);
+        if(course == null) {
+            throw new CourseNotNullException("Error: Course not found");
+        }
+        return course;
     }
 
     public CourseResponseDto updateCourse(Long id, CourseCreateDto update) {
@@ -98,7 +99,7 @@ public class CourseServices {
         Course course = getCourseByName(courseName);
         List<Discipline> disciplinesInCourse = course.getDisciplines();
 
-        disciplinesInCourse.removeIf((x) -> x.getName().equals(discipline.getName()));
+        disciplinesInCourse.removeIf((x) -> x.getName().equalsIgnoreCase(discipline.getName()));
         course.setDisciplines(disciplinesInCourse);
         repository.save(course);
         return CourseMapper.toDto(course);
@@ -109,7 +110,7 @@ public class CourseServices {
                 () -> new EntityNotFoundException("Error: Coordinator not found")
         );
         Course course = getCourseByName(courseName);
-        if(course.getCoordinator().getEmail().equals(coordinator.getEmail())){
+        if(course.getCoordinator().getEmail().equalsIgnoreCase(coordinator.getEmail())){
             throw new CoordinatorInCourseUniqueViolationException("Error: This coordinator is already coordinating the course");
         }
         course.setCoordinator(coordinator);
