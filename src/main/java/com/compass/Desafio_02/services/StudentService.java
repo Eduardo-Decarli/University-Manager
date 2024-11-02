@@ -35,7 +35,7 @@ public class StudentService {
             Student student = StudentMapper.toStudent(studentDto);
             Student studentSaved = repository.save(student);
             return StudentMapper.toDto(studentSaved);
-        } catch(DataIntegrityViolationException ex){
+        } catch (DataIntegrityViolationException ex) {
             throw new EntityUniqueViolationException(
                     String.format("Error: There is a student with email: %s already registered", studentDto.getEmail())
             );
@@ -44,14 +44,16 @@ public class StudentService {
 
     public List<StudentResponseDto> list() {
         List<Student> response = repository.findAll();
-        if(response.isEmpty()){
+        if (response.isEmpty()) {
             throw new EmptyListException("Error: There are no registered students");
         }
         return StudentMapper.toListDto(response);
     }
 
     public StudentResponseDto update(Long id, StudentCreateDto studentDto) {
-        Student student = StudentMapper.toStudent(getById(id));
+        Student student = repository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Error: student not found")
+        );
 
         student.setFirstName(studentDto.getFirstName());
         student.setLastName(studentDto.getLastName());
@@ -61,17 +63,22 @@ public class StudentService {
         student.setRole(studentDto.getRole());
         student.setAddress(studentDto.getAddress());
 
-        repository.save(student);
-        return StudentMapper.toDto(student);
+        try {
+            repository.save(student);
+            return StudentMapper.toDto(student);
+        } catch (DataIntegrityViolationException ex) {
+            throw new EntityUniqueViolationException(
+                    String.format("Error: There is a student with email: %s already registered", studentDto.getEmail())
+            );
+        }
     }
-
 
     public void remove(Long id) {
         getById(id);
         repository.deleteById(id);
     }
 
-    public List<DisciplineResponseDto> getStudentDisciplines(Long id){
+    public List<DisciplineResponseDto> getStudentDisciplines(Long id) {
         Student student = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Error: student not found"));
 
@@ -83,7 +90,7 @@ public class StudentService {
         return DisciplineMapper.toListDto(course.getDisciplines());
     }
 
-    public CourseResponseDto getMyCourse(Long id){
+    public CourseResponseDto getMyCourse(Long id) {
         StudentResponseDto studentDto = getById(id);
         return CourseMapper.toDto(studentDto.getCourse());
     }
