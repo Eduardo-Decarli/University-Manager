@@ -14,6 +14,7 @@ import com.compass.Desafio_02.web.exception.CourseNotNullException;
 import com.compass.Desafio_02.web.exception.EmptyListException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,6 +26,9 @@ public class CoordinatorServices {
     @Autowired
     private CoordinatorRepository repository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public CoordinatorResponseDto getCoordinatorById(Long id) {
         Coordinator response = repository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Error: Coordinator not found")
@@ -34,6 +38,7 @@ public class CoordinatorServices {
 
     public CoordinatorResponseDto createCoordinator(CoordinatorCreateDto coordinator) {
         Coordinator response = CoordinatorMapper.toCoordinator(coordinator);
+        response.setPassword(passwordEncoder.encode(coordinator.getPassword()));
         Coordinator coordinatorSaved = repository.save(response);
         return CoordinatorMapper.toDto(coordinatorSaved);
     }

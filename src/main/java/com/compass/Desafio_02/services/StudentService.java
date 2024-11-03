@@ -12,6 +12,7 @@ import com.compass.Desafio_02.web.exception.EntityUniqueViolationException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,9 +24,12 @@ public class StudentService {
 
     @Autowired
     private AddressConsumerFeign addressConsumerFeign;
+    
+    private final PasswordEncoder passwordEncoder;
 
-    public StudentService(StudentRepository repository) {
+    public StudentService(StudentRepository repository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public StudentResponseDto getById(Long id) {
@@ -39,6 +43,7 @@ public class StudentService {
     public StudentResponseDto create(StudentCreateDto studentDto) {
         try {
             Student student = StudentMapper.toStudent(studentDto);
+            student.setPassword(passwordEncoder.encode(studentDto.getPassword()));
 
             Address address = addressConsumerFeign.getAddresByCep(studentDto.getAddress());
             String addressStudent = String.format(address.getEstado()+ "/" + address.getUf() + " | " + address.getLocalidade()+ ", " + address.getBairro() + ", " + address.getLogradouro());
