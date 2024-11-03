@@ -10,9 +10,11 @@ import com.compass.Desafio_02.web.dto.RegistrationCreateDto;
 import com.compass.Desafio_02.web.dto.RegistrationResponseDto;
 import com.compass.Desafio_02.web.dto.mapper.RegistrationMapper;
 import com.compass.Desafio_02.web.exception.EmptyListException;
+import com.compass.Desafio_02.web.exception.StudentNotAgeException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -44,6 +46,10 @@ public class RegistrationServices {
         Course course = courseRepository.findById(registrationDto.getCourseId()).orElseThrow(
                 () -> new EntityNotFoundException("Error: Course not found")
         );
+        if(student.getBirthDate().isAfter(LocalDate.now().minusYears(18))) {
+            throw new StudentNotAgeException("\n" +
+                    "Error: The student must be at least 18 years old to create a registration");
+        }
         Registration registration = new Registration();
         registration.setStudent(student);
         registration.setCourse(course);

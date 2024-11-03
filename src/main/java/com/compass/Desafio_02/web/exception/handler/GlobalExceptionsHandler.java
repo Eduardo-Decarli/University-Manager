@@ -99,4 +99,13 @@ public class GlobalExceptionsHandler {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(new ErrorMessage(request, HttpStatus.CONFLICT, ex.getMessage()));
     }
+
+    @ExceptionHandler(StudentNotAgeException.class)
+    public ResponseEntity<ErrorMessage> studentNotAgeException(StudentNotAgeException ex,
+                                                                     HttpServletRequest request){
+        return ResponseEntity
+                .status(HttpStatus.UNPROCESSABLE_ENTITY)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(request, HttpStatus.UNPROCESSABLE_ENTITY, ex.getMessage()));
+    }
 }
