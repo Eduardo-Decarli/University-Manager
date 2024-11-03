@@ -12,8 +12,10 @@ import com.compass.Desafio_02.web.dto.mapper.CourseMapper;
 import com.compass.Desafio_02.web.dto.mapper.DisciplineMapper;
 import com.compass.Desafio_02.web.exception.CourseNotNullException;
 import com.compass.Desafio_02.web.exception.EmptyListException;
+import com.compass.Desafio_02.web.exception.EntityUniqueViolationException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -36,34 +38,43 @@ public class CoordinatorServices {
         return CoordinatorMapper.toDto(response);
     }
 
-    public CoordinatorResponseDto createCoordinator(CoordinatorCreateDto coordinator) {
-        Coordinator response = CoordinatorMapper.toCoordinator(coordinator);
-        response.setPassword(passwordEncoder.encode(coordinator.getPassword()));
-        Coordinator coordinatorSaved = repository.save(response);
-        return CoordinatorMapper.toDto(coordinatorSaved);
+    public CoordinatorResponseDto createCoordinator(CoordinatorCreateDto response) {
+        Coordinator coordinator = CoordinatorMapper.toCoordinator(response);
+        try {
+            response.setPassword(passwordEncoder.encode(coordinator.getPassword()));
+            repository.save(coordinator);
+        } catch (DataIntegrityViolationException ex) {
+            throw new EntityUniqueViolationException(
+                    String.format("Error: There is a coordinator with email: %s already registered", response.getEmail()));
+        }
+        return CoordinatorMapper.toDto(coordinator);
     }
 
     public List<CoordinatorResponseDto> getAllCoordinators() {
-        List<Coordinator> response = repository.findAll();
-        if(response.isEmpty()){
+        List<Coordinator> coordinators = repository.findAll();
+        if(coordinators.isEmpty()){
             throw new EmptyListException("Error: There are no registered coordinators");
         }
-        return CoordinatorMapper.toListDto(response);
+        return CoordinatorMapper.toListDto(coordinators);
     }
 
-    public CoordinatorResponseDto updateCoordinator(Long id, CoordinatorCreateDto update) {
+    public CoordinatorResponseDto updateCoordinator(Long id, CoordinatorCreateDto response) {
         Coordinator coordinator = repository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Error: Coordinator not found")
         );
 
-        coordinator.setFirstName(update.getFirstName());
-        coordinator.setLastName(update.getLastName());
-        coordinator.setEmail(update.getEmail());
-        coordinator.setBirthDate(update.getBirthDate());
-        coordinator.setPassword(update.getPassword());
-        coordinator.setRole(update.getRole());
-
-        repository.save(coordinator);
+        coordinator.setFirstName(response.getFirstName());
+        coordinator.setLastName(response.getLastName());
+        coordinator.setEmail(response.getEmail());
+        coordinator.setBirthDate(response.getBirthDate());
+        coordinator.setPassword(response.getPassword());
+        coordinator.setRole(response.getRole());
+        try {
+            repository.save(coordinator);
+        } catch(DataIntegrityViolationException ex) {
+            throw new EntityUniqueViolationException(
+                    String.format("Error: There is a coordinator with email: %s already registered", response.getEmail()));
+            }
         return CoordinatorMapper.toDto(coordinator);
     }
 
