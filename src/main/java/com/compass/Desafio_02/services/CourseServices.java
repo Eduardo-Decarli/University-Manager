@@ -112,7 +112,9 @@ public class CourseServices {
         Coordinator coordinator = coordinatorRepository.findById(idCoordinator).orElseThrow(
                 () -> new EntityNotFoundException("Error: Coordinator not found")
         );
+
         Course course = getCourseByName(courseName);
+
         if(course.getCoordinator().getEmail().equalsIgnoreCase(coordinator.getEmail())){
             throw new CoordinatorInCourseUniqueViolationException("Error: This coordinator is already coordinating the course");
         }

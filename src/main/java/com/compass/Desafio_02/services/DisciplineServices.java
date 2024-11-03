@@ -178,6 +178,20 @@ public class DisciplineServices {
         if(discipline.getSubsTeacherEmail() != null) {
             throw new InvalidTeacherEmailException("There is already a professor associated with this discipline");
         }
+
+        Optional<Coordinator> coordinatorOptional = coordinatorRepository.findByEmail(emailTeacher);
+        Teacher teacher;
+        Coordinator coordinator;
+        if (coordinatorOptional.isEmpty()) {
+            teacher = teacherRepository.findByEmail(emailTeacher).orElseThrow(() -> new EntityNotFoundException());
+            teacher.setSubsTeacher(discipline);
+            teacherRepository.save(teacher);
+        } else {
+            coordinator = coordinatorOptional.get();
+            coordinator.setSubsTeacher(discipline);
+            coordinatorRepository.save(coordinator);
+        }
+
         discipline.setSubsTeacherEmail(emailTeacher);
         disciplineRepository.save(discipline);
         DisciplineResponseDto responseDto = DisciplineMapper.toDto(discipline);

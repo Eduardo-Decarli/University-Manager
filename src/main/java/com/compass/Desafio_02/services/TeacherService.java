@@ -1,9 +1,7 @@
 package com.compass.Desafio_02.services;
 
-import com.compass.Desafio_02.entities.Discipline;
-import com.compass.Desafio_02.entities.Registration;
-import com.compass.Desafio_02.entities.Student;
-import com.compass.Desafio_02.entities.Teacher;
+import com.compass.Desafio_02.entities.*;
+import com.compass.Desafio_02.repositories.CourseRepository;
 import com.compass.Desafio_02.repositories.TeacherRepository;
 import com.compass.Desafio_02.web.dto.*;
 import com.compass.Desafio_02.web.dto.mapper.*;
@@ -23,6 +21,7 @@ import java.util.List;
 public class TeacherService {
 
     private final TeacherRepository repository;
+    private final CourseRepository courseRepository;
 
     public TeacherResponseDto create(TeacherCreateDto teacherDto) {
         try {
@@ -153,5 +152,16 @@ public class TeacherService {
             }
         }
         return RegistrationMapper.toListDto(registrations);
+    }
+
+    public TeacherResponseDto addCourse(Long id, String courseName) {
+        Course course = courseRepository.findCourseByName(courseName);
+        Teacher teacher = repository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Error: teacher not found")
+        );
+
+        teacher.setCourse(course);
+        Teacher teacherSaved = repository.save(teacher);
+        return TeacherMapper.toDto(teacherSaved);
     }
 }
