@@ -43,11 +43,11 @@ public class CoordinatorServices {
         try {
             response.setPassword(passwordEncoder.encode(coordinator.getPassword()));
             repository.save(coordinator);
+            return CoordinatorMapper.toDto(coordinator);
         } catch (DataIntegrityViolationException ex) {
             throw new EntityUniqueViolationException(
                     String.format("Error: There is a coordinator with email: %s already registered", response.getEmail()));
         }
-        return CoordinatorMapper.toDto(coordinator);
     }
 
     public List<CoordinatorResponseDto> getAllCoordinators() {
@@ -71,11 +71,11 @@ public class CoordinatorServices {
         coordinator.setRole(response.getRole());
         try {
             repository.save(coordinator);
+            return CoordinatorMapper.toDto(coordinator);
         } catch(DataIntegrityViolationException ex) {
             throw new EntityUniqueViolationException(
                     String.format("Error: There is a coordinator with email: %s already registered", response.getEmail()));
             }
-        return CoordinatorMapper.toDto(coordinator);
     }
 
     public void deleteCoordinator(long id) {

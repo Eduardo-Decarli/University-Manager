@@ -41,15 +41,16 @@ public class StudentService {
 
 
     public StudentResponseDto create(StudentCreateDto studentDto) {
-        try {
+
             Student student = StudentMapper.toStudent(studentDto);
             student.setPassword(passwordEncoder.encode(studentDto.getPassword()));
 
             Address address = addressConsumerFeign.getAddresByCep(studentDto.getAddress());
             String addressStudent = String.format(address.getEstado()+ "/" + address.getUf() + " | " + address.getLocalidade()+ ", " + address.getBairro() + ", " + address.getLogradouro());
             student.setAddress(addressStudent);
-            Student studentSaved = repository.save(student);
-            return StudentMapper.toDto(studentSaved);
+        try {
+            repository.save(student);
+            return StudentMapper.toDto(student);
         } catch (DataIntegrityViolationException ex) {
             throw new EntityUniqueViolationException(
                     String.format("Error: There is a student with email: %s already registered", studentDto.getEmail())
