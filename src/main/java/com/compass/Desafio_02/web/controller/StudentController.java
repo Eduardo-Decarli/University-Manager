@@ -1,6 +1,7 @@
 package com.compass.Desafio_02.web.controller;
 
 import com.compass.Desafio_02.entities.Student;
+import com.compass.Desafio_02.jwt.JwtUserDetails;
 import com.compass.Desafio_02.services.StudentService;
 import com.compass.Desafio_02.web.dto.*;
 import jakarta.validation.Valid;
@@ -8,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -73,14 +76,10 @@ public class StudentController {
         return ResponseEntity.status(204).body(response);
     }
 
-    @GetMapping("/me/{id}/course")
-    public ResponseEntity<CourseResponseDto> myCourse(@PathVariable Long id) {
-
-        // TO-DO -> Acessar os proprios dados
-        // Esse endpoint irá retornar as informações do usuario logado, depende da implementação da autenticação JWT
-        // porem caso queira implementar usando um parametro id temporariamente pode ser
-
-        CourseResponseDto courseDto = studentService.getMyCourse(id);
+    @GetMapping("/me/course")
+    @PreAuthorize("hasRole('STUDENT')")
+    public ResponseEntity<CourseResponseDto> myCourse(@AuthenticationPrincipal JwtUserDetails userDetails) {
+        CourseResponseDto courseDto = studentService.getMyCourse(userDetails.getId());
         return ResponseEntity.ok().body(courseDto);
     }
 
