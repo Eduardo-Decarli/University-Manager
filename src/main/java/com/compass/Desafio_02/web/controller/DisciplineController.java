@@ -30,7 +30,7 @@ public class DisciplineController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('COORDINATOR')")
+    @PreAuthorize("hasAnyRole('COORDINATOR', 'TEACHER', 'STUDENT')")
     public ResponseEntity<List<DisciplineResponseDto>> getAllRDisciplines(){
         List<DisciplineResponseDto> disciplines = services.getAllDisciplines();
         return ResponseEntity.ok().body(disciplines);

@@ -27,7 +27,7 @@ public class CoordinatorController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('COORDINATOR')")
+    //@PreAuthorize("hasRole('COORDINATOR')")
     public ResponseEntity<CoordinatorResponseDto> create(@Valid @RequestBody CoordinatorCreateDto coordinator) {
         CoordinatorResponseDto response = services.createCoordinator(coordinator);
         return ResponseEntity.status(201).body(response);

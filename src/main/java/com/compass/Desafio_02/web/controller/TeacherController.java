@@ -94,10 +94,10 @@ public class TeacherController {
         return ResponseEntity.ok().body(response);
     }
 
-    @GetMapping("/me/add/course/{courseName}")
-    @PreAuthorize("hasRole('TEACHER')")
-    public ResponseEntity<TeacherResponseDto> addCourse(@AuthenticationPrincipal JwtUserDetails userDetails, @PathVariable String courseName) {
-        TeacherResponseDto response = teacherService.addCourse(userDetails.getId(), courseName);
+    @GetMapping("/me/add/{id}/course/{courseName}")
+    @PreAuthorize("hasRole('COORDINATOR')")
+    public ResponseEntity<TeacherResponseDto> addCourse(@PathVariable Long id, @PathVariable String courseName) {
+        TeacherResponseDto response = teacherService.addCourse(id, courseName);
         return ResponseEntity.ok().body(response);
     }
 

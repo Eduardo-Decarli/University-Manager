@@ -34,7 +34,7 @@ public class CourseController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('COORDINATOR')")
+    @PreAuthorize("hasAnyRole('COORDINATOR', 'TEACHER', 'STUDENT')")
     public ResponseEntity<List<CourseResponseDto>> getAllCourses(){
         List<CourseResponseDto> courses = services.getAllCourses();
         return ResponseEntity.ok().body(courses);
