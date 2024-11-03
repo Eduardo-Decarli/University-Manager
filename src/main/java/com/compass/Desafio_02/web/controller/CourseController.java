@@ -61,7 +61,7 @@ public class CourseController {
         return ResponseEntity.ok().body(response);
     }
 
-    @PatchMapping("/{courseName}/remove/disciplines/{name}")
+    @PatchMapping("/{courseName}/remove/disciplines/{discipline}")
     public ResponseEntity<CourseResponseDto> removeDiscipline(@PathVariable String courseName, @PathVariable String discipline) {
         CourseResponseDto response = services.removeDiscipline(courseName, discipline);
         return ResponseEntity.ok().body(response);

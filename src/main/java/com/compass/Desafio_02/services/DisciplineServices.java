@@ -16,6 +16,7 @@ import com.compass.Desafio_02.web.exception.EmptyListException;
 import com.compass.Desafio_02.web.exception.InvalidStudentEmailException;
 import com.compass.Desafio_02.web.exception.InvalidTeacherEmailException;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -150,6 +151,20 @@ public class DisciplineServices {
         Discipline discipline = getDisciplineByName(disciplineName);
         if(discipline.getMainTeacherEmail().equalsIgnoreCase(emailTeacher)) {
             discipline.setMainTeacherEmail(null);
+
+            Optional<Coordinator> coordinatorOptional = coordinatorRepository.findByEmail(emailTeacher);
+            Teacher teacher;
+            Coordinator coordinator;
+            if (coordinatorOptional.isEmpty()) {
+                teacher = teacherRepository.findByEmail(emailTeacher).orElseThrow(() -> new EntityNotFoundException());
+                teacher.setMainTeacher(null);
+                teacherRepository.save(teacher);
+            } else {
+                coordinator = coordinatorOptional.get();
+                coordinator.setMainTeacher(null);
+                coordinatorRepository.save(coordinator);
+            }
+
             disciplineRepository.save(discipline);
         } else {
             throw new InvalidTeacherEmailException("Error: Teacher not found by this email");
@@ -170,6 +185,48 @@ public class DisciplineServices {
     }
 
     public DisciplineResponseDto removeSubstituteTeacherDiscipline(String disciplineName, String emailTeacher) {
+        Discipline discipline = getDisciplineByName(disciplineName);
+
+        if(discipline.getSubsTeacherEmail().equalsIgnoreCase(emailTeacher)) {
+            discipline.setSubsTeacherEmail(null);
+            disciplineRepository.save(discipline);
+        } else {
+            throw new InvalidTeacherEmailException("There is already a professor associated with this discipline");
+        }
+        DisciplineResponseDto responseDto = DisciplineMapper.toDto(discipline);
+        return responseDto;
+    }
+
+    public DisciplineResponseDto addSubstituteTeacherOffCourseDiscipline(String disciplineName, String emailTeacher) {
+        Discipline discipline = getDisciplineByName(disciplineName);
+        if(discipline.getSubsTeacherEmail() != null) {
+            throw new InvalidTeacherEmailException("There is already a professor associated with this discipline");
+        }
+
+        Optional<Coordinator> coordinatorOptional = coordinatorRepository.findByEmail(emailTeacher);
+        Teacher teacher;
+        Coordinator coordinator;
+        if (coordinatorOptional.isEmpty()) {
+            teacher = teacherRepository.findByEmail(emailTeacher).orElseThrow(() -> new EntityNotFoundException());
+
+            List<Discipline> disciplines = teacher.getCourse().getDisciplines();
+            if (disciplines.stream().anyMatch(x -> x.equals(discipline))) {
+                throw new RuntimeException("This teacher belongs to this course");
+            }
+
+            teacher.setSubsTeacherOffCourse(discipline);
+            teacherRepository.save(teacher);
+        } else {
+            throw new RuntimeException("A coordinator can't work in a course he doesn't belongs");
+        }
+
+        discipline.setSubsTeacherEmail(emailTeacher);
+        disciplineRepository.save(discipline);
+        DisciplineResponseDto responseDto = DisciplineMapper.toDto(discipline);
+        return responseDto;
+    }
+
+    public DisciplineResponseDto removeSubstituteTeacherOffCourseDiscipline(String disciplineName, String emailTeacher) {
         Discipline discipline = getDisciplineByName(disciplineName);
 
         if(discipline.getSubsTeacherEmail().equalsIgnoreCase(emailTeacher)) {

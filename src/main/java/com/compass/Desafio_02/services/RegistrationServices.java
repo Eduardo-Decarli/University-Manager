@@ -57,6 +57,7 @@ public class RegistrationServices {
         Registration registration = new Registration();
         registration.setStudent(student);
         registration.setCourse(course);
+        student.setCourse(course);
 
         studentRepository.save(student);
         registrationRepository.save(registration);

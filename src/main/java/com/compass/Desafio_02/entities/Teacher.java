@@ -1,6 +1,7 @@
 package com.compass.Desafio_02.entities;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +17,7 @@ import java.io.Serializable;
 @Entity
 public class Teacher extends Person implements Serializable {
 
-    @OneToOne
+    @ManyToOne
     private Course course;
 
     @OneToOne

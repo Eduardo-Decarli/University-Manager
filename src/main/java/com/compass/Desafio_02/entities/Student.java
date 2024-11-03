@@ -19,6 +19,10 @@ public class Student extends Person implements Serializable {
     @Column(nullable = false)
     private String address;
 
+    @ManyToOne
+    @JsonIgnore
+    private Course course;
+
     @OneToOne(mappedBy = "student")
     @JsonIgnore
     private Registration registration;

@@ -33,7 +33,7 @@ public class Discipline implements Serializable {
     @Column(nullable = true)
     private String subsTeacherEmail;
 
-    @OneToMany
+    @ManyToMany
     private List<Student> students;
 
     @Override

@@ -58,7 +58,7 @@ public class DisciplineController {
     }
 
     @PatchMapping("/{disciplineName}/remove/student/{id}")
-    public ResponseEntity<DisciplineResponseDto> removeStudentDiscipline(@Valid @RequestBody String disciplineName, @PathVariable Long id) {
+    public ResponseEntity<DisciplineResponseDto> removeStudentDiscipline(@Valid @PathVariable String disciplineName, @PathVariable Long id) {
         DisciplineResponseDto discipline = services.removeStudentInDisciplineByName(disciplineName, id);
         return ResponseEntity.ok().body(discipline);
     }
@@ -69,7 +69,7 @@ public class DisciplineController {
         return ResponseEntity.ok().body(update);
     }
 
-    @PatchMapping("/{disciplineName}/remove/teacher/titular/{email}")
+    @PatchMapping("/{disciplineName}/remove/teacher/titular/{emailTeacher}")
     public ResponseEntity<DisciplineResponseDto> removeTitularTeacherDiscipline(@Valid @PathVariable String disciplineName, @PathVariable String emailTeacher) {
         DisciplineResponseDto update = services.removeTitularTeacherDiscipline(disciplineName, emailTeacher);
         return ResponseEntity.ok().body(update);
@@ -84,6 +84,18 @@ public class DisciplineController {
     @PatchMapping("/{disciplineName}/remove/teacher/substitute/{email}")
     public ResponseEntity<DisciplineResponseDto> removeSubstituteTeacherDiscipline(@Valid @PathVariable String disciplineName, @PathVariable String emailTeacher) {
         DisciplineResponseDto update = services.removeSubstituteTeacherDiscipline(disciplineName, emailTeacher);
+        return ResponseEntity.ok().body(update);
+    }
+
+    @PatchMapping("/{disciplineName}/add/teacher/substitute/off/course/{emailTeacher}")
+    public ResponseEntity<DisciplineResponseDto> addSubstituteTeacherOffCourseDiscipline(@Valid @PathVariable String disciplineName, @PathVariable String emailTeacher) {
+        DisciplineResponseDto update = services.addSubstituteTeacherOffCourseDiscipline(disciplineName, emailTeacher);
+        return ResponseEntity.ok().body(update);
+    }
+
+    @PatchMapping("/{disciplineName}/remove/teacher/substitute/off/course/{email}")
+    public ResponseEntity<DisciplineResponseDto> removeSubstituteTeacherOffCourseDiscipline(@Valid @PathVariable String disciplineName, @PathVariable String emailTeacher) {
+        DisciplineResponseDto update = services.removeSubstituteTeacherOffCourseDiscipline(disciplineName, emailTeacher);
         return ResponseEntity.ok().body(update);
     }
 }
