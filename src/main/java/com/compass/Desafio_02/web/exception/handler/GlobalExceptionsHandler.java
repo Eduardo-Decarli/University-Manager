@@ -108,4 +108,13 @@ public class GlobalExceptionsHandler {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(new ErrorMessage(request, HttpStatus.UNPROCESSABLE_ENTITY, ex.getMessage()));
     }
+
+    @ExceptionHandler(UniqueCourseViolationException.class)
+    public ResponseEntity<ErrorMessage> uniqueCourseViolationException(UniqueCourseViolationException ex,
+                                                                       HttpServletRequest request){
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(request, HttpStatus.CONFLICT, ex.getMessage()));
+    }
 }

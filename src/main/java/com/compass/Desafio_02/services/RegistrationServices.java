@@ -11,9 +11,11 @@ import com.compass.Desafio_02.web.dto.RegistrationResponseDto;
 import com.compass.Desafio_02.web.dto.mapper.RegistrationMapper;
 import com.compass.Desafio_02.web.exception.EmptyListException;
 import com.compass.Desafio_02.web.exception.StudentNotAgeException;
+import com.compass.Desafio_02.web.exception.UniqueCourseViolationException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -47,14 +49,18 @@ public class RegistrationServices {
                 () -> new EntityNotFoundException("Error: Course not found")
         );
         if(student.getBirthDate().isAfter(LocalDate.now().minusYears(18))) {
-            throw new StudentNotAgeException("\n" +
-                    "Error: The student must be at least 18 years old to create a registration");
+            throw new StudentNotAgeException("Error: The student must be at least 18 years old to create a registration");
+        }
+        if(student.getRegistration() != null) {
+            throw new UniqueCourseViolationException("Error: The student can be associated with only one course at a time");
         }
         Registration registration = new Registration();
         registration.setStudent(student);
         registration.setCourse(course);
+
         studentRepository.save(student);
         registrationRepository.save(registration);
+
         return RegistrationMapper.toDto(registration);
     }
 
