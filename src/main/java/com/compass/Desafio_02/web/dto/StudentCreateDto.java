@@ -1,6 +1,7 @@
 package com.compass.Desafio_02.web.dto;
 
 import com.compass.Desafio_02.entities.Registration;
+import com.compass.Desafio_02.entities.api.Address;
 import com.compass.Desafio_02.entities.enumeration.Role;
 import jakarta.validation.constraints.*;
 import lombok.Getter;

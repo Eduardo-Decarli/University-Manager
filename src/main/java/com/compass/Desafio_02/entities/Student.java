@@ -1,5 +1,6 @@
 package com.compass.Desafio_02.entities;
 
+import com.compass.Desafio_02.entities.api.Address;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
