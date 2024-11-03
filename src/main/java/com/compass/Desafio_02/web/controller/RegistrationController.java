@@ -2,6 +2,8 @@ package com.compass.Desafio_02.web.controller;
 
 import com.compass.Desafio_02.entities.Registration;
 import com.compass.Desafio_02.services.RegistrationServices;
+import com.compass.Desafio_02.web.dto.RegistrationCreateDto;
+import com.compass.Desafio_02.web.dto.RegistrationResponseDto;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -21,26 +23,26 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public ResponseEntity<Registration> create(@Valid @RequestBody Registration registration) {
-        Registration response = services.createRegistration(registration);
+    public ResponseEntity<RegistrationResponseDto> create(@Valid @RequestBody RegistrationCreateDto registration) {
+        RegistrationResponseDto response = services.createRegistration(registration);
         return ResponseEntity.status(201).body(response);
     }
 
-    @GetMapping("/registrations")
-    public ResponseEntity<List<Registration>> getAllRegistrations(){
-        List<Registration> registrations = services.getAllRegistrations();
+    @GetMapping
+    public ResponseEntity<List<RegistrationResponseDto>> getAllRegistrations(){
+        List<RegistrationResponseDto> registrations = services.getAllRegistrations();
         return ResponseEntity.ok().body(registrations);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Registration> getRegistrationById(@PathVariable long id){
-        Registration registration = services.getRegistrationById(id);
+    public ResponseEntity<RegistrationResponseDto> getRegistrationById(@PathVariable long id){
+        RegistrationResponseDto registration = services.getRegistrationById(id);
         return ResponseEntity.ok().body(registration);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Registration> updateRegistration(@Valid @RequestBody Registration registration) {
-        Registration update = services.updateRegistration(registration);
+    public ResponseEntity<RegistrationResponseDto> updateRegistration(@Valid @PathVariable Long id, @RequestBody RegistrationCreateDto registration) {
+        RegistrationResponseDto update = services.updateRegistration(id, registration);
         return ResponseEntity.ok().body(update);
     }
 

@@ -1,5 +1,6 @@
 package com.compass.Desafio_02.web.dto;
 
+import com.compass.Desafio_02.entities.Course;
 import com.compass.Desafio_02.entities.enumeration.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -25,15 +26,14 @@ public class CoordinatorCreateDto {
     private String email;
 
     @NotNull(message = "The date of birth cannot be empty")
-    private LocalDate dateOfBirth;
+    private LocalDate birthDate;
 
     @NotBlank(message = "Password cannot be empty")
     @Size(min = 8, message = "The password must be at least 8 characters long")
     private String password;
 
     @NotNull(message = "Role is required")
-    private Role role;
+    private Role role = Role.ROLE_COORDINATOR;
 
-    @NotNull(message = "Course ID is required")
     private Long courseId;
 }

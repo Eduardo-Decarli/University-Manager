@@ -16,8 +16,7 @@ public class DisciplineResponseDto {
     private Long id;
     private String name;
     private String description;
-    private Teacher fullProfessor;
-    private Teacher substituteTeacher;
+    private String mainTeacherEmail;
+    private String subsTeacher;
     private List<Student> students;
-    private Course course;
 }

@@ -21,19 +21,19 @@ public class Discipline implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(unique = true, nullable = false)
+    @Column(unique = true, nullable = false)
     private String name;
 
-    @JoinColumn(nullable = false)
+    @Column(nullable = false)
     private String description;
 
-    @JoinColumn(nullable = false)
+    @Column(nullable = true)
     private String mainTeacherEmail;
 
-    @JoinColumn(nullable = false)
+    @Column(nullable = true)
     private String subsTeacherEmail;
 
-    @OneToMany
+    @ManyToMany
     private List<Student> students;
 
     @Override

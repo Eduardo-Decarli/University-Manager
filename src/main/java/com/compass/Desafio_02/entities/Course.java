@@ -21,10 +21,10 @@ public class Course implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(unique = true, nullable = false)
+    @Column(unique = true, nullable = false)
     private String name;
 
-    @JoinColumn(nullable = false)
+    @Column(nullable = false)
     private String description;
 
     @OneToOne

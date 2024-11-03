@@ -21,11 +21,11 @@ public class Registration implements Serializable {
     private Long id;
 
     @OneToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(nullable = false, name = "student_id")
     private Student student;
 
-    @OneToOne
-    @JoinColumn(nullable = false)
+    @ManyToOne
+    @JoinColumn(nullable = false, name = "course_id")
     private Course course;
 
     @Override

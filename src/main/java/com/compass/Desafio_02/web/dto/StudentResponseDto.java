@@ -1,6 +1,7 @@
 package com.compass.Desafio_02.web.dto;
 
 import com.compass.Desafio_02.entities.Course;
+import com.compass.Desafio_02.entities.Registration;
 import com.compass.Desafio_02.entities.enumeration.Role;
 import lombok.*;
 
@@ -13,9 +14,9 @@ public class StudentResponseDto {
     private String firstName;
     private String lastName;
     private String email;
-    private LocalDate dateOfBirth;
+    private LocalDate birthDate;
     private String address;
-    private Role role;
     private Course course;
-
+    private Role role;
+    private Registration registration;
 }

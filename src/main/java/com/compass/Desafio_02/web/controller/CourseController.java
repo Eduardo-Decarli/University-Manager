@@ -4,6 +4,9 @@ import com.compass.Desafio_02.entities.Coordinator;
 import com.compass.Desafio_02.entities.Course;
 import com.compass.Desafio_02.entities.Student;
 import com.compass.Desafio_02.services.CourseServices;
+import com.compass.Desafio_02.web.dto.CourseCreateDto;
+import com.compass.Desafio_02.web.dto.CourseResponseDto;
+import com.compass.Desafio_02.web.dto.DisciplineResponseDto;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -23,26 +26,26 @@ public class CourseController {
     }
 
     @PostMapping
-    public ResponseEntity<Course> create(@Valid @RequestBody Course course) {
-        Course response = services.createCourse(course);
+    public ResponseEntity<CourseResponseDto> create(@Valid @RequestBody CourseCreateDto course) {
+        CourseResponseDto response = services.createCourse(course);
         return ResponseEntity.status(201).body(response);
     }
 
-    @GetMapping("/courses")
-    public ResponseEntity<List<Course>> getAllCourses(){
-        List<Course> courses = services.getAllCourses();
+    @GetMapping
+    public ResponseEntity<List<CourseResponseDto>> getAllCourses(){
+        List<CourseResponseDto> courses = services.getAllCourses();
         return ResponseEntity.ok().body(courses);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Course> getCourseById(@PathVariable long id) throws Exception {
-        Course course = services.getCourseById(id);
+    public ResponseEntity<CourseResponseDto> getCourseById(@PathVariable long id) {
+        CourseResponseDto course = services.getCourseById(id);
         return ResponseEntity.ok().body(course);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Course> updateCourse(@Valid @RequestBody Course course) throws Exception {
-        Course updatedCourse = services.updateCourse(course);
+    public ResponseEntity<CourseResponseDto> updateCourse(@Valid @PathVariable Long id, @RequestBody CourseCreateDto course) {
+        CourseResponseDto updatedCourse = services.updateCourse(id, course);
         return ResponseEntity.ok().body(updatedCourse);
     }
 
@@ -50,5 +53,23 @@ public class CourseController {
     public ResponseEntity<Void> deleteCourseById(@PathVariable long id) throws Exception {
         services.deleteCourse(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{courseName}/add/disciplines/{discipline}")
+    public ResponseEntity<CourseResponseDto> addDiscipline(@PathVariable String courseName, @PathVariable String discipline) {
+        CourseResponseDto response = services.addDiscipline(courseName, discipline);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @PatchMapping("/{courseName}/remove/disciplines/{discipline}")
+    public ResponseEntity<CourseResponseDto> removeDiscipline(@PathVariable String courseName, @PathVariable String discipline) {
+        CourseResponseDto response = services.removeDiscipline(courseName, discipline);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @PatchMapping("/{courseName}/change/coordinators/{id}")
+    public ResponseEntity<CourseResponseDto> changeCoordinator(@PathVariable String courseName, @PathVariable Long id) {
+        CourseResponseDto update = services.changeCoordinator(courseName, id);
+        return ResponseEntity.ok().body(update);
     }
 }
