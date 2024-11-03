@@ -2,24 +2,27 @@ package com.compass.Desafio_02.services;
 
 import com.compass.Desafio_02.entities.Course;
 import com.compass.Desafio_02.entities.Student;
-import com.compass.Desafio_02.entities.Teacher;
+import com.compass.Desafio_02.entities.api.Address;
 import com.compass.Desafio_02.repositories.StudentRepository;
+import com.compass.Desafio_02.web.controller.apiCep.AddressConsumerFeign;
 import com.compass.Desafio_02.web.dto.*;
 import com.compass.Desafio_02.web.dto.mapper.*;
 import com.compass.Desafio_02.web.exception.EmptyListException;
 import com.compass.Desafio_02.web.exception.EntityUniqueViolationException;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class StudentService {
 
     private final StudentRepository repository;
+
+    @Autowired
+    private AddressConsumerFeign addressConsumerFeign;
 
     public StudentService(StudentRepository repository) {
         this.repository = repository;
@@ -36,6 +39,10 @@ public class StudentService {
     public StudentResponseDto create(StudentCreateDto studentDto) {
         try {
             Student student = StudentMapper.toStudent(studentDto);
+
+            Address address = addressConsumerFeign.getAddresByCep(studentDto.getAddress());
+            String addressStudent = String.format(address.getEstado()+ "/" + address.getUf() + " | " + address.getLocalidade()+ ", " + address.getBairro() + ", " + address.getLogradouro());
+            student.setAddress(addressStudent);
             Student studentSaved = repository.save(student);
             return StudentMapper.toDto(studentSaved);
         } catch (DataIntegrityViolationException ex) {
@@ -64,7 +71,7 @@ public class StudentService {
         student.setBirthDate(studentDto.getBirthDate());
         student.setPassword(studentDto.getPassword());
         student.setRole(studentDto.getRole());
-        student.setAddress(studentDto.getAddress());
+        //student.setAddress(studentDto.getAddress());
 
         try {
             repository.save(student);
