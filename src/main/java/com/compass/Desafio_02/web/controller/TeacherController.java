@@ -108,6 +108,18 @@ public class TeacherController {
         return ResponseEntity.ok().body(response);
     }
 
+    @GetMapping("/me/add/{id}/course/{courseName}")
+    public ResponseEntity<TeacherResponseDto> addCourse(@PathVariable Long id, @PathVariable String courseName) {
+
+        // TO-DO -> Acessar os proprios dados
+        // Esse endpoint irá retornar as informações do usuario logado, depende da implementação da autenticação JWT
+        // porem caso queira implementar usando um parametro id temporariamente pode ser
+
+        TeacherResponseDto response = teacherService.addCourse(id, courseName);
+
+        return ResponseEntity.ok().body(response);
+    }
+
     @GetMapping("/me/{id}/course/registrations")
     public ResponseEntity<List<RegistrationResponseDto>> getAllRegistrationsByCourse(@PathVariable Long id) {
 

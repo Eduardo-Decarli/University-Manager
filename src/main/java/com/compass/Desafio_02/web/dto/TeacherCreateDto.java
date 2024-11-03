@@ -27,7 +27,6 @@ public class TeacherCreateDto {
     private String email;
 
     @NotNull(message = "The date of birth cannot be empty")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate birthDate;
 
     @NotBlank(message = "Password cannot be empty")
