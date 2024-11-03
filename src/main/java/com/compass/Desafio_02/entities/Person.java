@@ -1,6 +1,7 @@
 package com.compass.Desafio_02.entities;
 
 import com.compass.Desafio_02.entities.enumeration.Role;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,14 +22,19 @@ public abstract class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String firstName;
 
+    @Column(nullable = false)
     private String lastName;
 
+    @Column(unique = true, nullable = false)
     private String email;
 
+    @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
     private LocalDate birthDate;
 
     @Enumerated(EnumType.STRING)

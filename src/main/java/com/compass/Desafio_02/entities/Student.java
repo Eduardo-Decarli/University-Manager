@@ -1,7 +1,7 @@
 package com.compass.Desafio_02.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,8 +16,14 @@ import java.io.Serializable;
 @Entity
 public class Student extends Person implements Serializable {
 
+    @Column(nullable = false)
     private String address;
 
-    @OneToOne
+    @ManyToOne
+    @JsonIgnore
     private Course course;
+
+    @OneToOne(mappedBy = "student")
+    @JsonIgnore
+    private Registration registration;
 }
