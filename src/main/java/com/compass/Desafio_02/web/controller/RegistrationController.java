@@ -6,6 +6,7 @@ import com.compass.Desafio_02.web.dto.RegistrationCreateDto;
 import com.compass.Desafio_02.web.dto.RegistrationResponseDto;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,30 +24,35 @@ public class RegistrationController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('COORDINATOR')")
     public ResponseEntity<RegistrationResponseDto> create(@Valid @RequestBody RegistrationCreateDto registration) {
         RegistrationResponseDto response = services.createRegistration(registration);
         return ResponseEntity.status(201).body(response);
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('COORDINATOR')")
     public ResponseEntity<List<RegistrationResponseDto>> getAllRegistrations(){
         List<RegistrationResponseDto> registrations = services.getAllRegistrations();
         return ResponseEntity.ok().body(registrations);
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('COORDINATOR')")
     public ResponseEntity<RegistrationResponseDto> getRegistrationById(@PathVariable long id){
         RegistrationResponseDto registration = services.getRegistrationById(id);
         return ResponseEntity.ok().body(registration);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('COORDINATOR')")
     public ResponseEntity<RegistrationResponseDto> updateRegistration(@Valid @PathVariable Long id, @RequestBody RegistrationCreateDto registration) {
         RegistrationResponseDto update = services.updateRegistration(id, registration);
         return ResponseEntity.ok().body(update);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('COORDINATOR')")
     public ResponseEntity<Void> deleteRegistrationById(@PathVariable long id) {
         services.deleteRegistration(id);
         return ResponseEntity.noContent().build();
