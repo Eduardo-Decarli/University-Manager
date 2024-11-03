@@ -25,54 +25,51 @@ public class StudentController {
     private final StudentService studentService;
 
     @PostMapping
+    @PreAuthorize("hasRole('COORDINATOR')")
     public ResponseEntity<StudentResponseDto> create(@Valid @RequestBody StudentCreateDto studentDto) {
         StudentResponseDto response = studentService.create(studentDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('COORDINATOR')")
     public ResponseEntity<StudentResponseDto> getById(@PathVariable Long id) {
         StudentResponseDto response = studentService.getById(id);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('COORDINATOR')")
     public ResponseEntity<List<StudentResponseDto>> list() {
         List<StudentResponseDto> responses = studentService.list();
         return ResponseEntity.ok().body(responses);
     }
 
     @PutMapping("/modification/{id}")
+    @PreAuthorize("hasRole('COORDINATOR')")
     public ResponseEntity<Void> update(@Valid @PathVariable Long id, @RequestBody StudentCreateDto studentDto) {
         studentService.update(id, studentDto);
         return ResponseEntity.status(204).build();
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('COORDINATOR')")
     public ResponseEntity<Void> removeById(@PathVariable Long id) {
         studentService.remove(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    // ROLE_STUDENT
-    @GetMapping("/me/{id}")
-    public ResponseEntity<StudentResponseDto> myData(@PathVariable Long id) {
-
-        // TO-DO -> Acessar os proprios dados
-        // Esse endpoint irá retornar as informações do usuario logado, depende da implementação da autenticação JWT
-        // porem caso queira implementar usando um parametro id temporariamente pode ser
-
-        StudentResponseDto response = studentService.getById(id);
+    @GetMapping("/me")
+    @PreAuthorize("hasRole('STUDENT')")
+    public ResponseEntity<StudentResponseDto> myData(@AuthenticationPrincipal JwtUserDetails userDetails) {
+        StudentResponseDto response = studentService.getById(userDetails.getId());
         return ResponseEntity.ok().body(response);
     }
 
-    @PutMapping("/me/{id}")
-    public ResponseEntity<StudentResponseDto> myUpdate(@Valid @PathVariable Long id, @RequestBody StudentCreateDto studentDto) {
-
-        // TO-DO -> Acessar os proprios dados
-        // Esse endpoint irá retornar as informações do usuario logado, depende da implementação da autenticação JWT
-        // porem caso queira implementar usando um parametro id temporariamente pode ser
-        StudentResponseDto response = studentService.update(id, studentDto);
+    @PutMapping("/me")
+    @PreAuthorize("hasRole('STUDENT')")
+    public ResponseEntity<StudentResponseDto> myUpdate(@AuthenticationPrincipal JwtUserDetails userDetails, @RequestBody StudentCreateDto studentDto) {
+        StudentResponseDto response = studentService.update(userDetails.getId(), studentDto);
         return ResponseEntity.status(204).body(response);
     }
 
@@ -83,25 +80,17 @@ public class StudentController {
         return ResponseEntity.ok().body(courseDto);
     }
 
-    @GetMapping("/me/{id}/course/disciplines")
-    public ResponseEntity<List<DisciplineResponseDto>> myDisciplines(@PathVariable Long id) {
-
-        // TO-DO -> Acessar as proprias disciplinas
-        // Esse endpoint irá retornar as informações do usuario logado, depende da implementação da autenticação JWT
-        // porem caso queira implementar usando um parametro id temporariamente pode ser
-
-        List<DisciplineResponseDto> responses = studentService.getStudentDisciplines(id);
+    @GetMapping("/me/course/disciplines")
+    @PreAuthorize("hasRole('STUDENT')")
+    public ResponseEntity<List<DisciplineResponseDto>> myDisciplines(@AuthenticationPrincipal JwtUserDetails userDetails) {
+        List<DisciplineResponseDto> responses = studentService.getStudentDisciplines(userDetails.getId());
         return ResponseEntity.ok().body(responses);
     }
 
-    @GetMapping("/me/{id}/registration")
-    public ResponseEntity<RegistrationResponseDto> myRegistration(@PathVariable Long id) {
-
-        // TO-DO -> Acessar as proprias disciplinas
-        // Esse endpoint irá retornar as informações do usuario logado, depende da implementação da autenticação JWT
-        // porem caso queira implementar usando um parametro id temporariamente pode ser
-
-        RegistrationResponseDto responseDto = studentService.getRegistration(id);
+    @GetMapping("/me/registration")
+    @PreAuthorize("hasRole('STUDENT')")
+    public ResponseEntity<RegistrationResponseDto> myRegistration(@AuthenticationPrincipal JwtUserDetails userDetails) {
+        RegistrationResponseDto responseDto = studentService.getRegistration(userDetails.getId());
         return ResponseEntity.ok().body(responseDto);
     }
 }
