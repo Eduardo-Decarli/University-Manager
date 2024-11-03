@@ -86,8 +86,9 @@ public class CourseServices {
         Discipline discipline = disciplineServices.getDisciplineByName(disciplineName);
         Course course = getCourseByName(courseName);
         List<Discipline> disciplinesInCourse = course.getDisciplines();
+        System.out.println(disciplinesInCourse.size());
 
-        if(disciplinesInCourse.size() > 5) {
+        if(disciplinesInCourse.size() >= 5) {
             throw new QuantityDisciplinesViolationException("Error: The maximum number of disciplines for this course has been exceeded");
         }
 

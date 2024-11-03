@@ -201,7 +201,22 @@ public class DisciplineServices {
     public DisciplineResponseDto removeSubstituteTeacherDiscipline(String disciplineName, String emailTeacher) {
         Discipline discipline = getDisciplineByName(disciplineName);
 
+
         if(discipline.getSubsTeacherEmail().equalsIgnoreCase(emailTeacher)) {
+
+            Optional<Coordinator> coordinatorOptional = coordinatorRepository.findByEmail(emailTeacher);
+            Teacher teacher;
+            Coordinator coordinator;
+            if (coordinatorOptional.isEmpty()) {
+                teacher = teacherRepository.findByEmail(emailTeacher).orElseThrow(() -> new EntityNotFoundException());
+                teacher.setSubsTeacher(null);
+                teacherRepository.save(teacher);
+            } else {
+                coordinator = coordinatorOptional.get();
+                coordinator.setSubsTeacher(null);
+                coordinatorRepository.save(coordinator);
+            }
+
             discipline.setSubsTeacherEmail(null);
             disciplineRepository.save(discipline);
         } else {
@@ -219,7 +234,6 @@ public class DisciplineServices {
 
         Optional<Coordinator> coordinatorOptional = coordinatorRepository.findByEmail(emailTeacher);
         Teacher teacher;
-        Coordinator coordinator;
         if (coordinatorOptional.isEmpty()) {
             teacher = teacherRepository.findByEmail(emailTeacher).orElseThrow(() -> new EntityNotFoundException());
 
@@ -243,7 +257,19 @@ public class DisciplineServices {
     public DisciplineResponseDto removeSubstituteTeacherOffCourseDiscipline(String disciplineName, String emailTeacher) {
         Discipline discipline = getDisciplineByName(disciplineName);
 
+
         if(discipline.getSubsTeacherEmail().equalsIgnoreCase(emailTeacher)) {
+
+            Optional<Coordinator> coordinatorOptional = coordinatorRepository.findByEmail(emailTeacher);
+            Teacher teacher;
+            if (coordinatorOptional.isEmpty()) {
+                teacher = teacherRepository.findByEmail(emailTeacher).orElseThrow(() -> new EntityNotFoundException());
+                teacher.setSubsTeacherOffCourse(null);
+                teacherRepository.save(teacher);
+            } else {
+                throw new RuntimeException("A coordinator can't work in a course he doesn't belongs");
+            }
+
             discipline.setSubsTeacherEmail(null);
             disciplineRepository.save(discipline);
         } else {
