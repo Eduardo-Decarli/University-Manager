@@ -26,8 +26,8 @@ public class TeacherService {
     private final PasswordEncoder passwordEncoder;
 
     public TeacherResponseDto create(TeacherCreateDto teacherDto) {
-        try {
             Teacher teacher = TeacherMapper.toTeacher(teacherDto);
+        try {
             teacher.setPassword(passwordEncoder.encode(teacherDto.getPassword()));
             Teacher teacherSaved = repository.save(teacher);
             return TeacherMapper.toDto(teacherSaved);
