@@ -46,7 +46,7 @@ public class StudentService {
             student.setPassword(passwordEncoder.encode(studentDto.getPassword()));
 
             Address address = addressConsumerFeign.getAddresByCep(studentDto.getAddress());
-            String addressStudent = String.format(address.getEstado()+ "/" + address.getUf() + " | " + address.getLocalidade()+ ", " + address.getBairro() + ", " + address.getLogradouro());
+            String addressStudent = String.format(address.getEstado() + "/" + address.getUf() + " | " + address.getLocalidade() + ", " + address.getBairro() + ", " + address.getLogradouro());
             student.setAddress(addressStudent);
         try {
             repository.save(student);
@@ -77,7 +77,10 @@ public class StudentService {
         student.setBirthDate(studentDto.getBirthDate());
         student.setPassword(studentDto.getPassword());
         student.setRole(studentDto.getRole());
-        //student.setAddress(studentDto.getAddress());
+
+        Address address = addressConsumerFeign.getAddresByCep(studentDto.getAddress());
+        String addressStudent = String.format(address.getEstado() + "/" + address.getUf() + " | " + address.getLocalidade() + ", " + address.getBairro() + ", " + address.getLogradouro());
+        student.setAddress(addressStudent);
 
         try {
             repository.save(student);
