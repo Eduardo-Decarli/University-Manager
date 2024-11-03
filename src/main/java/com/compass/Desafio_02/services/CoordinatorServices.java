@@ -40,8 +40,9 @@ public class CoordinatorServices {
 
     public CoordinatorResponseDto createCoordinator(CoordinatorCreateDto response) {
         Coordinator coordinator = CoordinatorMapper.toCoordinator(response);
+
+        coordinator.setPassword(passwordEncoder.encode(coordinator.getPassword()));
         try {
-            response.setPassword(passwordEncoder.encode(coordinator.getPassword()));
             repository.save(coordinator);
             return CoordinatorMapper.toDto(coordinator);
         } catch (DataIntegrityViolationException ex) {
@@ -67,7 +68,7 @@ public class CoordinatorServices {
         coordinator.setLastName(response.getLastName());
         coordinator.setEmail(response.getEmail());
         coordinator.setBirthDate(response.getBirthDate());
-        coordinator.setPassword(response.getPassword());
+        coordinator.setPassword(passwordEncoder.encode(coordinator.getPassword()));
         coordinator.setRole(response.getRole());
         try {
             repository.save(coordinator);
