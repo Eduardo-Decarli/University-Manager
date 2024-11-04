@@ -94,7 +94,7 @@ public class CourseIT {
     public void addDiscipline_withValidData_returnStatus200() {
         CourseResponseDto responseBody = testCourse
                 .patch()
-                .uri("/api/v1/course/Computer_Science/add/disciplines/CS101")
+                .uri("/api/v1/course/Biology/add/disciplines/CS102")
                 .headers(JwtAuthentication.getHeaderAuthorization(testCourse, "joe@example.com", "12345678Lucas@"))
                 .exchange()
                 .expectStatus().isOk()
