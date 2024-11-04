@@ -93,4 +93,24 @@ public class RegistrationIT {
         org.assertj.core.api.Assertions.assertThat(responseBody.getId()).isEqualTo(1);
         org.assertj.core.api.Assertions.assertThat(responseBody.getCourse().getId()).isEqualTo(2L);
     }
+
+    @Test
+    public void removeRegistrationById_WithValidParameters_ReturnStatus204() {
+        testRegistration
+                .delete()
+                .uri("/api/v1/registration/1")
+                .headers(JwtAuthentication.getHeaderAuthorization(testRegistration, "joe@example.com", "12345678Lucas@"))
+                .exchange()
+                .expectStatus().isNoContent();
+    }
+
+    @Test
+    public void removeRegistrationById_WithInvalidParameters_ReturnStatus404() {
+        testRegistration
+                .delete()
+                .uri("/api/v1/registration/0")
+                .headers(JwtAuthentication.getHeaderAuthorization(testRegistration, "joe@example.com", "12345678Lucas@"))
+                .exchange()
+                .expectStatus().isNotFound();
+    }
 }
