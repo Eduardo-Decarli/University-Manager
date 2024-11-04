@@ -310,7 +310,7 @@ public class CoordinatorIT {
     }
 
     @Test
-    public void updateCoordinatorById_WithInvalidParameters_ReturnStatus400() {
+    public void updateCoordinatorById_WithinValidParameters_ReturnStatus400() {
         testClient
                 .put()
                 .uri("/api/v1/coordinator/1")
