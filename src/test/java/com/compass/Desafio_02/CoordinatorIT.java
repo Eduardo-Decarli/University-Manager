@@ -310,7 +310,7 @@ public class CoordinatorIT {
     }
 
     @Test
-    public void updateCoordinatorById_WithinValidParameters_ReturnStatus400() {
+    public void updateCoordinatorById_WithInvalidParameters_ReturnStatus400() {
         testClient
                 .put()
                 .uri("/api/v1/coordinator/1")
@@ -329,13 +329,23 @@ public class CoordinatorIT {
     }
 
     @Test
-    public void removeCoordinatorById_WithValidParameters_ReturnStatus() {
+    public void removeCoordinatorById_WithValidParameters_ReturnStatus204() {
         testClient
                 .delete()
                 .uri("/api/v1/coordinator/2")
                 .headers(JwtAuthentication.getHeaderAuthorization(testClient, "joe@example.com", "12345678Lucas@"))
                 .exchange()
                 .expectStatus().isNoContent();
+    }
+
+    @Test
+    public void removeCoordinatorById_WithinValidParameters_ReturnStatus404() {
+        testClient
+                .delete()
+                .uri("/api/v1/coordinator/0")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "joe@example.com", "12345678Lucas@"))
+                .exchange()
+                .expectStatus().isEqualTo(404);
     }
 
 }
