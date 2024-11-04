@@ -4,6 +4,7 @@ import com.compass.Desafio_02.web.dto.CourseCreateDto;
 import com.compass.Desafio_02.web.dto.CourseResponseDto;
 import com.compass.Desafio_02.web.dto.DisciplineCreateDto;
 import com.compass.Desafio_02.web.dto.DisciplineResponseDto;
+import com.compass.Desafio_02.web.exception.handler.ErrorMessage;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -100,5 +101,51 @@ public class DisciplinesIT {
                 .exchange()
                 .expectStatus().isNoContent();
     }
+
+    @Test
+    public void addStudent_withValidData_returnStatus200() {
+        DisciplineResponseDto responseBody = testDisciplines
+                .patch()
+                .uri("/api/v1/discipline/CS101/add/student/2")
+                .headers(JwtAuthentication.getHeaderAuthorization(testDisciplines, "joe@example.com", "12345678Lucas@"))
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(DisciplineResponseDto.class)
+                .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStudents().size()).isEqualTo(2);
+    }
+
+    @Test
+    public void removeStudent_withValidData_returnStatus200() {
+        testDisciplines
+                .patch()
+                .uri("/api/v1/discipline/CS101/remove/student/2")
+                .headers(JwtAuthentication.getHeaderAuthorization(testDisciplines, "joe@example.com", "12345678Lucas@"))
+                .exchange()
+                .expectStatus().isOk();
+    }
+
+    @Test
+    public void addSubsTeacher_withValidData_returnStatus200() {
+        testDisciplines
+                .patch()
+                .uri("/api/v1/discipline/CS101/add/teacher/substitute/binto@example.com")
+                .headers(JwtAuthentication.getHeaderAuthorization(testDisciplines, "joe@example.com", "12345678Lucas@"))
+                .exchange()
+                .expectStatus().isOk();
+    }
+
+    @Test
+    public void addTitularTeacher_withValidData_returnStatus200() {
+        testDisciplines
+                .patch()
+                .uri("/api/v1/discipline/CS103/add/teacher/titular/binto@example.com")
+                .headers(JwtAuthentication.getHeaderAuthorization(testDisciplines, "joe@example.com", "12345678Lucas@"))
+                .exchange()
+                .expectStatus().isOk();
+    }
+
 
 }
