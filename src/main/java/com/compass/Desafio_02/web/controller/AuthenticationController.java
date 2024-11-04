@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Authentication", description = "Resource to proceed with authentication in the API")
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -33,6 +34,16 @@ public class AuthenticationController {
     private final JwtUserDetailsService detailsService;
     private final AuthenticationManager authenticationManager;
 
+    @Operation(summary = "Authenticate to the API", description = "Authentication feature in API",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Authentication successful and return of a bearer token",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = JwtToken.class))),
+                    @ApiResponse(responseCode = "400", description = "Invalid credentials",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
+                    @ApiResponse(responseCode = "422", description = "Invalid Field(s)",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class)))
+            }
+    )
     @PostMapping("/auth")
     public ResponseEntity<?> autenticar(@RequestBody @Valid UserLoginDto dto, HttpServletRequest request) {
         log.info("Login authentication process login {}", dto.getEmail());
