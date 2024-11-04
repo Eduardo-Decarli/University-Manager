@@ -50,3 +50,24 @@ The project is a university management system, which has students, teachers, coo
 - Scrum
 - Trello
 
+## How to use docker in the project
+
+1. Open a command terminal in the folder containing the docker-compose file (Project root)
+
+2. Run the command `docker-compose up -d` to start the containers -> 
+This command starts and creates the containers specified in the docker-compose.yml file.
+
+    - If it results in an "error response from deamon", port 3306 will probably already be in use by a SQL service, it is necessary to close and run the command again
+
+3. Within docker desktop you can see if the container with the project name is running... If not, just press start container
+
+4. Now with the container running, just open mySQL from the terminal using the command `docker exec -it mysql_university mysql -u root -p` and enter the password "123456" registered in the docker-compose file. Or enter mySQL workbench and add a new connection to the server, the connection data will be:
+
+- Connection Name: university
+- Hostname: 127.0.0.1
+- Port: 3306
+- Username: root
+- password(store in vault): 123456
+
+5. Run the projet to create the tables with JPA.
+
