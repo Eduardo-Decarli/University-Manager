@@ -17,8 +17,8 @@ import java.util.List;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Sql(scripts = "/sql/InsertDataInSQL.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-@Sql(scripts = "/sql/DeleteDataInSQL.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+@Sql(scripts = "/sql-coordinator/InsertDataInSQL.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "/sql-coordinator/DeleteDataInSQL.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class CoordinatorIT {
 
     @Autowired
@@ -62,7 +62,7 @@ public class CoordinatorIT {
                 .returnResult().getResponseBody();
 
         org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
-        org.assertj.core.api.Assertions.assertThat(responseBody.getId()).isEqualTo(1);
+        org.assertj.core.api.Assertions.assertThat(responseBody.getEmail()).isEqualTo("joe@example.com");
         org.assertj.core.api.Assertions.assertThat(responseBody.getFirstName()).isEqualTo("Joe");
         org.assertj.core.api.Assertions.assertThat(responseBody.getRole()).isEqualTo(Role.ROLE_COORDINATOR);
     }
@@ -81,6 +81,7 @@ public class CoordinatorIT {
         org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
         org.assertj.core.api.Assertions.assertThat(responseBody.getId()).isEqualTo(1);
         org.assertj.core.api.Assertions.assertThat(responseBody.getFirstName()).isEqualTo("Joe");
+        org.assertj.core.api.Assertions.assertThat(responseBody.getEmail()).isEqualTo("joe@example.com");
         org.assertj.core.api.Assertions.assertThat(responseBody.getRole()).isEqualTo(Role.ROLE_COORDINATOR);
     }
 
@@ -97,6 +98,8 @@ public class CoordinatorIT {
 
         org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
         org.assertj.core.api.Assertions.assertThat(responseBody.getCoordinator().getFirstName()).isEqualTo("Joe");
+        org.assertj.core.api.Assertions.assertThat(responseBody.getCoordinator().getEmail()).isEqualTo("joe@example.com");
+        org.assertj.core.api.Assertions.assertThat(responseBody.getCoordinator().getRole()).isEqualTo(Role.ROLE_COORDINATOR);
     }
 
     @Test
@@ -111,7 +114,8 @@ public class CoordinatorIT {
                 .returnResult().getResponseBody();
 
         org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
-        org.assertj.core.api.Assertions.assertThat(responseBody.size()).isEqualTo(1);    }
+        org.assertj.core.api.Assertions.assertThat(responseBody.size()).isEqualTo(2);
+    }
 
     @Test
     public void getCoordinatorDiscipline_WithValidId_ReturnStatus200() {
@@ -125,7 +129,7 @@ public class CoordinatorIT {
                 .returnResult().getResponseBody();
 
         org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
-        org.assertj.core.api.Assertions.assertThat(responseBody).size().isEqualTo(1);
+        org.assertj.core.api.Assertions.assertThat(responseBody).size().isEqualTo(2);
     }
 
 

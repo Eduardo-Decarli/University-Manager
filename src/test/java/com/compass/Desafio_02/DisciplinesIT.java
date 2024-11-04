@@ -14,8 +14,8 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Sql(scripts = "/sql/DeleteDataInSQL.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-@Sql(scripts = "/sql/InsertDataInSQL.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "/sql-disciplines/DeleteDataInSQL.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+@Sql(scripts = "/sql-disciplines/InsertDataInSQL.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 public class DisciplinesIT {
 
     @Autowired
@@ -95,7 +95,7 @@ public class DisciplinesIT {
     public void deleteDiscipline_existingId_returnStatus204() {
         testDisciplines
                 .delete()
-                .uri("/api/v1/discipline/1")
+                .uri("/api/v1/discipline/3")
                 .headers(JwtAuthentication.getHeaderAuthorization(testDisciplines, "joe@example.com", "12345678Lucas@"))
                 .exchange()
                 .expectStatus().isNoContent();

@@ -14,8 +14,8 @@ import java.util.List;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Sql(scripts = "/sql/DeleteDataInSQL.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-@Sql(scripts = "/sql/InsertDataInSQL.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "/sql-course/DeleteDataInSQL.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+@Sql(scripts = "/sql-course/InsertDataInSQL.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 public class CourseIT {
 
     @Autowired
@@ -74,7 +74,7 @@ public class CourseIT {
         org.assertj.core.api.Assertions.assertThat(responseBody.getName()).isEqualTo("Computer_Science");
         org.assertj.core.api.Assertions.assertThat(responseBody.getDescription()).isEqualTo("Course_description_1");
         org.assertj.core.api.Assertions.assertThat(responseBody.getCoordinator().getId()).isEqualTo(1);
-        org.assertj.core.api.Assertions.assertThat(responseBody.getDisciplines().size()).isEqualTo(1);
+        org.assertj.core.api.Assertions.assertThat(responseBody.getDisciplines().size()).isEqualTo(2);
     }
 
     @Test
@@ -94,13 +94,13 @@ public class CourseIT {
     public void addDiscipline_withValidData_returnStatus200() {
         CourseResponseDto responseBody = testCourse
                 .patch()
-                .uri("/api/v1/course/Biology/add/disciplines/CS102")
+                .uri("/api/v1/course/Biology/add/disciplines/CS104")
                 .headers(JwtAuthentication.getHeaderAuthorization(testCourse, "joe@example.com", "12345678Lucas@"))
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(CourseResponseDto.class)
                 .returnResult().getResponseBody();
-        org.assertj.core.api.Assertions.assertThat(responseBody.getDisciplines().size()).isEqualTo(0);
+        org.assertj.core.api.Assertions.assertThat(responseBody.getDisciplines().size()).isEqualTo(2);
     }
 
     @Test
@@ -113,5 +113,7 @@ public class CourseIT {
                 .expectStatus().isOk()
                 .expectBody(CourseResponseDto.class)
                 .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody.getDisciplines().size()).isEqualTo(1);
     }
 }

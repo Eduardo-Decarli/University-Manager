@@ -1,0 +1,2 @@
+INSERT INTO coordinator (birth_date, email, first_name, last_name, password, role)
+    VALUES ('2000-01-15', 'joe@example.com', 'Joe', 'Fontes', '$2a$10$zGp1XxUHnH9fsKMJlw8YLe5RGUxqjgMXcW4VYHZxvahgJgRNKVavm', 'ROLE_COORDINATOR');

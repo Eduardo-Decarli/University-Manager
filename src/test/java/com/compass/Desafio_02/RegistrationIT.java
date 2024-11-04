@@ -16,8 +16,8 @@ import java.util.List;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Sql(scripts = "/sql/InsertDataInSQL.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-@Sql(scripts = "/sql/DeleteDataInSQL.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+@Sql(scripts = "/sql-registration/InsertDataInSQL.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "/sql-registration/DeleteDataInSQL.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class RegistrationIT {
 
     @Autowired
@@ -31,7 +31,7 @@ public class RegistrationIT {
                 .headers(JwtAuthentication.getHeaderAuthorization(testRegistration, "joe@example.com", "12345678Lucas@"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .bodyValue(new RegistrationCreateDto(40L, 1L))
+                .bodyValue(new RegistrationCreateDto(2L, 1L))
                 .exchange()
                 .expectStatus().isCreated()
                 .expectBody(RegistrationResponseDto.class)
@@ -61,7 +61,7 @@ public class RegistrationIT {
     public void getRegistrationById_withValidId_returnStatus200AndRegistration() {
         RegistrationResponseDto responseBody = testRegistration
                 .get()
-                .uri("/api/v1/registration/{id}", 1)
+                .uri("/api/v1/registration/1")
                 .headers(JwtAuthentication.getHeaderAuthorization(testRegistration, "joe@example.com", "12345678Lucas@"))
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
@@ -83,7 +83,7 @@ public class RegistrationIT {
                 .headers(JwtAuthentication.getHeaderAuthorization(testRegistration, "joe@example.com", "12345678Lucas@"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .bodyValue(new RegistrationCreateDto(40L, 2L))
+                .bodyValue(new RegistrationCreateDto(2L, 2L))
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(RegistrationResponseDto.class)
