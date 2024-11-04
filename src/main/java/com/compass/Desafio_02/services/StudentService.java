@@ -2,18 +2,20 @@ package com.compass.Desafio_02.services;
 
 import com.compass.Desafio_02.entities.Course;
 import com.compass.Desafio_02.entities.Student;
-import com.compass.Desafio_02.entities.Teacher;
+import com.compass.Desafio_02.entities.api.Address;
+import com.compass.Desafio_02.entities.enumeration.Role;
 import com.compass.Desafio_02.repositories.StudentRepository;
+import com.compass.Desafio_02.web.controller.apiCep.AddressConsumerFeign;
 import com.compass.Desafio_02.web.dto.*;
 import com.compass.Desafio_02.web.dto.mapper.*;
 import com.compass.Desafio_02.web.exception.EmptyListException;
 import com.compass.Desafio_02.web.exception.EntityUniqueViolationException;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,8 +23,14 @@ public class StudentService {
 
     private final StudentRepository repository;
 
-    public StudentService(StudentRepository repository) {
+    @Autowired
+    private AddressConsumerFeign addressConsumerFeign;
+    
+    private final PasswordEncoder passwordEncoder;
+
+    public StudentService(StudentRepository repository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public StudentResponseDto getById(Long id) {
@@ -34,10 +42,17 @@ public class StudentService {
 
 
     public StudentResponseDto create(StudentCreateDto studentDto) {
-        try {
+
             Student student = StudentMapper.toStudent(studentDto);
-            Student studentSaved = repository.save(student);
-            return StudentMapper.toDto(studentSaved);
+            student.setRole(Role.ROLE_STUDENT);
+            student.setPassword(passwordEncoder.encode(studentDto.getPassword()));
+
+            Address address = addressConsumerFeign.getAddresByCep(studentDto.getAddress());
+            String addressStudent = String.format(address.getEstado() + "/" + address.getUf() + " | " + address.getLocalidade() + ", " + address.getBairro() + ", " + address.getLogradouro());
+            student.setAddress(addressStudent);
+        try {
+            repository.save(student);
+            return StudentMapper.toDto(student);
         } catch (DataIntegrityViolationException ex) {
             throw new EntityUniqueViolationException(
                     String.format("Error: There is a student with email: %s already registered", studentDto.getEmail())
@@ -63,8 +78,10 @@ public class StudentService {
         student.setEmail(studentDto.getEmail());
         student.setBirthDate(studentDto.getBirthDate());
         student.setPassword(studentDto.getPassword());
-        student.setRole(studentDto.getRole());
-        student.setAddress(studentDto.getAddress());
+
+        Address address = addressConsumerFeign.getAddresByCep(studentDto.getAddress());
+        String addressStudent = String.format(address.getEstado() + "/" + address.getUf() + " | " + address.getLocalidade() + ", " + address.getBairro() + ", " + address.getLogradouro());
+        student.setAddress(addressStudent);
 
         try {
             repository.save(student);

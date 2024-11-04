@@ -1,6 +1,7 @@
 package com.compass.Desafio_02.services;
 
 import com.compass.Desafio_02.entities.*;
+import com.compass.Desafio_02.entities.enumeration.Role;
 import com.compass.Desafio_02.repositories.CourseRepository;
 import com.compass.Desafio_02.repositories.TeacherRepository;
 import com.compass.Desafio_02.web.dto.*;
@@ -11,6 +12,7 @@ import com.compass.Desafio_02.web.exception.EntityUniqueViolationException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,10 +24,13 @@ public class TeacherService {
 
     private final TeacherRepository repository;
     private final CourseRepository courseRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public TeacherResponseDto create(TeacherCreateDto teacherDto) {
-        try {
             Teacher teacher = TeacherMapper.toTeacher(teacherDto);
+            teacher.setRole(Role.ROLE_TEACHER);
+        try {
+            teacher.setPassword(passwordEncoder.encode(teacherDto.getPassword()));
             Teacher teacherSaved = repository.save(teacher);
             return TeacherMapper.toDto(teacherSaved);
         } catch(DataIntegrityViolationException ex){

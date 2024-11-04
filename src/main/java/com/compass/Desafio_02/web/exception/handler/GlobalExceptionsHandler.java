@@ -1,6 +1,7 @@
 package com.compass.Desafio_02.web.exception.handler;
 
 import com.compass.Desafio_02.web.exception.*;
+import feign.FeignException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -116,5 +117,15 @@ public class GlobalExceptionsHandler {
                 .status(HttpStatus.CONFLICT)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(new ErrorMessage(request, HttpStatus.CONFLICT, ex.getMessage()));
+    }
+
+
+    @ExceptionHandler(FeignException.class)
+    public ResponseEntity<ErrorMessage> feingException(FeignException ex,
+                                                       HttpServletRequest request){
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(request, HttpStatus.NOT_FOUND, "Error: CEP code not found"));
     }
 }
