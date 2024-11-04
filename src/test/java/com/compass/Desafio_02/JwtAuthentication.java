@@ -3,7 +3,7 @@ package com.compass.Desafio_02;
 import com.compass.Desafio_02.jwt.JwtToken;
 import com.compass.Desafio_02.web.dto.UserLoginDto;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpHeaders;
 
 
 import java.util.function.Consumer;
