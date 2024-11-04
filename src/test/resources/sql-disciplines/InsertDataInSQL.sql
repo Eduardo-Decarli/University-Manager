@@ -8,8 +8,8 @@ INSERT INTO `discipline` (`description`, `name`) VALUES ('Introduction to Comput
 
 -- Coordinator
 
-INSERT INTO `coordinator` (`birth_date`, `email`, `first_name`, `last_name`, `password`, `role`, `main_teacher_id`)
-VALUES ('2000-01-15', 'joe@example.com', 'Joe', 'Fontes', '$2a$10$zGp1XxUHnH9fsKMJlw8YLe5RGUxqjgMXcW4VYHZxvahgJgRNKVavm', 'ROLE_COORDINATOR', 1);
+INSERT INTO `coordinator` (`birth_date`, `email`, `first_name`, `last_name`, `password`, `role`, `main_teacher_id`, `subs_teacher_id`)
+VALUES ('2000-01-15', 'joe@example.com', 'Joe', 'Fontes', '$2a$10$zGp1XxUHnH9fsKMJlw8YLe5RGUxqjgMXcW4VYHZxvahgJgRNKVavm', 'ROLE_COORDINATOR', 1, 2);
 
 INSERT INTO `coordinator` (`birth_date`, `email`, `first_name`, `last_name`, `password`, `role`, `main_teacher_id`)
 VALUES('2000-01-15', 'binto@example.com', 'Joe', 'Fontes', '$2a$10$zGp1XxUHnH9fsKMJlw8YLe5RGUxqjgMXcW4VYHZxvahgJgRNKVavm', 'ROLE_COORDINATOR', 2);
