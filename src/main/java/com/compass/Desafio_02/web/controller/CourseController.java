@@ -44,7 +44,7 @@ public class CourseController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('COORDINATOR')")
-    public ResponseEntity<CourseResponseDto> updateCourse(@Valid @PathVariable Long id, @RequestBody CourseCreateDto course) {
+    public ResponseEntity<CourseResponseDto> updateCourse(@PathVariable Long id,@Valid @RequestBody CourseCreateDto course) {
         CourseResponseDto updatedCourse = services.updateCourse(id, course);
         return ResponseEntity.ok().body(updatedCourse);
     }
