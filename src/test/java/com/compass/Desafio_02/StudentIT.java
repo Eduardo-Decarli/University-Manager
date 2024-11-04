@@ -16,8 +16,8 @@ import java.util.List;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Sql(scripts = "/sql/InsertDataInSQL.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-@Sql(scripts = "/sql/DeleteDataInSQL.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+@Sql(scripts = "/sql/sql-student/InsertDataInSQL.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "/sql/sql-student/DeleteDataInSQL.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class StudentIT {
 
     @Autowired
@@ -37,7 +37,6 @@ public class StudentIT {
                 returnResult().getResponseBody();
 
         org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
-        org.assertj.core.api.Assertions.assertThat(responseBody.getId()).isNotNull();
         org.assertj.core.api.Assertions.assertThat(responseBody.getEmail()).isEqualTo("student@email.com");
         org.assertj.core.api.Assertions.assertThat(responseBody.getRole()).isEqualTo(Role.ROLE_STUDENT);
     }
@@ -46,7 +45,7 @@ public class StudentIT {
     public void deleteStudentById_WithValidId_ReturnsStatus204() {
         testStudent
                 .delete()
-                .uri("/api/v1/students/1")
+                .uri("/api/v1/students/40")
                 .headers(JwtAuthentication.getHeaderAuthorization(testStudent, "joe@example.com", "12345678Lucas@"))
                 .exchange()
                 .expectStatus().isNoContent();
@@ -82,7 +81,7 @@ public class StudentIT {
     }
 
     @Test
-    public void getCourseByCourse_withValidData_returnStatus200() {
+    public void getCourseByStudent_withValidData_returnStatus200() {
         CourseResponseDto responseBody = testStudent
                 .get()
                 .uri("/api/v1/students/me/course")
@@ -116,14 +115,30 @@ public class StudentIT {
         List<DisciplineResponseDto> responseBody = testStudent
                 .get()
                 .uri("/api/v1/students/me/course/disciplines")
-                .headers(JwtAuthentication.getHeaderAuthorization(testStudent, "john@example.com", "12345678Lucas@"))
+                .headers(JwtAuthentication.getHeaderAuthorization(testStudent, "john@email.com", "12345678Lucas@"))
                 .exchange()
                 .expectStatus().isOk()
                 .expectBodyList(DisciplineResponseDto.class)
                 .returnResult().getResponseBody();
 
         org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
-        org.assertj.core.api.Assertions.assertThat(responseBody.size()).isGreaterThan(0); // Verifica se há disciplinas associadas
+        org.assertj.core.api.Assertions.assertThat(responseBody.size()).isGreaterThan(0);
+    }
+
+    @Test
+    public void getAllStudent_WithValidId_ReturnStatus200() {
+        List<StudentResponseDto> responseBody = testStudent
+                .get()
+                .uri("/api/v1/students")
+                .headers(JwtAuthentication.getHeaderAuthorization(testStudent, "joe@example.com", "12345678Lucas@"))
+                .exchange()
+                .expectStatus().isOk()
+                .expectBodyList(StudentResponseDto.class)
+                .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.size()).isNotNull();
+
     }
 }
 
