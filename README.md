@@ -1,5 +1,17 @@
 # SP_SpringBoot_AWS_Desafio_02
 
+## Summary
+
+This is a project developed by the members of group-2 to carry out the challenge on SpringBoot and ApiResfull, it was developed in a group, with the appropriate and professional use of git, containing a good relationship between branches and maintaining commit standards.
+
+## The project
+
+The project is a university management system, which has students, teachers, coordinators, courses, disciplines and enrollments. Coordinators can create courses and teachers in the system, as well as courses and subjects for the college, in addition to being able to register student enrollments for courses present at the university.
+
+## Data Flow
+
+- 
+
 ## How to use DB on docker
 
 ### Install and run mysql on docker
