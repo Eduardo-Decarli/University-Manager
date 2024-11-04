@@ -6,6 +6,14 @@ import com.compass.Desafio_02.services.CourseServices;
 import com.compass.Desafio_02.web.dto.CourseCreateDto;
 import com.compass.Desafio_02.web.dto.CourseResponseDto;
 import com.compass.Desafio_02.web.dto.DisciplineResponseDto;
+import com.compass.Desafio_02.web.exception.handler.ErrorMessage;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,7 +33,6 @@ public class CourseController {
         this.services = services;
     }
 
-    // ROLE_COORDINATOR
     @PostMapping
     @PreAuthorize("hasRole('COORDINATOR')")
     public ResponseEntity<CourseResponseDto> create(@Valid @RequestBody CourseCreateDto course) {

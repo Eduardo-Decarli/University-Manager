@@ -3,7 +3,16 @@ package com.compass.Desafio_02.web.controller;
 import com.compass.Desafio_02.services.DisciplineServices;
 import com.compass.Desafio_02.web.dto.DisciplineCreateDto;
 import com.compass.Desafio_02.web.dto.DisciplineResponseDto;
+import com.compass.Desafio_02.web.exception.handler.ErrorMessage;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.headers.Header;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -22,7 +31,6 @@ public class DisciplineController {
         this.services = services;
     }
 
-    // ROLE_COORDINATOR
     @PostMapping
     @PreAuthorize("hasRole('COORDINATOR')")
     public ResponseEntity<DisciplineResponseDto> create(@Valid @RequestBody DisciplineCreateDto discipline) {
@@ -44,9 +52,8 @@ public class DisciplineController {
         return ResponseEntity.ok().body(discipline);
     }
 
-    // ROLE_TEACHER
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('COORDINATOR')")
+    @PreAuthorize("hasRole('COORDINATOR') OR hasRole('TEACHER')")
     public ResponseEntity<DisciplineResponseDto> updateDiscipline(@Valid @PathVariable Long id, @RequestBody DisciplineCreateDto discipline) {
         DisciplineResponseDto update = services.updateDiscipline(id, discipline);
         return ResponseEntity.ok().body(update);
@@ -74,42 +81,42 @@ public class DisciplineController {
     }
 
     @PatchMapping("/{disciplineName}/add/teacher/titular/{emailTeacher}")
-    @PreAuthorize("hasRole('COORDINATOR')")
+    @PreAuthorize("hasRole('COORDINATOR') OR (#emailTeacher == authentication.principal.email)")
     public ResponseEntity<DisciplineResponseDto> addTitularTeacherDiscipline(@Valid @PathVariable String disciplineName, @PathVariable String emailTeacher) {
         DisciplineResponseDto update = services.addTitularTeacherByDiscipline(disciplineName, emailTeacher);
         return ResponseEntity.ok().body(update);
     }
 
     @PatchMapping("/{disciplineName}/remove/teacher/titular/{emailTeacher}")
-    @PreAuthorize("hasRole('COORDINATOR')")
+    @PreAuthorize("hasRole('COORDINATOR') OR (#emailTeacher == authentication.principal.email)")
     public ResponseEntity<DisciplineResponseDto> removeTitularTeacherDiscipline(@Valid @PathVariable String disciplineName, @PathVariable String emailTeacher) {
         DisciplineResponseDto update = services.removeTitularTeacherDiscipline(disciplineName, emailTeacher);
         return ResponseEntity.ok().body(update);
     }
 
     @PatchMapping("/{disciplineName}/add/teacher/substitute/{emailTeacher}")
-    @PreAuthorize("hasRole('COORDINATOR')")
+    @PreAuthorize("hasRole('COORDINATOR') OR (#emailTeacher == authentication.principal.email)")
     public ResponseEntity<DisciplineResponseDto> addSubstituteTeacherDiscipline(@Valid @PathVariable String disciplineName, @PathVariable String emailTeacher) {
         DisciplineResponseDto update = services.addSubstituteTeacherDiscipline(disciplineName, emailTeacher);
         return ResponseEntity.ok().body(update);
     }
 
     @PatchMapping("/{disciplineName}/remove/teacher/substitute/{emailTeacher}")
-    @PreAuthorize("hasRole('COORDINATOR')")
+    @PreAuthorize("hasRole('COORDINATOR') OR (#emailTeacher == authentication.principal.email)")
     public ResponseEntity<DisciplineResponseDto> removeSubstituteTeacherDiscipline(@Valid @PathVariable String disciplineName, @PathVariable String emailTeacher) {
         DisciplineResponseDto update = services.removeSubstituteTeacherDiscipline(disciplineName, emailTeacher);
         return ResponseEntity.ok().body(update);
     }
 
     @PatchMapping("/{disciplineName}/add/teacher/substitute/off/course/{emailTeacher}")
-    @PreAuthorize("hasRole('COORDINATOR')")
+    @PreAuthorize("hasRole('COORDINATOR') OR (#emailTeacher == authentication.principal.email)")
     public ResponseEntity<DisciplineResponseDto> addSubstituteTeacherOffCourseDiscipline(@Valid @PathVariable String disciplineName, @PathVariable String emailTeacher) {
         DisciplineResponseDto update = services.addSubstituteTeacherOffCourseDiscipline(disciplineName, emailTeacher);
         return ResponseEntity.ok().body(update);
     }
 
     @PatchMapping("/{disciplineName}/remove/teacher/substitute/off/course/{emailTeacher}")
-    @PreAuthorize("hasRole('COORDINATOR')")
+    @PreAuthorize("hasRole('COORDINATOR') OR (#emailTeacher == authentication.principal.email)")
     public ResponseEntity<DisciplineResponseDto> removeSubstituteTeacherOffCourseDiscipline(@Valid @PathVariable String disciplineName, @PathVariable String emailTeacher) {
         DisciplineResponseDto update = services.removeSubstituteTeacherOffCourseDiscipline(disciplineName, emailTeacher);
         return ResponseEntity.ok().body(update);

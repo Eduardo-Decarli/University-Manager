@@ -26,7 +26,6 @@ public class CoordinatorController {
         this.services = services;
     }
 
-    // ROLE_COORDINATOR
     @PostMapping
     //@PreAuthorize("hasRole('COORDINATOR')")
     public ResponseEntity<CoordinatorResponseDto> create(@Valid @RequestBody CoordinatorCreateDto coordinator) {

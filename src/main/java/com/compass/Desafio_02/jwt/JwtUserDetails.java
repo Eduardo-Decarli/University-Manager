@@ -17,6 +17,10 @@ public class JwtUserDetails extends User {
         return this.usuario.getId();
     }
 
+    public String getEmail() {
+        return this.usuario.getEmail();
+    }
+
     public String getRole() {
         return this.usuario.getRole().name();
     }
