@@ -42,11 +42,39 @@ public class StudentIT {
     }
 
     @Test
+    public void getStudent_WithValidId_ReturnStatus200() {
+        StudentResponseDto responseBody = testStudent
+                .get()
+                .uri("/api/v1/students/me")
+                .headers(JwtAuthentication.getHeaderAuthorization(testStudent, "john@email.com", "12345678Lucas@"))                .exchange()
+                .expectStatus().isOk()
+                .expectBody(StudentResponseDto.class)
+                .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getEmail()).isEqualTo("john@email.com");
+        org.assertj.core.api.Assertions.assertThat(responseBody.getFirstName()).isEqualTo("John");
+        org.assertj.core.api.Assertions.assertThat(responseBody.getRole()).isEqualTo(Role.ROLE_STUDENT);
+    }
+
+    @Test
     public void deleteStudentById_WithValidId_ReturnsStatus204() {
         testStudent
                 .delete()
                 .uri("/api/v1/students/40")
                 .headers(JwtAuthentication.getHeaderAuthorization(testStudent, "joe@example.com", "12345678Lucas@"))
+                .exchange()
+                .expectStatus().isNoContent();
+    }
+
+    @Test
+    public void updateStudent_WithCoordinatorRole_ReturnStatus204() {
+        testStudent
+                .put()
+                .uri("/api/v1/students/modification/1")
+                .headers(JwtAuthentication.getHeaderAuthorization(testStudent, "joe@example.com", "12345678Lucas@"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(new StudentCreateDto("Joe","Doe","student@email.com",LocalDate.of(2000,5,15),"Coo4567@","88047550"))
                 .exchange()
                 .expectStatus().isNoContent();
     }
