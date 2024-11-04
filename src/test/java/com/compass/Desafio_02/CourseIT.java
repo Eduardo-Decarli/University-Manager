@@ -2,6 +2,7 @@ package com.compass.Desafio_02;
 
 import com.compass.Desafio_02.web.dto.CourseCreateDto;
 import com.compass.Desafio_02.web.dto.CourseResponseDto;
+import com.compass.Desafio_02.web.exception.handler.ErrorMessage;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -41,6 +42,54 @@ public class CourseIT {
     }
 
     @Test
+    public void createCourse_withInvalidData_returnStatus400() {
+        ErrorMessage responseBody = testCourse
+                .post()
+                .uri("/api/v1/course")
+                .headers(JwtAuthentication.getHeaderAuthorization(testCourse, "joe@example.com", "12345678Lucas@"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .bodyValue(new CourseCreateDto("", "muita matemática", 1L))
+                .exchange()
+                .expectStatus().isEqualTo(400)
+                .expectBody(ErrorMessage.class)
+                .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(400);
+
+        responseBody = testCourse
+                .post()
+                .uri("/api/v1/course")
+                .headers(JwtAuthentication.getHeaderAuthorization(testCourse, "joe@example.com", "12345678Lucas@"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .bodyValue(new CourseCreateDto("Matematica", "", 1L))
+                .exchange()
+                .expectStatus().isEqualTo(400)
+                .expectBody(ErrorMessage.class)
+                .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(400);
+
+        responseBody = testCourse
+                .post()
+                .uri("/api/v1/course")
+                .headers(JwtAuthentication.getHeaderAuthorization(testCourse, "joe@example.com", "12345678Lucas@"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .bodyValue(new CourseCreateDto("Matematica", "muita matemática", null))
+                .exchange()
+                .expectStatus().isEqualTo(400)
+                .expectBody(ErrorMessage.class)
+                .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(400);
+    }
+
+    @Test
     public void updateCourse_withValidData_returnStatus200() {
         CourseResponseDto responseBody = testCourse
                 .put()
@@ -60,6 +109,19 @@ public class CourseIT {
     }
 
     @Test
+    public void updateCourse_withInvalidData_returnStatus400() {
+        testCourse
+                .put()
+                .uri("/api/v1/course/1")
+                .headers(JwtAuthentication.getHeaderAuthorization(testCourse, "joe@example.com", "12345678Lucas@"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .bodyValue(new CourseCreateDto("", "", 1L))
+                .exchange()
+                .expectStatus().isEqualTo(400);
+    }
+
+    @Test
     public void getCourseById_withValidData_returnStatus200() {
         CourseResponseDto responseBody = testCourse
                 .get()
@@ -75,6 +137,21 @@ public class CourseIT {
         org.assertj.core.api.Assertions.assertThat(responseBody.getDescription()).isEqualTo("Course_description_1");
         org.assertj.core.api.Assertions.assertThat(responseBody.getCoordinator().getId()).isEqualTo(1);
         org.assertj.core.api.Assertions.assertThat(responseBody.getDisciplines().size()).isEqualTo(2);
+    }
+
+    @Test
+    public void getCourseById_withInvalidId_returnStatus404() {
+        ErrorMessage responseBody = testCourse
+                .get()
+                .uri("/api/v1/course/0")
+                .headers(JwtAuthentication.getHeaderAuthorization(testCourse, "joe@example.com", "12345678Lucas@"))
+                .exchange()
+                .expectStatus().isEqualTo(404)
+                .expectBody(ErrorMessage.class)
+                .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(404);
     }
 
     @Test
@@ -104,6 +181,22 @@ public class CourseIT {
     }
 
     @Test
+    public void addDiscipline_withInvalidCourse_returnStatus404() {
+
+        ErrorMessage responseBody = testCourse
+                .patch()
+                .uri("/api/v1/course/Biology/add/disciplines/CS404")
+                .headers(JwtAuthentication.getHeaderAuthorization(testCourse, "joe@example.com", "12345678Lucas@"))
+                .exchange()
+                .expectStatus().isNotFound()
+                .expectBody(ErrorMessage.class)
+                .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(404);
+    }
+
+    @Test
     public void removeDiscipline_withValidData_returnStatus204() {
         CourseResponseDto responseBody = testCourse
                 .patch()
@@ -115,5 +208,20 @@ public class CourseIT {
                 .returnResult().getResponseBody();
 
         org.assertj.core.api.Assertions.assertThat(responseBody.getDisciplines().size()).isEqualTo(1);
+    }
+
+    @Test
+    public void removeDiscipline_withInvalidCourse_returnStatus404() {
+        ErrorMessage responseBody = testCourse
+                .patch()
+                .uri("/api/v1/course/Computer_Science/remove/disciplines/CS10")
+                .headers(JwtAuthentication.getHeaderAuthorization(testCourse, "joe@example.com", "12345678Lucas@"))
+                .exchange()
+                .expectStatus().isNotFound()
+                .expectBody(ErrorMessage.class)
+                .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(404);
     }
 }
