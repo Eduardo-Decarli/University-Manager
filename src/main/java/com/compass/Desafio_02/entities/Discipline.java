@@ -1,5 +1,6 @@
 package com.compass.Desafio_02.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,6 +35,7 @@ public class Discipline implements Serializable {
     private String subsTeacherEmail;
 
     @ManyToMany
+    @JsonIgnore
     private List<Student> students;
 
     @Override

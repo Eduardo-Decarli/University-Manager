@@ -3,6 +3,7 @@ package com.compass.Desafio_02.services;
 import com.compass.Desafio_02.entities.Course;
 import com.compass.Desafio_02.entities.Student;
 import com.compass.Desafio_02.entities.api.Address;
+import com.compass.Desafio_02.entities.enumeration.Role;
 import com.compass.Desafio_02.repositories.StudentRepository;
 import com.compass.Desafio_02.web.controller.apiCep.AddressConsumerFeign;
 import com.compass.Desafio_02.web.dto.*;
@@ -43,6 +44,7 @@ public class StudentService {
     public StudentResponseDto create(StudentCreateDto studentDto) {
 
             Student student = StudentMapper.toStudent(studentDto);
+            student.setRole(Role.ROLE_STUDENT);
             student.setPassword(passwordEncoder.encode(studentDto.getPassword()));
 
             Address address = addressConsumerFeign.getAddresByCep(studentDto.getAddress());
@@ -76,7 +78,6 @@ public class StudentService {
         student.setEmail(studentDto.getEmail());
         student.setBirthDate(studentDto.getBirthDate());
         student.setPassword(studentDto.getPassword());
-        student.setRole(studentDto.getRole());
 
         Address address = addressConsumerFeign.getAddresByCep(studentDto.getAddress());
         String addressStudent = String.format(address.getEstado() + "/" + address.getUf() + " | " + address.getLocalidade() + ", " + address.getBairro() + ", " + address.getLogradouro());

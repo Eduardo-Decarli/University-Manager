@@ -42,7 +42,4 @@ public class TeacherCreateDto {
             message = "A password must be at least 8 characters long, with at least one saved letter, one lowercase letter, one number, and one special character."
     )
     private String password;
-
-    @NotNull(message = "Role is required")
-    private Role role = Role.ROLE_TEACHER;
 }

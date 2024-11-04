@@ -1,6 +1,7 @@
 package com.compass.Desafio_02.services;
 
 import com.compass.Desafio_02.entities.*;
+import com.compass.Desafio_02.entities.enumeration.Role;
 import com.compass.Desafio_02.repositories.CourseRepository;
 import com.compass.Desafio_02.repositories.TeacherRepository;
 import com.compass.Desafio_02.web.dto.*;
@@ -27,6 +28,7 @@ public class TeacherService {
 
     public TeacherResponseDto create(TeacherCreateDto teacherDto) {
             Teacher teacher = TeacherMapper.toTeacher(teacherDto);
+            teacher.setRole(Role.ROLE_TEACHER);
         try {
             teacher.setPassword(passwordEncoder.encode(teacherDto.getPassword()));
             Teacher teacherSaved = repository.save(teacher);
