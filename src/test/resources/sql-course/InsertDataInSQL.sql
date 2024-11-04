@@ -13,6 +13,9 @@ INSERT INTO coordinator (birth_date, email, first_name, last_name, password, rol
 INSERT INTO `coordinator` (`birth_date`, `email`, `first_name`, `last_name`, `password`, `role`, `main_teacher_id`) VALUES
     ('2000-01-15', 'binto@example.com', 'Joe', 'Fontes', '$2a$10$zGp1XxUHnH9fsKMJlw8YLe5RGUxqjgMXcW4VYHZxvahgJgRNKVavm', 'ROLE_COORDINATOR', 3);
 
+INSERT INTO `coordinator` (`birth_date`, `email`, `first_name`, `last_name`, `password`, `role`, `main_teacher_id`) VALUES
+    ('2000-01-15', 'bagnto@example.com', 'Joe', 'Fontes', '$2a$10$zGp1XxUHnH9fsKMJlw8YLe5RGUxqjgMXcW4VYHZxvahgJgRNKVavm', 'ROLE_COORDINATOR', 5);
+
 -- Course
 
 INSERT INTO course (description, name, coordinator_id) VALUES ('Course_description_1','Computer_Science', 1);
@@ -22,5 +25,4 @@ INSERT INTO course (description, name, coordinator_id) VALUES ('Course_descripti
 
 INSERT INTO course_disciplines (course_id, disciplines_id) VALUES ( 1, 1);
 INSERT INTO course_disciplines (course_id, disciplines_id) VALUES ( 1, 2);
-
 INSERT INTO course_disciplines (course_id, disciplines_id) VALUES ( 2, 5);
