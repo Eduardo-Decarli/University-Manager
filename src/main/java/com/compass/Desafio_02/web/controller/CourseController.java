@@ -56,7 +56,7 @@ public class CourseController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('COORDINATOR')")
-    public ResponseEntity<Void> deleteCourseById(@PathVariable long id) throws Exception {
+    public ResponseEntity<Void> deleteCourseById(@PathVariable long id) {
         services.deleteCourse(id);
         return ResponseEntity.noContent().build();
     }
