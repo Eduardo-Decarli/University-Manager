@@ -4,14 +4,14 @@ import com.compass.Desafio_02.entities.Registration;
 import com.compass.Desafio_02.entities.api.Address;
 import com.compass.Desafio_02.entities.enumeration.Role;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-
-@Getter @Setter @NoArgsConstructor
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class StudentCreateDto {
 
     @NotBlank(message = "The first name can't be empty")
