@@ -1,5 +1,6 @@
 package com.compass.Desafio_02;
 
+import com.compass.Desafio_02.web.dto.CoordinatorCreateDto;
 import com.compass.Desafio_02.web.dto.CourseCreateDto;
 import com.compass.Desafio_02.web.dto.CourseResponseDto;
 import com.compass.Desafio_02.web.exception.handler.ErrorMessage;
@@ -11,6 +12,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
@@ -197,6 +199,21 @@ public class CourseIT {
     }
 
     @Test
+    public void changeCourseCoordinatorById_WithInvalidParameters_ReturnStatus400() {
+        CourseResponseDto responseBody = testCourse
+                .patch()
+                .uri("/api/v1/course/Biology/change/coordinators/3")
+                .headers(JwtAuthentication.getHeaderAuthorization(testCourse, "joe@example.com", "12345678Lucas@"))
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(CourseResponseDto.class)
+                .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getCoordinator().getId()).isEqualTo(3);
+    }
+
+    @Test
     public void removeDiscipline_withValidData_returnStatus204() {
         CourseResponseDto responseBody = testCourse
                 .patch()
@@ -224,4 +241,15 @@ public class CourseIT {
         org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
         org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(404);
     }
+
+    @Test
+    public void removeCourseById_WithValidParameters_ReturnStatus204() {
+        testCourse
+                .delete()
+                .uri("/api/v1/course/2")
+                .headers(JwtAuthentication.getHeaderAuthorization(testCourse, "joe@example.com", "12345678Lucas@"))
+                .exchange()
+                .expectStatus().isNoContent();
+    }
+
 }
