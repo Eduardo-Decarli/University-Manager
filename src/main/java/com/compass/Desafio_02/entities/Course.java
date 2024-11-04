@@ -29,7 +29,6 @@ public class Course implements Serializable {
     private String description;
 
     @OneToOne
-    @JoinColumn(nullable = false)
     private Coordinator coordinator;
 
     @OneToMany

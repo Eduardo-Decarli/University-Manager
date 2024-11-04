@@ -124,7 +124,7 @@ public class CoordinatorController {
     )
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('COORDINATOR')")
-    public ResponseEntity<CoordinatorResponseDto> updateCoordinator(@Valid @PathVariable Long id, @RequestBody CoordinatorCreateDto coordinator) {
+    public ResponseEntity<CoordinatorResponseDto> updateCoordinator(@PathVariable Long id, @Valid  @RequestBody CoordinatorCreateDto coordinator) {
         CoordinatorResponseDto updatedCoordinator = services.updateCoordinator(id, coordinator);
         return ResponseEntity.ok().body(updatedCoordinator);
     }

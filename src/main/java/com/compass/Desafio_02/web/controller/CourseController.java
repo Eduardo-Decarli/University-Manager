@@ -1,19 +1,7 @@
 package com.compass.Desafio_02.web.controller;
-
-import com.compass.Desafio_02.entities.Course;
-import com.compass.Desafio_02.entities.Discipline;
 import com.compass.Desafio_02.services.CourseServices;
 import com.compass.Desafio_02.web.dto.CourseCreateDto;
 import com.compass.Desafio_02.web.dto.CourseResponseDto;
-import com.compass.Desafio_02.web.dto.DisciplineResponseDto;
-import com.compass.Desafio_02.web.exception.handler.ErrorMessage;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -122,7 +110,7 @@ public class CourseController {
     )
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('COORDINATOR')")
-    public ResponseEntity<CourseResponseDto> updateCourse(@Valid @PathVariable Long id, @RequestBody CourseCreateDto course) {
+    public ResponseEntity<CourseResponseDto> updateCourse(@PathVariable Long id,@Valid @RequestBody CourseCreateDto course) {
         CourseResponseDto updatedCourse = services.updateCourse(id, course);
         return ResponseEntity.ok().body(updatedCourse);
     }
