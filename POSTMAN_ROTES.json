@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "137dc7ce-ba21-4727-a105-b1f893bde84a",
-		"name": "Desafio_02",
+		"_postman_id": "16793ba3-ad8c-4015-9ec5-8dd242493508",
+		"name": "Desafio_02 Copy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "39036359"
+		"_exporter_id": "37261380"
 	},
 	"item": [
 		{
@@ -17,7 +17,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNzMwNjk4NTIwLCJleHAiOjE3MzA3MDAzMjAsInJvbGUiOiJDT09SRElOQVRPUiJ9.IIM5DE7uELDqINnl4vEQGxRkjyajAivJ3rgd2h2HUK4",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc0BleGFtcGxlLmNvbSIsImlhdCI6MTczMDc0NzczMiwiZXhwIjoxNzMwNzQ5NTMyLCJyb2xlIjoiQ09PUkRJTkFUT1IifQ.JbG8pDHuxZvhbR_YMdY30hHOOrSPfpJMCAJFd7gJPRw",
 									"type": "string"
 								}
 							]
@@ -26,7 +26,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"firstName\": \"Brenno\",\r\n    \"lastName\": \"Reis\",\r\n    \"email\": \"ash@example.com\",\r\n    \"birthDate\": \"2000-05-15\",\r\n    \"password\": \"securePassword123@\",\r\n    \"address\": \"48430000\"\r\n}",
+							"raw": "{\r\n    \"firstName\": \"Brenno\",\r\n    \"lastName\": \"Reis\",\r\n    \"email\": \"ae@example.com\",\r\n    \"birthDate\": \"2000-05-15\",\r\n    \"password\": \"as2dASDa@\",\r\n    \"address\": \"88047550\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -52,11 +52,21 @@
 				{
 					"name": "Student - update V",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc0BleGFtcGxlLmNvbSIsImlhdCI6MTczMDc0NzczMiwiZXhwIjoxNzMwNzQ5NTMyLCJyb2xlIjoiQ09PUkRJTkFUT1IifQ.JbG8pDHuxZvhbR_YMdY30hHOOrSPfpJMCAJFd7gJPRw",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"firstName\": \"Kaio\",\r\n    \"lastName\": \"Messias\",\r\n    \"email\": \"kaio@example.com\",\r\n    \"dateOfBirth\": \"2000-01-15\",\r\n    \"password\": \"securePassword123\",\r\n    \"address\": \"123 Main St, City, Country\"\r\n}",
+							"raw": "{\r\n    \"firstName\": \"Joao\",\r\n    \"lastName\": \"Messias\",\r\n    \"email\": \"kaio@example.com\",\r\n    \"birthDate\": \"2000-01-15\",\r\n    \"password\": \"as2dASDa@\",\r\n    \"address\": \"88047550\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -84,6 +94,16 @@
 				{
 					"name": "Student - getById V",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc0BleGFtcGxlLmNvbSIsImlhdCI6MTczMDc0NzczMiwiZXhwIjoxNzMwNzQ5NTMyLCJyb2xlIjoiQ09PUkRJTkFUT1IifQ.JbG8pDHuxZvhbR_YMdY30hHOOrSPfpJMCAJFd7gJPRw",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -106,6 +126,16 @@
 				{
 					"name": "Student - me V",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc0BleGFtcGxlLmNvbSIsImlhdCI6MTczMDc0Nzg4MiwiZXhwIjoxNzMwNzQ5NjgyLCJyb2xlIjoiQ09PUkRJTkFUT1IifQ.ZUyaaPlejfyWQfxKMjNLNaoPCWbCfPRra-uLiXm07ek",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -132,7 +162,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"firstName\": \"Lucas\",\r\n    \"lastName\": \"Messias\",\r\n    \"email\": \"kaio@example.com\",\r\n    \"dateOfBirth\": \"2000-01-15\",\r\n    \"password\": \"securePassword123\",\r\n    \"address\": \"123 Main St, City, Country\"\r\n}",
+							"raw": "{\r\n    \"firstName\": \"Lucas\",\r\n    \"lastName\": \"Messias\",\r\n    \"email\": \"kaio@example.com\",\r\n    \"birthDate\": \"2000-01-15\",\r\n    \"password\": \"asdASDa@\",\r\n    \"address\": \"88047550\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -271,16 +301,6 @@
 				{
 					"name": "Student - list V",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTZXJlbmFAZXhhbXBsZS5jb20iLCJpYXQiOjE3MzA2NjExNDMsImV4cCI6MTczMDY2Mjk0Mywicm9sZSI6IkNPT1JESU5BVE9SIn0.papXWRqR-o5-wVjio_SCrCfsYgtdmxFdQzRW5WfuZPM",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -311,7 +331,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"firstName\": \"rav\",\r\n  \"lastName\": \"fontes\",\r\n  \"email\": \"rav@example.com\",\r\n  \"birthDate\": \"2000-01-15\",\r\n  \"password\": \"securePassword123\"\r\n}",
+							"raw": "{\r\n  \"firstName\": \"Lucas\",\r\n  \"lastName\": \"Fontes\",\r\n  \"email\": \"lucas@example.com\",\r\n  \"birthDate\": \"2000-01-15\",\r\n  \"password\": \"as2dASDa@\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -337,11 +357,21 @@
 				{
 					"name": "Coordinator - update  V",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyYXZAZXhhbXBsZS5jb20iLCJpYXQiOjE3MzA3MzE0MDcsImV4cCI6MTczMDczMzIwNywicm9sZSI6IkNPT1JESU5BVE9SIn0.24sdIzQsc8feBjXP7nRvq4QSEDUwZV8BimAD0-bO2oc",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"firstName\": \"Roberto\",\r\n  \"lastName\": \"Fontes\",\r\n  \"email\": \"roberto@example.com\",\r\n  \"dateOfBirth\": \"2000-01-15\",\r\n  \"password\": \"securePassword123\"\r\n}",
+							"raw": "{\r\n  \"firstName\": \"Roberto\",\r\n  \"lastName\": \"Fontes\",\r\n  \"email\": \"roberto@example.com\",\r\n  \"birthDate\": \"2000-01-15\",\r\n  \"password\": \"asdASDa@\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -349,7 +379,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/coordinator/1",
+							"raw": "http://localhost:8080/api/v1/coordinator/3",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -359,7 +389,7 @@
 								"api",
 								"v1",
 								"coordinator",
-								"1"
+								"3"
 							]
 						}
 					},
@@ -368,6 +398,16 @@
 				{
 					"name": "Coordinator - getById  V",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc0BleGFtcGxlLmNvbSIsImlhdCI6MTczMDc0NjcyMywiZXhwIjoxNzMwNzQ4NTIzLCJyb2xlIjoiQ09PUkRJTkFUT1IifQ.TXvJNus_WqqOiCTeOmn6phbGFGCQQ8HuthPniBD8OO0",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -390,10 +430,20 @@
 				{
 					"name": "Coordinator - removeById  V",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc0BleGFtcGxlLmNvbSIsImlhdCI6MTczMDc0NjcyMywiZXhwIjoxNzMwNzQ4NTIzLCJyb2xlIjoiQ09PUkRJTkFUT1IifQ.TXvJNus_WqqOiCTeOmn6phbGFGCQQ8HuthPniBD8OO0",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/coordinator/2",
+							"raw": "http://localhost:8080/api/v1/coordinator/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -403,7 +453,7 @@
 								"api",
 								"v1",
 								"coordinator",
-								"2"
+								"1"
 							]
 						}
 					},
@@ -433,10 +483,20 @@
 				{
 					"name": "Coordinator - me  V",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc0BleGFtcGxlLmNvbSIsImlhdCI6MTczMDc0Nzg4MiwiZXhwIjoxNzMwNzQ5NjgyLCJyb2xlIjoiQ09PUkRJTkFUT1IifQ.ZUyaaPlejfyWQfxKMjNLNaoPCWbCfPRra-uLiXm07ek",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/coordinator/me/3",
+							"raw": "http://localhost:8080/api/v1/coordinator/me",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -446,8 +506,7 @@
 								"api",
 								"v1",
 								"coordinator",
-								"me",
-								"3"
+								"me"
 							]
 						}
 					},
@@ -461,7 +520,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzZXJlbmFAZXhhbXBsZS5jb20iLCJpYXQiOjE3MzA2OTUyMzEsImV4cCI6MTczMDY5NzAzMSwicm9sZSI6IkNPT1JESU5BVE9SIn0.8krq0HaGLJSORq1t4_p3ap1XwpwCN-M-ZGkwQhBwcfE",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc0BleGFtcGxlLmNvbSIsImlhdCI6MTczMDc0Nzg4MiwiZXhwIjoxNzMwNzQ5NjgyLCJyb2xlIjoiQ09PUkRJTkFUT1IifQ.ZUyaaPlejfyWQfxKMjNLNaoPCWbCfPRra-uLiXm07ek",
 									"type": "string"
 								}
 							]
@@ -490,10 +549,20 @@
 				{
 					"name": "Coordinator - me disciplines V",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc0BleGFtcGxlLmNvbSIsImlhdCI6MTczMDc0Nzg4MiwiZXhwIjoxNzMwNzQ5NjgyLCJyb2xlIjoiQ09PUkRJTkFUT1IifQ.ZUyaaPlejfyWQfxKMjNLNaoPCWbCfPRra-uLiXm07ek",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/coordinator/me/1/disciplines",
+							"raw": "http://localhost:8080/api/v1/coordinator/me/disciplines",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -504,7 +573,6 @@
 								"v1",
 								"coordinator",
 								"me",
-								"1",
 								"disciplines"
 							]
 						}
@@ -513,11 +581,33 @@
 				},
 				{
 					"name": "Coordinator - me Course V",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc0BleGFtcGxlLmNvbSIsImlhdCI6MTczMDc0Nzg4MiwiZXhwIjoxNzMwNzQ5NjgyLCJyb2xlIjoiQ09PUkRJTkFUT1IifQ.ZUyaaPlejfyWQfxKMjNLNaoPCWbCfPRra-uLiXm07ek",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/coordinator/me/1/course",
+							"raw": "http://localhost:8080/api/v1/coordinator/me/course",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -528,7 +618,6 @@
 								"v1",
 								"coordinator",
 								"me",
-								"1",
 								"course"
 							]
 						}
@@ -538,11 +627,21 @@
 				{
 					"name": "Coordinator - me update V",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc0BleGFtcGxlLmNvbSIsImlhdCI6MTczMDc0NjkwNSwiZXhwIjoxNzMwNzQ4NzA1LCJyb2xlIjoiQ09PUkRJTkFUT1IifQ.JKpsgTnqyNMRrxqKmC03vuTcIcdEk_S3uuYRtfxgKnY",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"firstName\": \"Joe\",\r\n  \"lastName\": \"Fontes\",\r\n  \"email\": \"victor@example.com\",\r\n  \"dateOfBirth\": \"2000-01-15\",\r\n  \"password\": \"securePassword123\"\r\n}",
+							"raw": "{\r\n  \"firstName\": \"Leo\",\r\n  \"lastName\": \"Fontes\",\r\n  \"email\": \"victor@example.com\",\r\n  \"birthDate\": \"2000-01-15\",\r\n  \"password\": \"asd3ASDa@\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -550,7 +649,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/coordinator/me/1",
+							"raw": "http://localhost:8080/api/v1/coordinator/me",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -560,12 +659,33 @@
 								"api",
 								"v1",
 								"coordinator",
-								"me",
-								"1"
+								"me"
 							]
 						}
 					},
 					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		},
@@ -580,7 +700,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTZXJlbmFAZXhhbXBsZS5jb20iLCJpYXQiOjE3MzA2NjExNDMsImV4cCI6MTczMDY2Mjk0Mywicm9sZSI6IkNPT1JESU5BVE9SIn0.papXWRqR-o5-wVjio_SCrCfsYgtdmxFdQzRW5WfuZPM",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc0BleGFtcGxlLmNvbSIsImlhdCI6MTczMDc0Nzg4MiwiZXhwIjoxNzMwNzQ5NjgyLCJyb2xlIjoiQ09PUkRJTkFUT1IifQ.ZUyaaPlejfyWQfxKMjNLNaoPCWbCfPRra-uLiXm07ek",
 									"type": "string"
 								}
 							]
@@ -589,7 +709,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"name\": \"Biologia\",\r\n  \"description\": \"Curso de Sistemas da Informção\",\r\n  \"coordinatorId\": \"2\"\r\n}",
+							"raw": "{\r\n  \"name\": \"Biologia\",\r\n  \"description\": \"Curso de Sistemas da Informção\",\r\n  \"coordinatorId\": \"4\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -629,7 +749,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"name\": \"Ciencia da computação\",\r\n  \"description\": \"Curso de ciencia da computação\"\r\n}",
+							"raw": "{\r\n  \"name\": \"Ciencia da computação\",\r\n  \"description\": \"Curso de ciencia da computação\",\r\n  \"coordinatorId\": \"1\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -700,16 +820,6 @@
 				{
 					"name": "Course - list V",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNzMwNjk4NTIwLCJleHAiOjE3MzA3MDAzMjAsInJvbGUiOiJDT09SRElOQVRPUiJ9.IIM5DE7uELDqINnl4vEQGxRkjyajAivJ3rgd2h2HUK4",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -810,10 +920,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -842,6 +952,38 @@
 					},
 					"response": []
 				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZWNhcmxpQGV4YW1wbGUuY29tIiwiaWF0IjoxNzMwNzQ2MjkxLCJleHAiOjE3MzA3NDgwOTEsInJvbGUiOiJDT09SRElOQVRPUiJ9.tP9SUWUvruuy95xzfCg9nGqPpB79LNas-FSCqhPL268",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
@@ -850,21 +992,11 @@
 				{
 					"name": "Teacher - create V",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTZXJlbmFAZXhhbXBsZS5jb20iLCJpYXQiOjE3MzA2NjExNDMsImV4cCI6MTczMDY2Mjk0Mywicm9sZSI6IkNPT1JESU5BVE9SIn0.papXWRqR-o5-wVjio_SCrCfsYgtdmxFdQzRW5WfuZPM",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"firstName\": \"blue\",\r\n  \"lastName\": \"Rock\",\r\n  \"email\": \"blue@example.com\",\r\n  \"birthDate\": \"2000-01-15\",\r\n  \"password\": \"securePassword123\"\r\n}",
+							"raw": "{\r\n  \"firstName\": \"Blue\",\r\n  \"lastName\": \"Rock\",\r\n  \"email\": \"blue@example.com\",\r\n  \"birthDate\": \"2000-01-15\",\r\n  \"password\": \"asd1ASDa@\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -894,7 +1026,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"firstName\": \"Does\",\r\n  \"lastName\": \"Dois\",\r\n  \"email\": \"does@example.com\",\r\n  \"birthDate\": \"2000-01-15\",\r\n  \"password\": \"securePassword123\"\r\n}",
+							"raw": "{\r\n  \"firstName\": \"Does\",\r\n  \"lastName\": \"Dois\",\r\n  \"email\": \"does@example.com\",\r\n  \"birthDate\": \"2000-01-15\",\r\n  \"password\": \"asd1ASDa@\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -966,16 +1098,6 @@
 				{
 					"name": "Teacher - list V",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJTZXJlbmFAZXhhbXBsZS5jb20iLCJpYXQiOjE3MzA2NjMzNTksImV4cCI6MTczMDY2NTE1OSwicm9sZSI6IkNPT1JESU5BVE9SIn0.-r_bMsVFU3symQdJaSLlnQDE2KO2kLh665H0MFVXYJo",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1023,7 +1145,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"firstName\": \"DoesM\",\r\n  \"lastName\": \"DoissM\",\r\n  \"email\": \"doem@example.com\",\r\n  \"birthDate\": \"2000-01-15\",\r\n  \"password\": \"securePassword123\"\r\n}",
+							"raw": "{\r\n  \"firstName\": \"DoesM\",\r\n  \"lastName\": \"DoissM\",\r\n  \"email\": \"doem@example.com\",\r\n  \"birthDate\": \"2000-01-15\",\r\n  \"password\": \"asdASDa@\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1313,7 +1435,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"name\": \"Doe\",\r\n  \"description\": \"Dois\",\r\n  \"email\": \"doe@example.com\"\r\n}",
+							"raw": "{\r\n  \"name\": \"molecula10\",\r\n  \"description\": \"muita matematica\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1888,7 +2010,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"email\": \"mist@example.com\",\r\n  \"password\": \"securePassword123\"\r\n}",
+							"raw": "{\r\n  \"email\": \"lucas@example.com\",\r\n  \"password\": \"as2dASDa@\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1912,6 +2034,38 @@
 					"response": []
 				}
 			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWNhc0BleGFtcGxlLmNvbSIsImlhdCI6MTczMDc0ODQzMiwiZXhwIjoxNzMwNzUwMjMyLCJyb2xlIjoiQ09PUkRJTkFUT1IifQ.y0bedVIrGZ-7E_YRNZW-uRqToLjhDKeYmXAYgP0aSpc",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }

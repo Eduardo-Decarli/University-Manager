@@ -34,17 +34,4 @@ public class Course implements Serializable {
     @OneToMany
     @JsonIgnore
     private List<Discipline> disciplines;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Course course = (Course) o;
-        return Objects.equals(id, course.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
-    }
 }

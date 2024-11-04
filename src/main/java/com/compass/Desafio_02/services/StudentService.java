@@ -77,7 +77,7 @@ public class StudentService {
         student.setLastName(studentDto.getLastName());
         student.setEmail(studentDto.getEmail());
         student.setBirthDate(studentDto.getBirthDate());
-        student.setPassword(studentDto.getPassword());
+        student.setPassword(passwordEncoder.encode(studentDto.getPassword()));
 
         Address address = addressConsumerFeign.getAddresByCep(studentDto.getAddress());
         String addressStudent = String.format(address.getEstado() + "/" + address.getUf() + " | " + address.getLocalidade() + ", " + address.getBairro() + ", " + address.getLogradouro());

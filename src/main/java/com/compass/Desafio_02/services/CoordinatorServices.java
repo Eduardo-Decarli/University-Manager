@@ -102,7 +102,7 @@ public class CoordinatorServices {
         coordinatorSaved.setLastName(update.getLastName());
         coordinatorSaved.setEmail(update.getEmail());
         coordinatorSaved.setBirthDate(update.getBirthDate());
-        coordinatorSaved.setPassword(update.getPassword());
+        coordinatorSaved.setPassword(passwordEncoder.encode(update.getPassword()));
 
         repository.save(coordinatorSaved);
         return CoordinatorMapper.toDto(coordinatorSaved);

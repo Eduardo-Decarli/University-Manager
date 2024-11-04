@@ -64,7 +64,7 @@ public class TeacherService {
         teacher.setLastName(teacherDto.getLastName());
         teacher.setEmail(teacherDto.getEmail());
         teacher.setBirthDate(teacherDto.getBirthDate());
-        teacher.setPassword(teacherDto.getPassword());
+        teacher.setPassword(passwordEncoder.encode(teacherDto.getPassword()));
         try{
             Teacher teacherSaved = repository.save(teacher);
             return TeacherMapper.toDto(teacherSaved);
