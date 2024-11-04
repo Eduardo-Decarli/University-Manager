@@ -43,10 +43,5 @@ public class StudentCreateDto {
     )
     private String password;
 
-    @NotNull(message = "Role is required")
-    private Role role = Role.ROLE_STUDENT;
-
     private String address;
-
-    private Registration registration;
 }

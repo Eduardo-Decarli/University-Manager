@@ -2,6 +2,7 @@ package com.compass.Desafio_02.services;
 
 import com.compass.Desafio_02.entities.Coordinator;
 import com.compass.Desafio_02.entities.Discipline;
+import com.compass.Desafio_02.entities.enumeration.Role;
 import com.compass.Desafio_02.repositories.CoordinatorRepository;
 import com.compass.Desafio_02.web.dto.CoordinatorCreateDto;
 import com.compass.Desafio_02.web.dto.CoordinatorResponseDto;
@@ -40,6 +41,7 @@ public class CoordinatorServices {
 
     public CoordinatorResponseDto createCoordinator(CoordinatorCreateDto response) {
         Coordinator coordinator = CoordinatorMapper.toCoordinator(response);
+        coordinator.setRole(Role.ROLE_COORDINATOR);
 
         coordinator.setPassword(passwordEncoder.encode(coordinator.getPassword()));
         try {
@@ -69,7 +71,6 @@ public class CoordinatorServices {
         coordinator.setEmail(response.getEmail());
         coordinator.setBirthDate(response.getBirthDate());
         coordinator.setPassword(passwordEncoder.encode(coordinator.getPassword()));
-        coordinator.setRole(response.getRole());
         try {
             repository.save(coordinator);
             return CoordinatorMapper.toDto(coordinator);
@@ -102,7 +103,6 @@ public class CoordinatorServices {
         coordinatorSaved.setEmail(update.getEmail());
         coordinatorSaved.setBirthDate(update.getBirthDate());
         coordinatorSaved.setPassword(update.getPassword());
-        coordinatorSaved.setRole(update.getRole());
 
         repository.save(coordinatorSaved);
         return CoordinatorMapper.toDto(coordinatorSaved);
