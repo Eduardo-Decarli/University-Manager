@@ -1,5 +1,6 @@
 package com.compass.Desafio_02.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,9 +29,11 @@ public class Course implements Serializable {
     private String description;
 
     @OneToOne
+    @JoinColumn(nullable = false)
     private Coordinator coordinator;
 
     @OneToMany
+    @JsonIgnore
     private List<Discipline> disciplines;
 
     @Override

@@ -4,6 +4,12 @@ import com.compass.Desafio_02.jwt.JwtToken;
 import com.compass.Desafio_02.jwt.JwtUserDetailsService;
 import com.compass.Desafio_02.web.dto.UserLoginDto;
 import com.compass.Desafio_02.web.exception.handler.ErrorMessage;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +35,7 @@ public class AuthenticationController {
 
     @PostMapping("/auth")
     public ResponseEntity<?> autenticar(@RequestBody @Valid UserLoginDto dto, HttpServletRequest request) {
-        log.info("Processo de autenticação pelo login {}", dto.getEmail());
+        log.info("Login authentication process login {}", dto.getEmail());
 
         try {
             UsernamePasswordAuthenticationToken authenticationToken =
