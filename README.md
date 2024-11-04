@@ -1,7 +1,5 @@
 # SP_SpringBoot_AWS_Desafio_02
 
-## Summary
-
 This is a project developed by the members of group-2 to carry out the challenge on SpringBoot and ApiResfull, it was developed in a group, with the appropriate and professional use of git, containing a good relationship between branches and maintaining commit standards.
 
 ## The project
@@ -10,55 +8,45 @@ The project is a university management system, which has students, teachers, coo
 
 ## Data Flow
 
-- 
+- Coordinator
 
-## How to use DB on docker
+    - Has full access to the system and manages all entities
 
-### Install and run mysql on docker
+- Professor 
 
-- Check if docker is running on the SO
+    - He can manage your data and view student data and enrollments
 
-``` shell
+-  Student
 
-    - sudo systemctl start docker
-    - sudo systemctl status docker
-    - sudo systemctl stop docker
+    - Can view and manage your data
 
-```
+- Registration
 
-- Download MySQL image for docker
+    - The coordinator can register students, thus being able to associate the student with a course
 
-``` shell
+- Course
 
-    - sudo docker pull mysql:8.0
+    - Represents a complete course with a maximum of 5 subjects that the student can take
 
-```
+- Discipline
 
-- Create the container with MySQL, map the port and indicate that port 3306 on the machine corresponds to port 3306 on docker, assign a name to the container, use the default MySQL username, set the password and run MySQL in the background
+    - represents one of the subjects associated with a course
 
-``` shell
+## Technologies used
 
-    - sudo docker run -p 3306:3306 --name mysql_nomeExemplo  -e MYSQL_ROOT_PASSWORD=senhaExemplo -d mysql:8.0
-
-```
-
-- to list all containers in exec or stoped
-
-``` shell
-
-    - docker ps -a
-
-```
-
-- To start the mysql server, you can use the command sudo docker start mysql_nameExample
-
-``` shell
-
-    - sudo docker start mysql_nomeExemplo
-
-```
-
-- After these steps, just make the connection to mysql workbench
-
-
+- Java 21
+- Spring Boot 🍃
+- JWT and Spring Security 🔒
+- MySQL
+- Maven
+- Swagger
+- Git
+- GitHub
+- IntelliJ IDEA
+- Postman
+- Docker 🐋
+- JPA
+- Spring Web
+- Scrum
+- Trello
 
