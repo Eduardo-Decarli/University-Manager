@@ -1,15 +1,15 @@
 package com.compass.Desafio_02.web.controller;
 
-import com.compass.Desafio_02.entities.Coordinator;
-import com.compass.Desafio_02.entities.Course;
-import com.compass.Desafio_02.entities.Student;
+import com.compass.Desafio_02.jwt.JwtUserDetails;
 import com.compass.Desafio_02.services.CoordinatorServices;
+import com.compass.Desafio_02.web.dto.CoordinatorCreateDto;
 import com.compass.Desafio_02.web.dto.CoordinatorResponseDto;
 import com.compass.Desafio_02.web.dto.CourseResponseDto;
 import com.compass.Desafio_02.web.dto.DisciplineResponseDto;
-import com.compass.Desafio_02.web.dto.StudentResponseDto;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,74 +28,73 @@ public class CoordinatorController {
 
     // ROLE_COORDINATOR
     @PostMapping
-    public ResponseEntity<Coordinator> create(@Valid @RequestBody Coordinator coordinator) {
-        Coordinator response = services.createCoordinator(coordinator);
+    //@PreAuthorize("hasRole('COORDINATOR')")
+    public ResponseEntity<CoordinatorResponseDto> create(@Valid @RequestBody CoordinatorCreateDto coordinator) {
+        CoordinatorResponseDto response = services.createCoordinator(coordinator);
         return ResponseEntity.status(201).body(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<Coordinator>> getAllCoordinator() {
-        List<Coordinator> Coordinators = services.getAllCoordinators();
+    @PreAuthorize("hasRole('COORDINATOR')")
+    public ResponseEntity<List<CoordinatorResponseDto>> getAllCoordinator() {
+        List<CoordinatorResponseDto> Coordinators = services.getAllCoordinators();
         return ResponseEntity.ok().body(Coordinators);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Coordinator> getCoordinatorById(@PathVariable long id) throws Exception {
-        Coordinator coordinator = services.getCoordinatorById(id);
+    @PreAuthorize("hasRole('COORDINATOR')")
+    public ResponseEntity<CoordinatorResponseDto> getCoordinatorById(@PathVariable long id){
+        CoordinatorResponseDto coordinator = services.getCoordinatorById(id);
         return ResponseEntity.ok().body(coordinator);
     }
 
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('COORDINATOR')")
+    public ResponseEntity<CoordinatorResponseDto> updateCoordinator(@Valid @PathVariable Long id, @RequestBody CoordinatorCreateDto coordinator) {
+        CoordinatorResponseDto updatedCoordinator = services.updateCoordinator(id, coordinator);
+        return ResponseEntity.ok().body(updatedCoordinator);
+    }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCoordinatorById(@PathVariable long id) throws Exception {
+    @PreAuthorize("hasRole('COORDINATOR')")
+    public ResponseEntity<Void> deleteCoordinatorById(@PathVariable long id) {
         services.deleteCoordinator(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/me")
-    public ResponseEntity<CoordinatorResponseDto> myData() {
-
-        // TO-DO -> Acessar os proprios dados
-        // Esse endpoint irá retornar as informações do usuario logado, depende da implementação da autenticação JWT
-        // porem caso queira implementar usando um parametro id temporariamente pode ser
-
-        return ResponseEntity.ok().build();
+    @PreAuthorize("hasRole('COORDINATOR')")
+    public ResponseEntity<CoordinatorResponseDto> myData(@AuthenticationPrincipal JwtUserDetails userDetails) {
+        CoordinatorResponseDto response = services.getMyData(userDetails.getId());
+        return ResponseEntity.ok().body(response);
     }
 
     @PutMapping("/me")
-    public ResponseEntity<Coordinator> updateCoordinator(@Valid @RequestBody Coordinator coordinator) throws Exception {
-        Coordinator updatedCoordinator = services.updateCoordinator(coordinator);
+    @PreAuthorize("hasRole('COORDINATOR')")
+    public ResponseEntity<CoordinatorResponseDto> updateMyData(@AuthenticationPrincipal JwtUserDetails userDetails, @RequestBody CoordinatorCreateDto coordinator) {
+        CoordinatorResponseDto updatedCoordinator = services.updateMyData(userDetails.getId(), coordinator);
         return ResponseEntity.ok().body(updatedCoordinator);
     }
 
     @GetMapping("/me/course")
-    public ResponseEntity<CourseResponseDto> myCourse() {
-
-        // TO-DO -> Acessar os proprios dados
-        // Esse endpoint irá retornar as informações do usuario logado, depende da implementação da autenticação JWT
-        // porem caso queira implementar usando um parametro id temporariamente pode ser
-
-        return ResponseEntity.ok().build();
+    @PreAuthorize("hasRole('COORDINATOR')")
+    public ResponseEntity<CourseResponseDto> myCourse(@AuthenticationPrincipal JwtUserDetails userDetails) {
+        CourseResponseDto course = services.getMyCourse(userDetails.getId());
+        return ResponseEntity.ok().body(course);
     }
 
     @GetMapping("/me/course/disciplines")
-    public ResponseEntity<CourseResponseDto> myCourseDisciplines() {
-
-        // TO-DO -> Acessar os proprios dados
-        // Esse endpoint irá retornar as informações do usuario logado, depende da implementação da autenticação JWT
-        // porem caso queira implementar usando um parametro id temporariamente pode ser
-
-        return ResponseEntity.ok().build();
+    @PreAuthorize("hasRole('COORDINATOR')")
+    public ResponseEntity<List<DisciplineResponseDto>> myCourseDisciplines(@AuthenticationPrincipal JwtUserDetails userDetails) {
+        List<DisciplineResponseDto> response = services.getDisciplinesInCourse(userDetails.getId());
+        return ResponseEntity.ok().body(response);
     }
 
     @GetMapping("/me/disciplines")
-    public ResponseEntity<List<DisciplineResponseDto>> myDisciplines() {
-
-        // TO-DO -> Acessar as proprias disciplinas
-        // Esse endpoint irá retornar as informações do usuario logado, depende da implementação da autenticação JWT
-        // porem caso queira implementar usando um parametro id temporariamente pode ser
-
-        return ResponseEntity.ok().build();
+    @PreAuthorize("hasRole('COORDINATOR')")
+    public ResponseEntity<List<DisciplineResponseDto>> myDisciplines(@AuthenticationPrincipal JwtUserDetails userDetails) {
+        List<DisciplineResponseDto> response = services.getMyDisciplines(userDetails.getId());
+        return ResponseEntity.ok().body(response);
     }
 
 }

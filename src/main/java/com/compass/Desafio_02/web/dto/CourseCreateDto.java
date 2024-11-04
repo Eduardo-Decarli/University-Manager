@@ -1,5 +1,7 @@
 package com.compass.Desafio_02.web.dto;
 
+import com.compass.Desafio_02.entities.Coordinator;
+import com.compass.Desafio_02.entities.Discipline;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -18,10 +20,7 @@ public class CourseCreateDto {
     @NotBlank(message = "The description can't be empty")
     private String description;
 
-    @NotNull(message = "Coordinator ID is required")
+    @NotNull(message = "Coordinator is required")
     private Long coordinatorId;
 
-    @NotNull(message = "Discipline IDs are required")
-    @Size(min = 1, message = "At least one discipline ID is required")
-    private List<Long> disciplineIds;
 }

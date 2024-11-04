@@ -1,9 +1,7 @@
 package com.compass.Desafio_02.web.exception.handler;
 
-import com.compass.Desafio_02.web.exception.CoordinatorInCourseUniqueViolationException;
-import com.compass.Desafio_02.web.exception.CourseNotNullException;
-import com.compass.Desafio_02.web.exception.EmptyListException;
-import com.compass.Desafio_02.web.exception.EntityUniqueViolationException;
+import com.compass.Desafio_02.web.exception.*;
+import feign.FeignException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -74,5 +72,60 @@ public class GlobalExceptionsHandler {
                 .status(HttpStatus.CONFLICT)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(new ErrorMessage(request, HttpStatus.CONFLICT, ex.getMessage()));
+    }
+
+    @ExceptionHandler(QuantityDisciplinesViolationException.class)
+    public ResponseEntity<ErrorMessage> quantityDisciplinesViolationException(QuantityDisciplinesViolationException ex,
+                                                                                    HttpServletRequest request){
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(request, HttpStatus.CONFLICT, ex.getMessage()));
+    }
+
+    @ExceptionHandler(InvalidTeacherEmailException.class)
+    public ResponseEntity<ErrorMessage> invalidTeacherEmailException(InvalidTeacherEmailException ex,
+                                                                              HttpServletRequest request){
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(request, HttpStatus.CONFLICT, ex.getMessage()));
+    }
+
+    @ExceptionHandler(InvalidStudentEmailException.class)
+    public ResponseEntity<ErrorMessage> invalidStudentEmailException(InvalidStudentEmailException ex,
+                                                                     HttpServletRequest request){
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(request, HttpStatus.CONFLICT, ex.getMessage()));
+    }
+
+    @ExceptionHandler(StudentNotAgeException.class)
+    public ResponseEntity<ErrorMessage> studentNotAgeException(StudentNotAgeException ex,
+                                                                     HttpServletRequest request){
+        return ResponseEntity
+                .status(HttpStatus.UNPROCESSABLE_ENTITY)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(request, HttpStatus.UNPROCESSABLE_ENTITY, ex.getMessage()));
+    }
+
+    @ExceptionHandler(UniqueCourseViolationException.class)
+    public ResponseEntity<ErrorMessage> uniqueCourseViolationException(UniqueCourseViolationException ex,
+                                                                       HttpServletRequest request){
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(request, HttpStatus.CONFLICT, ex.getMessage()));
+    }
+
+
+    @ExceptionHandler(FeignException.class)
+    public ResponseEntity<ErrorMessage> feingException(FeignException ex,
+                                                       HttpServletRequest request){
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(request, HttpStatus.NOT_FOUND, "Error: CEP code not found"));
     }
 }

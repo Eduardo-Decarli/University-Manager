@@ -13,5 +13,4 @@ public class RegistrationResponseDto {
     private Long id;
     private Student student;
     private Course course;
-    private String status;
 }

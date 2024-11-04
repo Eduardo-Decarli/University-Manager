@@ -3,9 +3,12 @@ package com.compass.Desafio_02.web.controller;
 import com.compass.Desafio_02.entities.Course;
 import com.compass.Desafio_02.entities.Discipline;
 import com.compass.Desafio_02.services.CourseServices;
+import com.compass.Desafio_02.web.dto.CourseCreateDto;
 import com.compass.Desafio_02.web.dto.CourseResponseDto;
+import com.compass.Desafio_02.web.dto.DisciplineResponseDto;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,51 +27,58 @@ public class CourseController {
 
     // ROLE_COORDINATOR
     @PostMapping
-    public ResponseEntity<Course> create(@Valid @RequestBody Course course) {
-        Course response = services.createCourse(course);
+    @PreAuthorize("hasRole('COORDINATOR')")
+    public ResponseEntity<CourseResponseDto> create(@Valid @RequestBody CourseCreateDto course) {
+        CourseResponseDto response = services.createCourse(course);
         return ResponseEntity.status(201).body(response);
     }
 
-    // hasAnyRole()
-    @GetMapping("/courses")
-    public ResponseEntity<List<Course>> getAllCourses(){
-        List<Course> courses = services.getAllCourses();
+    @GetMapping
+    @PreAuthorize("hasAnyRole('COORDINATOR', 'TEACHER', 'STUDENT')")
+    public ResponseEntity<List<CourseResponseDto>> getAllCourses(){
+        List<CourseResponseDto> courses = services.getAllCourses();
         return ResponseEntity.ok().body(courses);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Course> getCourseById(@PathVariable long id) throws Exception {
-        Course course = services.getCourseById(id);
+    @PreAuthorize("hasRole('COORDINATOR')")
+    public ResponseEntity<CourseResponseDto> getCourseById(@PathVariable long id) {
+        CourseResponseDto course = services.getCourseById(id);
         return ResponseEntity.ok().body(course);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Course> updateCourse(@Valid @RequestBody Course course) throws Exception {
-        Course updatedCourse = services.updateCourse(course);
+    @PreAuthorize("hasRole('COORDINATOR')")
+    public ResponseEntity<CourseResponseDto> updateCourse(@Valid @PathVariable Long id, @RequestBody CourseCreateDto course) {
+        CourseResponseDto updatedCourse = services.updateCourse(id, course);
         return ResponseEntity.ok().body(updatedCourse);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('COORDINATOR')")
     public ResponseEntity<Void> deleteCourseById(@PathVariable long id) throws Exception {
         services.deleteCourse(id);
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/add/discipline/{name}")
-    public ResponseEntity<Discipline> addDiscipline(@Valid @RequestBody Discipline discipline) {
-        Discipline update = services.updateDiscipline(discipline);
-        return ResponseEntity.ok().body(update);
+    @PatchMapping("/{courseName}/add/disciplines/{discipline}")
+    @PreAuthorize("hasRole('COORDINATOR')")
+    public ResponseEntity<CourseResponseDto> addDiscipline(@PathVariable String courseName, @PathVariable String discipline) {
+        CourseResponseDto response = services.addDiscipline(courseName, discipline);
+        return ResponseEntity.ok().body(response);
     }
 
-    @PatchMapping("/remove/discipline/{name}")
-    public ResponseEntity<Discipline> removeDiscipline(@Valid @RequestBody Discipline discipline) {
-        Discipline update = services.updateDiscipline(discipline);
-        return ResponseEntity.ok().body(update);
+    @PatchMapping("/{courseName}/remove/disciplines/{discipline}")
+    @PreAuthorize("hasRole('COORDINATOR')")
+    public ResponseEntity<CourseResponseDto> removeDiscipline(@PathVariable String courseName, @PathVariable String discipline) {
+        CourseResponseDto response = services.removeDiscipline(courseName, discipline);
+        return ResponseEntity.ok().body(response);
     }
 
-    @PatchMapping("/change/coordinator/{id}")
-    public ResponseEntity<Discipline> removeDiscipline(@Valid @RequestBody Discipline discipline) {
-        Discipline update = services.updateDiscipline(discipline);
+    @PatchMapping("/{courseName}/change/coordinators/{id}")
+    @PreAuthorize("hasRole('COORDINATOR')")
+    public ResponseEntity<CourseResponseDto> changeCoordinator(@PathVariable String courseName, @PathVariable Long id) {
+        CourseResponseDto update = services.changeCoordinator(courseName, id);
         return ResponseEntity.ok().body(update);
     }
 }

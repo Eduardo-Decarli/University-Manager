@@ -4,6 +4,7 @@ import com.compass.Desafio_02.entities.Coordinator;
 import com.compass.Desafio_02.entities.enumeration.Role;
 import com.compass.Desafio_02.web.dto.CoordinatorCreateDto;
 import com.compass.Desafio_02.web.dto.CoordinatorResponseDto;
+import com.compass.Desafio_02.web.dto.TeacherResponseDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 
@@ -17,16 +18,8 @@ public class CoordinatorMapper {
     }
 
     public static CoordinatorResponseDto toDto(Coordinator coordinator){
-        String role = coordinator.getRole().name().substring("ROLE_".length());
-        PropertyMap<Coordinator, CoordinatorResponseDto> props = new PropertyMap<Coordinator, CoordinatorResponseDto>() {
-            @Override
-            protected void configure() {
-                map().setRole(Role.valueOf(role));
-            }
-        };
-        ModelMapper mapper = new ModelMapper();
-        mapper.addMappings(props);
-        return mapper.map(coordinator, CoordinatorResponseDto.class);
+        return new ModelMapper().map(coordinator, CoordinatorResponseDto.class);
+
     }
 
     public static List<CoordinatorResponseDto> toListDto(List<Coordinator> coordinators){
