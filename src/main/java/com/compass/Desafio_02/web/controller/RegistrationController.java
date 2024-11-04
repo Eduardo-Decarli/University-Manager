@@ -1,20 +1,9 @@
 package com.compass.Desafio_02.web.controller;
 
-import com.compass.Desafio_02.entities.Registration;
 import com.compass.Desafio_02.services.RegistrationServices;
 import com.compass.Desafio_02.web.dto.RegistrationCreateDto;
 import com.compass.Desafio_02.web.dto.RegistrationResponseDto;
-import com.compass.Desafio_02.web.exception.handler.ErrorMessage;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.headers.Header;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;

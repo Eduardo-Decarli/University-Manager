@@ -16,7 +16,7 @@ VALUES('2000-01-15', 'binto@example.com', 'Joe', 'Fontes', '$2a$10$zGp1XxUHnH9fs
 
 INSERT INTO `course` (`description`, `name`, `coordinator_id`) VALUES ('Course_description_1','Computer_Science',1);
 
-INSERT INTO `course` (`description`, `name`, `coordinator_id`) VALUES ('Course_description_2','Biology', null);
+INSERT INTO `course` (`description`, `name`, `coordinator_id`) VALUES ('Course_description_2','Biology', 2);
 
 -- course_disciplines
 

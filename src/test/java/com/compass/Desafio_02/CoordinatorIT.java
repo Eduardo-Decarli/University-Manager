@@ -38,9 +38,7 @@ public class CoordinatorIT {
                         LocalDate.of(2000,
                                 5,
                                 15),
-                        "Coo4567@",
-                        Role.ROLE_COORDINATOR,
-                        null)).
+                        "Coo4567@")).
                 exchange().
                 expectStatus().isCreated().
                 expectBody(CoordinatorResponseDto.class).
@@ -144,7 +142,6 @@ public class CoordinatorIT {
 
         Assertions.assertThat(responseBody).isNotNull();
         Assertions.assertThat(responseBody.size()).isEqualTo(2);
-
     }
 
     @Test
@@ -161,9 +158,7 @@ public class CoordinatorIT {
                 LocalDate.of(2001,
                         5,
                         15),
-                "Coo4567@$",
-                Role.ROLE_COORDINATOR,
-                null))
+                "Coo4567@$"))
                 .exchange()
                 .expectStatus().isOk();
     }
@@ -182,9 +177,7 @@ public class CoordinatorIT {
                         LocalDate.of(2001,
                                 5,
                                 15),
-                        "Coo4567@$",
-                        Role.ROLE_COORDINATOR,
-                        null))
+                        "Coo4567@$"))
                 .exchange()
                 .expectStatus().isOk();
     }
