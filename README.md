@@ -1,5 +1,3 @@
-# SP_SpringBoot_AWS_Desafio_02
-
 This is a project developed by the members of group-2 to carry out the challenge on SpringBoot and ApiResfull, it was developed in a group, with the appropriate and professional use of git, containing a good relationship between branches and maintaining commit standards.
 
 ## The project
